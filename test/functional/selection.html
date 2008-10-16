@@ -52,10 +52,9 @@
       $('log').update(all.join('<br />'));
     }
 
-    var textarea, editor;
+    var editor;
     Event.observe(window, 'load', function() {
-      textarea = $('content');
-      editor = new WysiHat.Editor(textarea);
+      editor = WysiHat.Editor.attach('content');
     });
   </script>
 </head>
@@ -123,7 +122,7 @@
 
   <script type="text/javascript">
     $$('#testSelectNode a').first().observe('click', function(e) {
-      var node = editor.document.body.getElementsByTagName("span")[0];
+      var node = editor.getDocument().body.getElementsByTagName("span")[0];
       editor.selection.selectNode(node);
 
       var range = editor.selection.getRange();

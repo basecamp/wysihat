@@ -45,7 +45,7 @@ WysiHat.iFrame.Methods = {
         var document = this.getDocument();
       } catch(e) { return; } // No iframe, just stop
 
-      this.selection = new WysiHat.Selection(window);
+      this.selection = new WysiHat.Selection(this);
 
       // If designMode is still off let this function continue because the
       // iframe may still may be immutable on the first run
