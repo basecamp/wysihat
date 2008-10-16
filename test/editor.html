@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>WYSIWYG</title>
+
+  <style type="text/css" media="screen">
+    iframe {
+      width: 100%;
+      height: 100px;
+      border: 1px solid #999;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+    }
+
+    .editor_toolbar .button {
+      float: left;
+      margin: 2px 5px;
+    }
+
+    .editor_toolbar .selected {
+      color: red !important;
+    }
+  </style>
+
+  <script type="text/javascript" src="../vendor/prototype.js"></script>
+  <script type="text/javascript" src="../dist/wysihat.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+    var textarea, editor;
+
+    Event.observe(window, 'load', function() {
+      textarea = $('note_body');
+      editor = new WysiHat.Editor(textarea);
+      var toolbar = new WysiHat.Toolbar(editor);
+      toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+
+      editor.model.outputFilter = function(text) {
+        return text.format_html_output().sanitize({
+          tags: ['span', 'p', 'br', 'strong', 'em', 'u', 'a'],
+          attributes: ['id', 'href']
+        });
+      };
+
+      WysiHat.Editor.observePaste(function(editor) {
+        setTimeout(function() {
+          editor.model.reload();
+        }, 1);
+      });
+
+      textarea.show();
+      textarea.disable();
+
+      editor.observeChanges(function(editor) {
+        $('note_body_raw').value = editor.document.body.innerHTML;
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <form id="edit_note" action="#" method="post" style="width: 500px;">
+    <textarea class="editable" id="note_body">&lt;p&gt;Here is some basic text...&lt;br /&gt;
+...with a line break.&lt;/p&gt;
+
+&lt;p&gt;We want to put a paragraph...&lt;/p&gt;
+
+&lt;p&gt;...right there.&lt;/p&gt;</textarea>
+    <textarea id="note_body_raw" disabled="true"></textarea>
+  </form>
+</body>
+</html>

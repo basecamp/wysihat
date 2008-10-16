@@ -1,0 +1,45 @@
+= WysiHat
+==== A WYSIWYG JavaScript framework
+
+WysiHat is a WYSIWYG JavaScript framework that provides an extensible
+foundation to design your own rich text editor. WysiHat stays out of your
+way and leaves the UI design to you.
+
+=== Support platforms
+
+WysiHat currently supports:
+
+* Microsoft Internet Explorer for Windows, version 6.0 and higher
+* Mozilla Firefox 2.0 and higher
+* Apple Safari 3.0 and higher
+* Opera 9.52 and higher
+* Google Chrome
+
+=== Dependencies
+
+* Prototype 1.6 or later (http://prototypejs.org/)
+
+== Documentation
+
+Code is documented inline with pdoc.
+
+=== Examples
+
+Several examples can be found under <tt>examples/</tt> to get you started.
+
+=== Building from source
+
+You can build the latest version of WysiHat from source by running
+<tt>rake</tt> the root directory. The generated file will be saved to
+<tt>dist/wysihat.js</tt>.
+
+== Contributing
+
+Check out the WysiHat source with 
+  $ git clone git://github.com/josh/wysihat.git
+
+GitHub pull requests are welcome.
+
+== License
+
+WysiHat is released under the MIT license.
