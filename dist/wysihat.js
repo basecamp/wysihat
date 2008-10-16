@@ -9,16 +9,11 @@ WysiHat.Editor = Class.create({
    *  new WysiHat.Editor(textarea)
    *  - textarea (String | Element): an id or DOM node of the textarea that
    *  you want to convert to rich text.
-   *  fires afterEnableObserver
    *
    *  Creates a new editor controller and model for the textarea.
    **/
   initialize: function(textarea) {
     var editor = this;
-
-    this.observeChanges(function(editor) {
-      editor.model.save();
-    });
 
     this.textarea = $(textarea);
     this.textarea.hide();
@@ -33,17 +28,19 @@ WysiHat.Editor = Class.create({
 
       Event.observe(editor.document, 'keydown', function(event) {
         if (event.keyCode == 86)
-          editor.fireOnPasteObservers();
+          editor.model.fire("wysihat:paste", { editor: editor });
       });
       Event.observe(editor.window, 'paste', function(event) {
-        editor.fireOnPasteObservers();
+        editor.model.fire("wysihat:paste", { editor: editor });
       });
-
-      editor.fireAfterEnableObservers();
 
       editor.focus();
       editor.window.focus();
     }).element;
+
+    this.model.observe("wysihat:changed", function(event) {
+      event.target.save();
+    });
   },
 
   /**
@@ -57,7 +54,9 @@ WysiHat.Editor = Class.create({
     this.hasFocus = true;
 
     var editor = this;
-    this.focusObserver = function() { editor.fireOnChangeObservers(); };
+    this.focusObserver = function() {
+      editor.model.fire("wysihat:changed", { editor: editor });
+    };
 
     ['mouseup', 'mousemove', 'keypress', 'keyup'].each(function(event) {
       Event.observe(editor.document, event, editor.focusObserver);
@@ -226,62 +225,6 @@ WysiHat.Commands = {
 }
 
 WysiHat.Editor.addMethods(WysiHat.Commands);
-/**
- * class WysiHat.Observers
- *
- *  This needs works
- **/
-
-WysiHat.Observers = {};
-
-WysiHat.Observers.ClassMethods = {
-  afterEnableObservers: $A([]),
-  afterEnable: function(observer) {
-    WysiHat.Observers.ClassMethods.afterEnableObservers.push(observer);
-  },
-
-  onChangeObservers: $A([]),
-  observeChanges: function(observer) {
-    WysiHat.Observers.ClassMethods.onChangeObservers.push(observer);
-  },
-
-  onPasteObservers: $A([]),
-  observePaste: function(observer) {
-    WysiHat.Observers.ClassMethods.onPasteObservers.push(observer);
-  }
-}
-
-WysiHat.Observers.InstanceMethods = {
-  fireAfterEnableObservers: function() {
-    var object = this;
-    WysiHat.Observers.ClassMethods.afterEnableObservers.each(function(observer) { observer(object); });
-  },
-
-  onChangeObservers: $A([]),
-  observeChanges: function(observer) {
-    this.onChangeObservers.push(observer);
-  },
-
-  fireOnChangeObservers: function() {
-    var object = this;
-    WysiHat.Observers.ClassMethods.onChangeObservers.each(function(observer) { observer(object); });
-    this.onChangeObservers.each(function(observer) { observer(object); });
-  },
-
-  onPasteObservers: $A([]),
-  observePaste: function(observer) {
-    this.onPasteObservers.push(observer);
-  },
-
-  fireOnPasteObservers: function() {
-    var object = this;
-    WysiHat.Observers.ClassMethods.onPasteObservers.each(function(observer) { observer(object); });
-    this.onPasteObservers.each(function(observer) { observer(object); });
-  }
-}
-
-Object.extend(WysiHat.Editor, WysiHat.Observers.ClassMethods);
-WysiHat.Editor.addMethods(WysiHat.Observers.InstanceMethods);
 
 Object.extend(String.prototype, (function() {
   /**
@@ -1065,19 +1008,19 @@ WysiHat.Toolbar = Class.create((function() {
    * WysiHat.Toolbar#observeButtonClick(element, handler) -> undefined
    *  - element (String | Element): Element to bind handler to
    *  - handler (Function): Function to bind to the element
+   *  fires wysihat:changed
    *
    *  In addition to binding the given handler to the element, this observe
    *  function also sets up a few more events. When the elements onclick is
    *  fired, the toolbars hasMouseDown property will be set to true and
-   *  back to false on exit. In addition, it also fires any editor
-   *  onChangeObservers.
+   *  back to false on exit.
    **/
   function observeButtonClick(element, handler) {
     var toolbar = this;
     $(element).observe('click', function(event) {
       toolbar.hasMouseDown = true;
       handler(toolbar.editor);
-      toolbar.editor.fireOnChangeObservers();
+      toolbar.editor.model.fire("wysihat:changed", { editor: toolbar.editor });
       Event.stop(event);
       toolbar.hasMouseDown = false;
     });
@@ -1096,7 +1039,9 @@ WysiHat.Toolbar = Class.create((function() {
    *  selected text was bold.
    **/
   function observeStateChanges(element, command) {
-    this.editor.observeChanges(function(editor) {
+    this.editor.model.observe("wysihat:changed", function(event) {
+      var editor = event.memo.editor;
+
       if (editor.queryCommandState(command))
         element.addClassName('selected');
       else

@@ -2,7 +2,6 @@ var WysiHat = {};
 
 //= require "wysihat/editor"
 //= require "wysihat/commands"
-//= require "wysihat/observers"
 
 //= require "wysihat/formatter"
 //= require "wysihat/sanitizer"

@@ -86,19 +86,19 @@ WysiHat.Toolbar = Class.create((function() {
    * WysiHat.Toolbar#observeButtonClick(element, handler) -> undefined
    *  - element (String | Element): Element to bind handler to
    *  - handler (Function): Function to bind to the element
+   *  fires wysihat:changed
    *
    *  In addition to binding the given handler to the element, this observe
    *  function also sets up a few more events. When the elements onclick is
    *  fired, the toolbars hasMouseDown property will be set to true and
-   *  back to false on exit. In addition, it also fires any editor
-   *  onChangeObservers.
+   *  back to false on exit.
    **/
   function observeButtonClick(element, handler) {
     var toolbar = this;
     $(element).observe('click', function(event) {
       toolbar.hasMouseDown = true;
       handler(toolbar.editor);
-      toolbar.editor.fireOnChangeObservers();
+      toolbar.editor.model.fire("wysihat:changed", { editor: toolbar.editor });
       Event.stop(event);
       toolbar.hasMouseDown = false;
     });
@@ -117,7 +117,9 @@ WysiHat.Toolbar = Class.create((function() {
    *  selected text was bold.
    **/
   function observeStateChanges(element, command) {
-    this.editor.observeChanges(function(editor) {
+    this.editor.model.observe("wysihat:changed", function(event) {
+      var editor = event.memo.editor;
+
       if (editor.queryCommandState(command))
         element.addClassName('selected');
       else

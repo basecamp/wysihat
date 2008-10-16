@@ -45,7 +45,7 @@
         });
       };
 
-      WysiHat.Editor.observePaste(function(editor) {
+      editor.model.observe("wysihat:paste", function(event) {
         setTimeout(function() {
           editor.model.reload();
         }, 1);
@@ -54,8 +54,8 @@
       textarea.show();
       textarea.disable();
 
-      editor.observeChanges(function(editor) {
-        $('note_body_raw').value = editor.document.body.innerHTML;
+      editor.model.observe("wysihat:changed", function(event) {
+        $('note_body_raw').value = event.target.rawContent();
       });
     });
   </script>

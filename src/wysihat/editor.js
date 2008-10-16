@@ -7,16 +7,11 @@ WysiHat.Editor = Class.create({
    *  new WysiHat.Editor(textarea)
    *  - textarea (String | Element): an id or DOM node of the textarea that
    *  you want to convert to rich text.
-   *  fires afterEnableObserver
    *
    *  Creates a new editor controller and model for the textarea.
    **/
   initialize: function(textarea) {
     var editor = this;
-
-    this.observeChanges(function(editor) {
-      editor.model.save();
-    });
 
     this.textarea = $(textarea);
     this.textarea.hide();
@@ -31,17 +26,19 @@ WysiHat.Editor = Class.create({
 
       Event.observe(editor.document, 'keydown', function(event) {
         if (event.keyCode == 86)
-          editor.fireOnPasteObservers();
+          editor.model.fire("wysihat:paste", { editor: editor });
       });
       Event.observe(editor.window, 'paste', function(event) {
-        editor.fireOnPasteObservers();
+        editor.model.fire("wysihat:paste", { editor: editor });
       });
-
-      editor.fireAfterEnableObservers();
 
       editor.focus();
       editor.window.focus();
     }).element;
+
+    this.model.observe("wysihat:changed", function(event) {
+      event.target.save();
+    });
   },
 
   /**
@@ -55,7 +52,9 @@ WysiHat.Editor = Class.create({
     this.hasFocus = true;
 
     var editor = this;
-    this.focusObserver = function() { editor.fireOnChangeObservers(); };
+    this.focusObserver = function() {
+      editor.model.fire("wysihat:changed", { editor: editor });
+    };
 
     ['mouseup', 'mousemove', 'keypress', 'keyup'].each(function(event) {
       Event.observe(editor.document, event, editor.focusObserver);
