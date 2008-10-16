@@ -106,7 +106,7 @@ WysiHat.Commands = {
    **/
   insertHTML: function(html) {
     if (Prototype.Browser.IE) {
-      var range = this.selection.getRange();
+      var range = this._selection.getRange();
       range.pasteHTML(html);
       range.collapse(false);
       range.select();
@@ -124,7 +124,8 @@ WysiHat.Commands = {
    *  A simple delegation method to the documents execCommand method.
    **/
   execCommand: function(command, ui, value) {
-    this.document.execCommand(command, ui, value);
+    var document = this.getDocument();
+    document.execCommand(command, ui, value);
   },
 
   queryStateCommands: $A(['bold', 'italic', 'underline', 'strikethrough']),
@@ -137,13 +138,13 @@ WysiHat.Commands = {
    *  is bold.
    **/
   queryCommandState: function(state) {
+    var document = this.getDocument();
+
     if (this.queryStateCommands.include(state))
-      return this.document.queryCommandState(state);
+      return document.queryCommandState(state);
     else if (f = this['query' + state.capitalize()])
       return f.bind(this).call();
     else
       return false;
   }
 }
-
-WysiHat.Editor.addMethods(WysiHat.Commands);

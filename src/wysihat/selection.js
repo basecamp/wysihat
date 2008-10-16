@@ -6,9 +6,9 @@ WysiHat.Selection = Class.create((function() {
    *  new WysiHat.Selection(editor)
    *  - editor (WysiHat.Editor): the editor object that you want to bind to
    **/
-  function initialize(document, window) {
-    this.document = document;
+  function initialize(window) {
     this.window = window;
+    this.document = window.document;
   }
 
   /**

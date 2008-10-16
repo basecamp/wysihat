@@ -1,10 +1,4 @@
-WysiHat.AbstractModel = {}
-
-WysiHat.AbstractModel.Methods = {
-  getSelection: function() {
-    return new WysiHat.Selection(this._document, this._window);
-  },
-
+WysiHat.Persistence = {
   outputFilter: function(text) {
     return text.format_html_output();
   },
@@ -14,14 +8,14 @@ WysiHat.AbstractModel.Methods = {
   },
 
   /**
-   * WysiHat.AbstractModel#content() -> String
+   * WysiHat.Persistence#content() -> String
    *  Returns the editors HTML contents. The contents are first passed
    *  through outputFilter.
    *
    *  You can replace the generic outputFilter with your own function. The
    *  default behavior is to use String#format_html_output.
    *
-   *  editor.model.outputFilter = function(text) {
+   *  editor.outputFilter = function(text) {
    *    return MyUtils.format_and_santize(text);
    *  };
    **/
@@ -30,7 +24,7 @@ WysiHat.AbstractModel.Methods = {
   },
 
   /**
-   * WysiHat.AbstractModel#setContent(text) -> undefined
+   * WysiHat.Persistence#setContent(text) -> undefined
    * - text (String): HTML string
    *  Replaces editor's entire contents with the given HTML. The contents are
    *  first passed through inputFilter.
@@ -38,7 +32,7 @@ WysiHat.AbstractModel.Methods = {
    *  You can replace the generic inputFilter with your own function. The
    *  default behavior is to use String#format_html_input.
    *
-   *  editor.model.inputFilter = function(text) {
+   *  editor.inputFilter = function(text) {
    *    return MyUtils.format_and_santize(text);
    *  };
    **/
@@ -47,7 +41,7 @@ WysiHat.AbstractModel.Methods = {
   },
 
   /**
-   * WysiHat.AbstractModel#save() -> undefined
+   * WysiHat.Persistence#save() -> undefined
    * Saves editors contents back out to the textarea.
    **/
   save: function() {
@@ -55,7 +49,7 @@ WysiHat.AbstractModel.Methods = {
   },
 
   /**
-   * WysiHat.AbstractModel#load() -> undefined
+   * WysiHat.Persistence#load() -> undefined
    * Loads textarea contents into editor.
    **/
    load: function() {
@@ -63,13 +57,13 @@ WysiHat.AbstractModel.Methods = {
   },
 
   /**
-   * WysiHat.AbstractModel#reload() -> undefined
+   * WysiHat.Persistence#reload() -> undefined
    * Saves current contents and loads contents into editor.
    **/
   reload: function() {
-    this.getSelection().setBookmark();
+    this.selection.setBookmark();
     this.save();
     this.load();
-    this.getSelection().moveToBookmark();
+    this.selection.moveToBookmark();
   }
 }

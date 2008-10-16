@@ -34,27 +34,27 @@
 
     Event.observe(window, 'load', function() {
       textarea = $('note_body');
-      editor = new WysiHat.Editor(textarea);
+      editor = WysiHat.Editor.attach(textarea);
       var toolbar = new WysiHat.Toolbar(editor);
       toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
 
-      editor.model.outputFilter = function(text) {
+      editor.outputFilter = function(text) {
         return text.format_html_output().sanitize({
           tags: ['span', 'p', 'br', 'strong', 'em', 'u', 'a'],
           attributes: ['id', 'href']
         });
       };
 
-      editor.model.observe("wysihat:paste", function(event) {
+      editor.observe("wysihat:paste", function(event) {
         setTimeout(function() {
-          editor.model.reload();
+          editor.reload();
         }, 1);
       });
 
       textarea.show();
       textarea.disable();
 
-      editor.model.observe("wysihat:changed", function(event) {
+      editor.observe("wysihat:changed", function(event) {
         $('note_body_raw').value = event.target.rawContent();
       });
     });

@@ -13,8 +13,9 @@ WysiHat.Toolbar = Class.create((function() {
    *  It is merely a set of helper methods to get you started and to build
    *  on top of.
    **/
-  function initialize(editor) {
-    this.editor = editor;
+  function initialize(editArea) {
+    this.editArea = editArea;
+
     this.hasMouseDown = false;
     this.element = new Element('div', { 'class': 'editor_toolbar' });
 
@@ -22,7 +23,7 @@ WysiHat.Toolbar = Class.create((function() {
     this.element.observe('mousedown', function(event) { toolbar.mouseDown(event); });
     this.element.observe('mouseup', function(event) { toolbar.mouseUp(event); });
 
-    this.editor.model.insert({before: this.element})
+    this.editArea.insert({before: this.element})
   }
 
   /**
@@ -97,8 +98,8 @@ WysiHat.Toolbar = Class.create((function() {
     var toolbar = this;
     $(element).observe('click', function(event) {
       toolbar.hasMouseDown = true;
-      handler(toolbar.editor);
-      toolbar.editor.model.fire("wysihat:changed", { editor: toolbar.editor });
+      handler(toolbar.editArea);
+      toolbar.editArea.fire("wysihat:changed");
       Event.stop(event);
       toolbar.hasMouseDown = false;
     });
@@ -117,10 +118,8 @@ WysiHat.Toolbar = Class.create((function() {
    *  selected text was bold.
    **/
   function observeStateChanges(element, command) {
-    this.editor.model.observe("wysihat:changed", function(event) {
-      var editor = event.memo.editor;
-
-      if (editor.queryCommandState(command))
+    this.editArea.observe("wysihat:changed", function(event) {
+      if (event.target.queryCommandState(command))
         element.addClassName('selected');
       else
         element.removeClassName('selected');
@@ -147,7 +146,7 @@ WysiHat.Toolbar = Class.create((function() {
    **/
   function mouseUp(event) {
     // refocus the editing area
-    this.editor.window.focus();
+    this.editArea.focus();
     this.hasMouseDown = false;
   }
 
