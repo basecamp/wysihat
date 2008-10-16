@@ -26,7 +26,7 @@
 
   <script type="text/javascript" charset="utf-8">
     Event.observe(window, 'load', function() {
-      var editor = new WysiHat.Editor('content');
+      var editor = WysiHat.Editor.attach('content');
 
       var bold_button = $$('.toolbar .bold').first();
       bold_button.observe('click', function(event) {
