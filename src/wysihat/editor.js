@@ -10,7 +10,7 @@ WysiHat.Editor = {
     var textarea = $(textarea);
     textarea.hide();
 
-    return WysiHat.iFrame.create(textarea, function(editArea) {
+    return WysiHat.Editable.create(textarea, function(editArea) {
       var document = editArea.getDocument();
       var window = editArea.getWindow();
 

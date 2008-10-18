@@ -7,6 +7,7 @@ var WysiHat = {};
 //= require "wysihat/window"
 
 //= require "wysihat/iframe"
+//= require "wysihat/editable"
 
 //= require "wysihat/formatter"
 //= require "wysihat/sanitizer"
