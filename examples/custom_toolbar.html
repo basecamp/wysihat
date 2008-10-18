@@ -34,7 +34,7 @@
         Event.stop(event);
       });
 
-      editor.observeChanges(function(editor) {
+      editor.observe("wysihat:changed", function(event) {
         if (editor.queryCommandState('bold'))
           bold_button.addClassName('selected');
         else
@@ -47,7 +47,7 @@
         Event.stop(event);
       });
 
-      editor.observeChanges(function(editor) {
+      editor.observe("wysihat:changed", function(event) {
         if (editor.queryCommandState('underline'))
           underline_button.addClassName('selected');
         else
@@ -60,7 +60,7 @@
         Event.stop(event);
       });
 
-      editor.observeChanges(function(editor) {
+      editor.observe("wysihat:changed", function(event) {
         if (editor.queryCommandState('italic'))
           italic_button.addClassName('selected');
         else
