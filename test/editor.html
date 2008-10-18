@@ -54,7 +54,7 @@
       textarea.show();
       textarea.disable();
 
-      editor.observe("wysihat:changed", function(event) {
+      editor.observe("wysihat:change", function(event) {
         $('note_body_raw').value = event.target.rawContent();
       });
     });

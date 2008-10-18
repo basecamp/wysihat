@@ -87,7 +87,7 @@ WysiHat.Toolbar = Class.create((function() {
    * WysiHat.Toolbar#observeButtonClick(element, handler) -> undefined
    *  - element (String | Element): Element to bind handler to
    *  - handler (Function): Function to bind to the element
-   *  fires wysihat:changed
+   *  fires wysihat:change
    *
    *  In addition to binding the given handler to the element, this observe
    *  function also sets up a few more events. When the elements onclick is
@@ -99,7 +99,7 @@ WysiHat.Toolbar = Class.create((function() {
     $(element).observe('click', function(event) {
       toolbar.hasMouseDown = true;
       handler(toolbar.editArea);
-      toolbar.editArea.fire("wysihat:changed");
+      toolbar.editArea.fire("wysihat:change");
       Event.stop(event);
       toolbar.hasMouseDown = false;
     });
@@ -118,7 +118,7 @@ WysiHat.Toolbar = Class.create((function() {
    *  selected text was bold.
    **/
   function observeStateChanges(element, command) {
-    this.editArea.observe("wysihat:changed", function(event) {
+    this.editArea.observe("wysihat:change", function(event) {
       if (event.target.queryCommandState(command))
         element.addClassName('selected');
       else

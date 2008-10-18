@@ -24,7 +24,7 @@ WysiHat.Window = {
 
     var editor = this;
     this.focusObserver = function() {
-      editor.fire("wysihat:changed");
+      editor.fire("wysihat:change");
     };
 
     ['mouseup', 'mousemove', 'keypress', 'keyup'].each(function(event) {

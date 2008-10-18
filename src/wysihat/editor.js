@@ -27,7 +27,7 @@ WysiHat.Editor = {
         editArea.fire("wysihat:paste");
       });
 
-      editArea.observe("wysihat:changed", function(event) {
+      editArea.observe("wysihat:change", function(event) {
         event.target.save();
       });
 
