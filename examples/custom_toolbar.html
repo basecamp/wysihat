@@ -71,6 +71,54 @@
 </head>
 
 <body>
+
+<p>This is a more advanced example that does not use the built-in toolbar class. The code is a bit more verbose, however you have full control of the html.</p>
+
+<code><pre>
+  Event.observe(window, 'load', function() {
+    var editor = WysiHat.Editor.attach('content');
+
+    var bold_button = $$('.toolbar .bold').first();
+    bold_button.observe('click', function(event) {
+      editor.boldSelection();
+      Event.stop(event);
+    });
+
+    editor.observe("wysihat:change", function(event) {
+      if (editor.queryCommandState('bold'))
+        bold_button.addClassName('selected');
+      else
+        bold_button.removeClassName('selected');
+    });
+
+    var underline_button = $$('.toolbar .underline').first();
+    underline_button.observe('click', function(event) {
+      editor.underlineSelection();
+      Event.stop(event);
+    });
+
+    editor.observe("wysihat:change", function(event) {
+      if (editor.queryCommandState('underline'))
+        underline_button.addClassName('selected');
+      else
+        underline_button.removeClassName('selected');
+    });
+
+    var italic_button = $$('.toolbar .italic').first();
+    italic_button.observe('click', function(event) {
+      editor.italicSelection();
+      Event.stop(event);
+    });
+
+    editor.observe("wysihat:change", function(event) {
+      if (editor.queryCommandState('italic'))
+        italic_button.addClassName('selected');
+      else
+        italic_button.removeClassName('selected');
+    });
+  });
+</pre></code>
+
   <form action="#" method="post" style="width: 500px;">
     <div class="toolbar">
       <a class="button bold" href="#"><span>Bold</span></a>
