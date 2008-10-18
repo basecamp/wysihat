@@ -3,7 +3,7 @@
  **/
 WysiHat.Toolbar = Class.create((function() {
   /**
-   *  new WysiHat.Toolbar(editor)
+   * new WysiHat.Toolbar(editor)
    *  - editor (WysiHat.Editor): the editor object that you want to attach to
    *
    *  Creates a toolbar element above the editor. The WysiHat.Toolbar object
