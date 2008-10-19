@@ -23,7 +23,7 @@ WysiHat.Toolbar = Class.create((function() {
     this.element.observe('mousedown', function(event) { toolbar.mouseDown(event); });
     this.element.observe('mouseup', function(event) { toolbar.mouseUp(event); });
 
-    this.editArea.insert({before: this.element})
+    this.editArea.insert({before: this.element});
   }
 
   /**
@@ -118,7 +118,7 @@ WysiHat.Toolbar = Class.create((function() {
    *  selected text was bold.
    **/
   function observeStateChanges(element, command) {
-    this.editArea.observe("wysihat:change", function(event) {
+    this.editArea.observe("wysihat:mousemove", function(event) {
       if (event.target.queryCommandState(command))
         element.addClassName('selected');
       else
