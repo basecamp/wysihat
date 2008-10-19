@@ -19,6 +19,12 @@ WysiHat.Editor = {
       Event.observe(window, 'focus', function(event) { editArea.focus(); });
       Event.observe(window, 'blur', function(event) { editArea.blur(); });
 
+      ['mouseup', 'mousemove', 'keypress', 'keyup'].each(function(event) {
+        Event.observe(document, event, function() {
+          editArea.fire("wysihat:change");
+        });
+      });
+
       Event.observe(document, 'keydown', function(event) {
         if (event.keyCode == 86)
           editArea.fire("wysihat:paste");

@@ -37,15 +37,6 @@ WysiHat.Window = {
       return;
 
     this.hasFocus = true;
-
-    var editor = this;
-    this.focusObserver = function() {
-      editor.fire("wysihat:change");
-    };
-
-    ['mouseup', 'mousemove', 'keypress', 'keyup'].each(function(event) {
-      Event.observe(editor.getDocument(), event, editor.focusObserver);
-    });
   },
 
   /**
@@ -54,11 +45,5 @@ WysiHat.Window = {
    **/
   blur: function() {
     this.hasFocus = false;
-
-    var editor = this;
-    // remove the event listeners we don't need anymore
-    ['mouseup', 'mousemove', 'keypress', 'keyup'].each(function(event) {
-      Event.stopObserving(editor.getDocument(), event, editor.focusObserver);
-    });
   }
 }
