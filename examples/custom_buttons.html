@@ -48,6 +48,30 @@
 </head>
 
 <body>
+  <p>This examples shows how to add custom buttons and behavior with the built-in toolbar class.</p>
+
+<code><pre>
+  Event.observe(window, 'load', function() {
+    var editor = WysiHat.Editor.attach('content');
+    var toolbar = new WysiHat.Toolbar(editor);
+
+    toolbar.addButton(
+      { name: 'bold', label: "Bold" }, function(editor) {
+        editor.boldSelection();
+    });
+
+    toolbar.addButton(
+      { name: 'underline', label: "Underline" }, function(editor) {
+        editor.underlineSelection();
+    });
+
+    toolbar.addButton(
+      { name: 'italic', label: "Italic" }, function(editor) {
+        editor.italicSelection();
+    });
+  });
+</pre></code>
+
   <form action="#" method="post" style="width: 500px;">
     <!-- This HTML will be automatically generated for you by the toolbar class
     <div class="editor_toolbar">

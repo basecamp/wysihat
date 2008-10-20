@@ -34,6 +34,16 @@
 </head>
 
 <body>
+  <p>This is a simple example of how easy it is to get up and running with WysiHat.</p>
+
+<code><pre>
+  Event.observe(window, 'load', function() {
+    var editor = WysiHat.Editor.attach('content');
+    var toolbar = new WysiHat.Toolbar(editor);
+    toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+  });
+</pre></code>
+
   <form action="#" method="post" style="width: 500px;">
     <!-- This HTML will be automatically generated for you by the toolbar class
     <div class="editor_toolbar">

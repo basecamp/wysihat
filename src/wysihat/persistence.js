@@ -1,8 +1,30 @@
+/**
+ * mixin WysiHat.Persistence
+ *
+ *  Methods will be mixed into the editor element. These methods deal with
+ *  extracting and filtering content going in and out of the editor.
+ */
 WysiHat.Persistence = {
+  /**
+   * WysiHat.Persistence#outputFilter(text) -> String
+   *  - text (String): HTML string
+   *
+   *  Use to filter content coming out of the editor. By default it calls
+   *  text.format_html_output. This method has been extract so you can override
+   *  it and provide your own custom output filter.
+   */
   outputFilter: function(text) {
     return text.format_html_output();
   },
 
+  /**
+   * WysiHat.Persistence#inputFilter(text) -> String
+   *  - text (String): HTML string
+   *
+   *  Use to filter content going into the editor. By default it calls
+   *  text.format_html_input. This method has been extract so you can override
+   *  it and provide your own custom input filter.
+   */
   inputFilter: function(text) {
     return text.format_html_input();
   },
@@ -25,7 +47,8 @@ WysiHat.Persistence = {
 
   /**
    * WysiHat.Persistence#setContent(text) -> undefined
-   * - text (String): HTML string
+   *  - text (String): HTML string
+   *
    *  Replaces editor's entire contents with the given HTML. The contents are
    *  first passed through inputFilter.
    *
@@ -42,7 +65,7 @@ WysiHat.Persistence = {
 
   /**
    * WysiHat.Persistence#save() -> undefined
-   * Saves editors contents back out to the textarea.
+   *  Saves editors contents back out to the textarea.
    **/
   save: function() {
     this.textarea.value = this.content();
@@ -50,7 +73,7 @@ WysiHat.Persistence = {
 
   /**
    * WysiHat.Persistence#load() -> undefined
-   * Loads textarea contents into editor.
+   *  Loads textarea contents into editor.
    **/
    load: function() {
      this.setContent(this.textarea.value);
@@ -58,7 +81,7 @@ WysiHat.Persistence = {
 
   /**
    * WysiHat.Persistence#reload() -> undefined
-   * Saves current contents and loads contents into editor.
+   *  Saves current contents and loads contents into editor.
    **/
   reload: function() {
     this.selection.setBookmark();

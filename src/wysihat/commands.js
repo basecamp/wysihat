@@ -1,10 +1,10 @@
 /**
  * mixin WysiHat.Commands
  *
- *  Methods will be mixed into the editor controller class. Most of these
+ *  Methods will be mixed into the editor element. Most of these
  *  methods will be used to bind to button clicks or key presses.
  *
- *  var editor = new WysiHat.Editor(textarea);
+ *  var editor = WysiHat.Editor.attach(textarea);
  *  $('bold_button').observe('click', function(event) {
  *    editor.boldSelection();
  *    Event.stop(event);
@@ -136,6 +136,10 @@ WysiHat.Commands = {
    *  Determines whether the current selection has the given state.
    *  queryCommandState('bold') would return true if the selected text
    *  is bold.
+   *
+   * You can extend this behavior by adding a custom method to the editor
+   * element, queryCustom(). However this API is not final.
+   * queryCommandState('link') would call queryLink().
    **/
   queryCommandState: function(state) {
     var document = this.getDocument();
