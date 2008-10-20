@@ -91,12 +91,12 @@ WysiHat.Persistence = (function() {
   }
 
   return {
-	outputFilter: outputFilter,
-	inputFilter:  inputFilter,
-	content:      content,
-	setContent:   setContent,
-	save:         save,
-	load:         load,
-	reload:       reload
+    outputFilter: outputFilter,
+    inputFilter:  inputFilter,
+    content:      content,
+    setContent:   setContent,
+    save:         save,
+    load:         load,
+    reload:       reload
   };
 })();

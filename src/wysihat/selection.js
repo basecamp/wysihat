@@ -77,7 +77,7 @@ WysiHat.Selection = Class.create((function() {
     if (!range)
       return null;
 
-	var parent;
+    var parent;
     if (range.parentElement)
       parent = range.parentElement();
     else
@@ -144,7 +144,7 @@ WysiHat.Selection = Class.create((function() {
       );
     }
 
-	return null;
+    return null;
   };
 
   function setBookmark() {

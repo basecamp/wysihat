@@ -24,8 +24,8 @@ WysiHat.Window = (function() {
       return this.contentDocument.defaultView;
     else if (this.contentWindow.document)
       return this.contentWindow;
-	else
-	  return null;
+    else
+      return null;
   }
 
   /**
@@ -50,9 +50,9 @@ WysiHat.Window = (function() {
   }
 
   return {
-	getDocument: getDocument,
-	getWindow: getWindow,
-	focus: focus,
-	blur: blur
+    getDocument: getDocument,
+    getWindow: getWindow,
+    focus: focus,
+    blur: blur
   };
 })();
