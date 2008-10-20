@@ -7,7 +7,7 @@ WysiHat.Editor = {
    *  Creates a new editor for the textarea.
    **/
   attach: function(textarea) {
-    var textarea = $(textarea);
+    textarea = $(textarea);
     textarea.hide();
 
     return WysiHat.iFrame.create(textarea, function(editArea) {
@@ -55,4 +55,4 @@ WysiHat.Editor = {
       editArea.focus();
     });
   }
-}
+};

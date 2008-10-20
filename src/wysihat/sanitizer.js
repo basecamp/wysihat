@@ -24,11 +24,11 @@ Element.addMethods({
    *  This method is called by String#sanitize().
    **/
   sanitize: function(element, options) {
-    var element = $(element);
-    var options = $H(options);
+    element = $(element);
+    options = $H(options);
     var allowed_tags = $A(options.get('tags') || []);
     var allowed_attributes = $A(options.get('attributes') || []);
-    var sanitized = Element(element.nodeName)
+    var sanitized = Element(element.nodeName);
 
     $A(element.childNodes).each(function(child) {
       if (child.nodeType == 1) {
@@ -37,7 +37,7 @@ Element.addMethods({
         if (allowed_tags.include(child.nodeName.toLowerCase())) {
           var new_child = Element(child.nodeName);
           allowed_attributes.each(function(attribute) {
-            if (value = child.readAttribute(attribute))
+            if ((value = child.readAttribute(attribute)))
               new_child.writeAttribute(attribute, value);
           });
           sanitized.appendChild(new_child);

@@ -26,7 +26,7 @@ if (Prototype.Browser.IE) {
 
   document.createRange = function() {
     return new Range(this);
-  }
+  };
 
   Object.extend(Range.prototype, {
     setStart: function(parent, offset) {},

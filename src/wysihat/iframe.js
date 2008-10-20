@@ -13,11 +13,10 @@ WysiHat.iFrame = {
 
     return editArea;
   }
-}
+};
 
 WysiHat.iFrame.Methods = {
   attach: function(element, callback) {
-    var callback = callback;
     this.textarea = element;
 
     // Use onload because iframes are not always immediately accessible
@@ -35,7 +34,7 @@ WysiHat.iFrame.Methods = {
         } else if (Prototype.Browser.Opera) {
           var style = Element('style').update("p { margin: 0; }");
           var head = document.getElementsByTagName('head')[0];
-          head.appendChild(style).sheet;
+          head.appendChild(style);
         } else {
           Element.setStyle(document.body, styles);
         }
@@ -70,4 +69,4 @@ WysiHat.iFrame.Methods = {
     if (document.body)
       document.body.innerHTML = text;
   }
-}
+};

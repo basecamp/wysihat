@@ -74,7 +74,7 @@ WysiHat.Toolbar = Class.create((function() {
    *  "<a href='#' class='button bold'><span>Bold</span></a>"
    **/
   function addButton(options, handler) {
-    var options = $H(options);
+    options = $H(options);
     var button = Element('a', { 'class': 'button', 'href': '#' }).update('<span>' + options.get('label') + '</span>');
     button.addClassName(options.get('name'));
 

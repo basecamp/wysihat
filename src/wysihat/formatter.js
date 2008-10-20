@@ -26,7 +26,7 @@ Object.extend(String.prototype, (function() {
       text = text.replace(/(<\/div>)+/g, "");
 
       // Trash extra paragraphs
-      text = text.replace(/<p>\s*<\/p>/g, "")
+      text = text.replace(/<p>\s*<\/p>/g, "");
 
       // Convert line break tags into real line breaks
       text = text.replace(/<br \/>(\n)*/g, "\n");
@@ -39,7 +39,7 @@ Object.extend(String.prototype, (function() {
       text = text.replace(/<br \/>(\n)*/g, "\n");
     } else if (Prototype.Browser.IE || Prototype.Browser.Opera) {
       // Treat lines with one space as returns
-      text = text.replace(/<p>(&nbsp;|&#160;|\s)<\/p>/g, "<p></p>")
+      text = text.replace(/<p>(&nbsp;|&#160;|\s)<\/p>/g, "<p></p>");
 
       // Line break tags are useless
       text = text.replace(/<br \/>/g, "");
@@ -62,15 +62,15 @@ Object.extend(String.prototype, (function() {
 
     // bold tag to strong
     // TODO: Removing the following line does not cause any tests to fail
-    text = text.gsub(/<b>/, "<strong>")
+    text = text.gsub(/<b>/, "<strong>");
     // TODO: Removing the following line does not cause any tests to fail
-    text = text.gsub(/<\/b>/, "</strong>")
+    text = text.gsub(/<\/b>/, "</strong>");
 
     // italic tag to em
     // TODO: Removing the following line does not cause any tests to fail
-    text = text.gsub(/<i>/, "<em>")
+    text = text.gsub(/<i>/, "<em>");
     // TODO: Removing the following line does not cause any tests to fail
-    text = text.gsub(/<\/i>/, "</em>")
+    text = text.gsub(/<\/i>/, "</em>");
 
     // Convert double returns into paragraphs
     text = text.replace(/\n\n+/g, "</p>\n\n<p>");
@@ -183,13 +183,13 @@ Object.extend(String.prototype, (function() {
     if (Prototype.Browser.WebKit)
       element.select('span').each(function(span) {
         if (span.getStyle('fontWeight') == 'bold')
-          span.addClassName('Apple-style-span')
+          span.addClassName('Apple-style-span');
 
         if (span.getStyle('fontStyle') == 'italic')
-          span.addClassName('Apple-style-span')
+          span.addClassName('Apple-style-span');
 
         if (span.getStyle('textDecoration') == 'underline')
-          span.addClassName('Apple-style-span')
+          span.addClassName('Apple-style-span');
       });
 
     text = element.innerHTML;
