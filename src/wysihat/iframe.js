@@ -73,7 +73,7 @@ WysiHat.iFrame.Methods = {
       Element.setStyle(document.body, styles);
     }
 
-	return this;
+    return this;
   },
 
   rawContent: function() {
