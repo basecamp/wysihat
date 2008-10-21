@@ -19,6 +19,11 @@
     .editor_toolbar .selected {
       color: red !important;
     }
+
+    #error {
+      font: 18px helvetica, arial, sans-serif;
+      color: red;
+    }
   </style>
 
   <script type="text/javascript" src="../vendor/prototype.js"></script>
@@ -33,21 +38,26 @@
         { name: 'bold', label: "Bold" }, function(editor) {
         editor.boldSelection();
       });
-
+      
       toolbar.addButton(
         { name: 'underline', label: "Underline" }, function(editor) {
         editor.underlineSelection();
       });
-
+      
       toolbar.addButton(
         { name: 'italic', label: "Italic" }, function(editor) {
         editor.italicSelection();
       });
+
+      // Hide our error message if the editor loads fine
+      $('error').hide();
     });
   </script>
 </head>
 
 <body>
+  <p id="error">Opps, you need to build the package before running this example. Don't worry its easy, just run <code>rake</code> in the project's directory.</p>
+
   <p>This examples shows how to add custom buttons and behavior with the built-in toolbar class.</p>
 
 <code><pre>
