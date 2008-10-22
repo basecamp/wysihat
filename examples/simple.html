@@ -48,7 +48,7 @@
 <code><pre>
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
-    new WysiHat.Toolbar(editor, WysiHat.Toolbar.ButtonSets.Basic);
+    new WysiHat.Toolbar(editor, {buttonSet: WysiHat.Toolbar.ButtonSets.Basic});
   });
 </pre></code>
 
