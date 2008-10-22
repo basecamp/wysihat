@@ -3,8 +3,9 @@
  **/
 WysiHat.Toolbar = Class.create((function() {
   /**
-   * new WysiHat.Toolbar(editor)
+   * new WysiHat.Toolbar(editor[, buttonSet])
    *  - editor (WysiHat.Editor): the editor object that you want to attach to
+   *  - buttonSet (Array): see WysiHat.Toolbar.ButtonSets.Basic for an example
    *
    *  Creates a toolbar element above the editor. The WysiHat.Toolbar object
    *  has many helper methods to easily add buttons to the toolbar.
@@ -13,7 +14,7 @@ WysiHat.Toolbar = Class.create((function() {
    *  It is merely a set of helper methods to get you started and to build
    *  on top of.
    **/
-  function initialize(editArea) {
+  function initialize(editArea, buttonSet) {
     this.editArea = editArea;
 
     this.hasMouseDown = false;
@@ -24,6 +25,9 @@ WysiHat.Toolbar = Class.create((function() {
     this.element.observe('mouseup', function(event) { toolbar.mouseUp(event); });
 
     this.editArea.insert({before: this.element});
+
+    if (buttonSet)
+      this.addButtonSet(buttonSet);
 
     return this;
   }
