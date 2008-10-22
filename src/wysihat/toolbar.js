@@ -25,7 +25,7 @@ WysiHat.Toolbar = Class.create((function() {
 
     this.editArea.insert({before: this.element});
 
-	return this;
+    return this;
   }
 
   /**
@@ -57,7 +57,7 @@ WysiHat.Toolbar = Class.create((function() {
       toolbar.addButton(options, handler);
     });
 
-	return this;
+    return this;
   }
 
   /**
@@ -86,7 +86,7 @@ WysiHat.Toolbar = Class.create((function() {
     this.observeStateChanges(button, options.get('name'));
     this.element.appendChild(button);
 
-	return this;
+    return this;
   }
 
   /**
@@ -109,7 +109,7 @@ WysiHat.Toolbar = Class.create((function() {
       Event.stop(event);
       toolbar.hasMouseDown = false;
     });
-	return this;
+    return this;
   }
 
   /**
@@ -131,7 +131,7 @@ WysiHat.Toolbar = Class.create((function() {
       else
         element.removeClassName('selected');
     });
-	return this;
+    return this;
   }
 
   /**
