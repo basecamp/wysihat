@@ -13,7 +13,14 @@ WysiHat.Toolbar = Class.create((function() {
    *  It is merely a set of helper methods to get you started and to build
    *  on top of.
    **/
-  function initialize(editArea) {
+  function initialize(editArea, options) {
+    this.options = {
+      container: null
+    };
+    Object.extend(this.options, options || { });
+    
+    if(this.options.container) this.options.container = $(this.options.container);
+    
     this.editArea = editArea;
 
     this.hasMouseDown = false;
@@ -23,7 +30,12 @@ WysiHat.Toolbar = Class.create((function() {
     this.element.observe('mousedown', function(event) { toolbar.mouseDown(event); });
     this.element.observe('mouseup', function(event) { toolbar.mouseUp(event); });
 
-    this.editArea.insert({before: this.element});
+    if(this.options.container) {
+      this.options.container.appendChild(this.element);
+    }
+    else {
+      this.editArea.insert({before: this.element});
+    }
   }
 
   /**
