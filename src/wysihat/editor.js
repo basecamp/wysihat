@@ -10,7 +10,7 @@ WysiHat.Editor = {
     textarea = $(textarea);
     textarea.hide();
 
-    var editor = WysiHat.iFrame.create(textarea, function(editArea) {
+    return WysiHat.iFrame.create(textarea, function(editArea) {
       var document = editArea.getDocument();
       var window = editArea.getWindow();
 
@@ -54,13 +54,5 @@ WysiHat.Editor = {
       
       editArea.focus();
     });
-
-    $A(arguments).slice(1).each(function(arg) {
-      if (Object.values(WysiHat.Toolbar.ButtonSets).include(arg)) {
-        new WysiHat.Toolbar(editor).addButtonSet(arg);
-      }
-    });
-
-    return editor;
   }
 };
