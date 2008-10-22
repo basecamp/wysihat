@@ -27,15 +27,20 @@ Code is documented inline with pdoc.
 
 Several examples can be found under <tt>examples/</tt> to get you started.
 
+=== Downloading
+
+Tagged releases will be posted on the GitHub wiki (http://github.com/josh/wysihat/wikis/download).
+
 === Building from source
 
 You can build the latest version of WysiHat from source by running
 <tt>rake</tt> the root directory. The generated file will be saved to
-<tt>dist/wysihat.js</tt>.
+<tt>dist/wysihat.js</tt>. Ruby and the Rake gem are only required to build
+the project from source. It is not required to run the code.
 
 == Contributing
 
-Check out the WysiHat source with 
+Check out the WysiHat source with
   $ git clone git://github.com/josh/wysihat.git
 
 GitHub pull requests are welcome.

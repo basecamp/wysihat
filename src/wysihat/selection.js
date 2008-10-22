@@ -103,7 +103,7 @@ WysiHat.Selection = Class.create((function() {
       }
     }
 
-    return nodes.first();
+    return nodes.last();
   }
 
   function createRangeFromElement(document, node) {
