@@ -24,6 +24,8 @@ WysiHat.Toolbar = Class.create((function() {
     this.element.observe('mouseup', function(event) { toolbar.mouseUp(event); });
 
     this.editArea.insert({before: this.element});
+
+	return this;
   }
 
   /**
@@ -54,6 +56,8 @@ WysiHat.Toolbar = Class.create((function() {
       var handler = button.last();
       toolbar.addButton(options, handler);
     });
+
+	return this;
   }
 
   /**
@@ -81,6 +85,8 @@ WysiHat.Toolbar = Class.create((function() {
     this.observeButtonClick(button, handler);
     this.observeStateChanges(button, options.get('name'));
     this.element.appendChild(button);
+
+	return this;
   }
 
   /**
@@ -103,6 +109,7 @@ WysiHat.Toolbar = Class.create((function() {
       Event.stop(event);
       toolbar.hasMouseDown = false;
     });
+	return this;
   }
 
   /**
@@ -124,6 +131,7 @@ WysiHat.Toolbar = Class.create((function() {
       else
         element.removeClassName('selected');
     });
+	return this;
   }
 
   /**
