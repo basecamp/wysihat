@@ -10,7 +10,7 @@ WysiHat.Editor = {
     textarea = $(textarea);
     textarea.hide();
 
-    return WysiHat.iFrame.create(textarea, function(editArea) {
+    var editor = WysiHat.iFrame.create(textarea, function(editArea) {
       var document = editArea.getDocument();
       var window = editArea.getWindow();
 
@@ -51,8 +51,16 @@ WysiHat.Editor = {
       editArea.observe("wysihat:change", function(event) {
         event.target.save();
       });
-
+      
       editArea.focus();
     });
+
+    $A(arguments).slice(1).each(function(arg) {
+      if (Object.values(WysiHat.Toolbar.ButtonSets).include(arg)) {
+        new WysiHat.Toolbar(editor).addButtonSet(arg);
+      }
+    });
+
+    return editor;
   }
 };
