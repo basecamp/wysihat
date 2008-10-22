@@ -16,11 +16,12 @@ WysiHat.Toolbar = Class.create((function() {
    *
    *  The options hash accepts a few configuration options.
    *  - buttonSet (Array): see WysiHat.Toolbar.ButtonSets.Basic for an example
+   *  - position (String): before, after, top, or bottom
    *  - container (String | Element): an id or DOM node of the element to
    *     insert the Toolbar into. It is inserted before the editor by default.
    **/
   function initialize(editArea, options) {
-	options = $H(options);
+    options = $H(options);
 
     this.editArea = editArea;
 
@@ -28,20 +29,27 @@ WysiHat.Toolbar = Class.create((function() {
     this.element = new Element('div', { 'class': 'editor_toolbar' });
 
     var toolbar = this;
-    this.element.observe('mousedown', function(event) { toolbar.mouseDown(event); });
-    this.element.observe('mouseup', function(event) { toolbar.mouseUp(event); });
+    this.element.observe('mousedown', function(event) {
+      toolbar.mouseDown(event);
+    });
+    this.element.observe('mouseup', function(event) {
+      toolbar.mouseUp(event);
+    });
 
-	var container = options.get('container');
-    if (container)
-      $(container).insert({after: this.element});
-    else
-      this.editArea.insert({before: this.element});
+    insertToolbar(this, options);
 
-	var buttonSet = options.get('buttonSet');
+    var buttonSet = options.get('buttonSet');
     if (buttonSet)
       this.addButtonSet(buttonSet);
+  }
 
-    return this;
+  function insertToolbar(toolbar, options) {
+    var position = options.get('position') || 'before';
+    var container = options.get('container') || toolbar.editArea;
+
+    var insertOptions = $H({});
+    insertOptions.set(position, toolbar.element);
+    $(container).insert(insertOptions.toObject());
   }
 
   /**
