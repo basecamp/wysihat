@@ -15,7 +15,7 @@
       width: 100%;
       height: 100px;
     }
-    
+
     .editor_toolbar .button {
       display: inline;
       margin: 2px 5px;
@@ -26,7 +26,7 @@
       border-color: #aaa;
       text-decoration: none;
     }
-    
+
     .editor_toolbar .button:hover {
       background-color: #aaa;
       border-color: #555;
@@ -37,8 +37,8 @@
     }
   </style>
 
-  <script type="text/javascript" src="../vendor/prototype.js"></script>
-  <script type="text/javascript" src="../dist/wysihat.js"></script>
+  <script type="text/javascript" src="../../vendor/prototype.js"></script>
+  <script type="text/javascript" src="../../dist/wysihat.js"></script>
 
   <script type="text/javascript" charset="utf-8">
     var textarea, editor;
@@ -49,26 +49,6 @@
       var toolbar = new WysiHat.Toolbar(editor, {
         buttonSet: WysiHat.Toolbar.ButtonSets.Basic,
         container: 'toolbar_container'
-      });
-
-      editor.outputFilter = function(text) {
-        return text.format_html_output().sanitize({
-          tags: ['span', 'p', 'br', 'strong', 'em', 'u', 'a'],
-          attributes: ['id', 'href']
-        });
-      };
-
-      editor.observe("wysihat:paste", function(event) {
-        setTimeout(function() {
-          editor.reload();
-        }, 1);
-      });
-
-      textarea.show();
-      textarea.disable();
-
-      editor.observe("wysihat:change", function(event) {
-        $('note_body_raw').value = event.target.rawContent();
       });
     });
   </script>
@@ -82,9 +62,8 @@
 &lt;p&gt;We want to put a paragraph...&lt;/p&gt;
 
 &lt;p&gt;...right there.&lt;/p&gt;</textarea>
-    <textarea id="note_body_raw" disabled="true"></textarea>
   </form>
-  
+
   <div id="toolbar_container">
     <p>
       The toolbar should be inserted right below this line

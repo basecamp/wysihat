@@ -6,9 +6,6 @@ WysiHat.Toolbar = Class.create((function() {
    * new WysiHat.Toolbar(editor[, options])
    *  - editor (WysiHat.Editor): the editor object that you want to attach to
    *  - options (Hash): options for configuring the Toolbar
-   *      - buttonSet (Array): see WysiHat.Toolbar.ButtonSets.Basic for an example
-   *      - container (String | Element): an id or DOM node of the element to 
-   *        insert the Toolbar into. It is inserted before the editor by default.
    *
    *  Creates a toolbar element above the editor. The WysiHat.Toolbar object
    *  has many helper methods to easily add buttons to the toolbar.
@@ -16,15 +13,15 @@ WysiHat.Toolbar = Class.create((function() {
    *  This toolbar class is not required for the Editor object to function.
    *  It is merely a set of helper methods to get you started and to build
    *  on top of.
+   *
+   *  The options hash accepts a few configuration options.
+   *  - buttonSet (Array): see WysiHat.Toolbar.ButtonSets.Basic for an example
+   *  - container (String | Element): an id or DOM node of the element to
+   *     insert the Toolbar into. It is inserted before the editor by default.
    **/
   function initialize(editArea, options) {
-    this.options = {
-      container: null
-    };
-    Object.extend(this.options, options || { });
-    
-    if(this.options.container) this.options.container = $(this.options.container);
-    
+	options = $H(options);
+
     this.editArea = editArea;
 
     this.hasMouseDown = false;
@@ -33,16 +30,16 @@ WysiHat.Toolbar = Class.create((function() {
     var toolbar = this;
     this.element.observe('mousedown', function(event) { toolbar.mouseDown(event); });
     this.element.observe('mouseup', function(event) { toolbar.mouseUp(event); });
-    
-    if(this.options.container) {
-      this.options.container.appendChild(this.element);
-    }
-    else {
+
+	var container = options.get('container');
+    if (container)
+      $(container).insert({after: this.element});
+    else
       this.editArea.insert({before: this.element});
-    }
-    
-    if (this.options.buttonSet)
-      this.addButtonSet(this.options.buttonSet);
+
+	var buttonSet = options.get('buttonSet');
+    if (buttonSet)
+      this.addButtonSet(buttonSet);
 
     return this;
   }
