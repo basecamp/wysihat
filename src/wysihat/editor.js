@@ -7,7 +7,7 @@ WysiHat.Editor = {
    *  Creates a new editor for the textarea.
    **/
   attach: function(textarea) {
-    var textarea = $(textarea);
+    textarea = $(textarea);
     textarea.hide();
 
     return WysiHat.Editable.create(textarea, function(editArea) {
@@ -51,8 +51,8 @@ WysiHat.Editor = {
       editArea.observe("wysihat:change", function(event) {
         event.target.save();
       });
-
+      
       editArea.focus();
     });
   }
-}
+};

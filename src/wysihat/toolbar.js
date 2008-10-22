@@ -3,8 +3,9 @@
  **/
 WysiHat.Toolbar = Class.create((function() {
   /**
-   * new WysiHat.Toolbar(editor)
+   * new WysiHat.Toolbar(editor[, options])
    *  - editor (WysiHat.Editor): the editor object that you want to attach to
+   *  - options (Hash): options for configuring the Toolbar
    *
    *  Creates a toolbar element above the editor. The WysiHat.Toolbar object
    *  has many helper methods to easily add buttons to the toolbar.
@@ -12,18 +13,43 @@ WysiHat.Toolbar = Class.create((function() {
    *  This toolbar class is not required for the Editor object to function.
    *  It is merely a set of helper methods to get you started and to build
    *  on top of.
+   *
+   *  The options hash accepts a few configuration options.
+   *  - buttonSet (Array): see WysiHat.Toolbar.ButtonSets.Basic for an example
+   *  - position (String): before, after, top, or bottom
+   *  - container (String | Element): an id or DOM node of the element to
+   *     insert the Toolbar into. It is inserted before the editor by default.
    **/
-  function initialize(editArea) {
+  function initialize(editArea, options) {
+    options = $H(options);
+
     this.editArea = editArea;
 
     this.hasMouseDown = false;
     this.element = new Element('div', { 'class': 'editor_toolbar' });
 
     var toolbar = this;
-    this.element.observe('mousedown', function(event) { toolbar.mouseDown(event); });
-    this.element.observe('mouseup', function(event) { toolbar.mouseUp(event); });
+    this.element.observe('mousedown', function(event) {
+      toolbar.mouseDown(event);
+    });
+    this.element.observe('mouseup', function(event) {
+      toolbar.mouseUp(event);
+    });
 
-    this.editArea.insert({before: this.element});
+    insertToolbar(this, options);
+
+    var buttonSet = options.get('buttonSet');
+    if (buttonSet)
+      this.addButtonSet(buttonSet);
+  }
+
+  function insertToolbar(toolbar, options) {
+    var position = options.get('position') || 'before';
+    var container = options.get('container') || toolbar.editArea;
+
+    var insertOptions = $H({});
+    insertOptions.set(position, toolbar.element);
+    $(container).insert(insertOptions.toObject());
   }
 
   /**
@@ -54,6 +80,8 @@ WysiHat.Toolbar = Class.create((function() {
       var handler = button.last();
       toolbar.addButton(options, handler);
     });
+
+    return this;
   }
 
   /**
@@ -74,13 +102,15 @@ WysiHat.Toolbar = Class.create((function() {
    *  "<a href='#' class='button bold'><span>Bold</span></a>"
    **/
   function addButton(options, handler) {
-    var options = $H(options);
+    options = $H(options);
     var button = Element('a', { 'class': 'button', 'href': '#' }).update('<span>' + options.get('label') + '</span>');
     button.addClassName(options.get('name'));
 
     this.observeButtonClick(button, handler);
     this.observeStateChanges(button, options.get('name'));
     this.element.appendChild(button);
+
+    return this;
   }
 
   /**
@@ -103,6 +133,7 @@ WysiHat.Toolbar = Class.create((function() {
       Event.stop(event);
       toolbar.hasMouseDown = false;
     });
+    return this;
   }
 
   /**
@@ -124,6 +155,7 @@ WysiHat.Toolbar = Class.create((function() {
       else
         element.removeClassName('selected');
     });
+    return this;
   }
 
   /**

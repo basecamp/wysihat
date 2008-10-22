@@ -19,6 +19,11 @@
     .editor_toolbar .selected {
       color: red !important;
     }
+
+    #error {
+      font: 18px helvetica, arial, sans-serif;
+      color: red;
+    }
   </style>
 
   <script type="text/javascript" src="../vendor/prototype.js"></script>
@@ -27,20 +32,23 @@
   <script type="text/javascript" charset="utf-8">
     Event.observe(window, 'load', function() {
       var editor = WysiHat.Editor.attach('content');
-      var toolbar = new WysiHat.Toolbar(editor);
-      toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+      new WysiHat.Toolbar(editor, {buttonSet: WysiHat.Toolbar.ButtonSets.Basic});
+
+      // Hide our error message if the editor loads fine
+      $('error').hide();
     });
   </script>
 </head>
 
 <body>
+  <p id="error">Opps, you need to build the package before running this example. Don't worry its easy, just run <code>rake</code> in the project's directory.</p>
+
   <p>This is a simple example of how easy it is to get up and running with WysiHat.</p>
 
 <code><pre>
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
-    var toolbar = new WysiHat.Toolbar(editor);
-    toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+    new WysiHat.Toolbar(editor, {buttonSet: WysiHat.Toolbar.ButtonSets.Basic});
   });
 </pre></code>
 

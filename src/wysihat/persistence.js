@@ -4,7 +4,7 @@
  *  Methods will be mixed into the editor element. These methods deal with
  *  extracting and filtering content going in and out of the editor.
  */
-WysiHat.Persistence = {
+WysiHat.Persistence = (function() {
   /**
    * WysiHat.Persistence#outputFilter(text) -> String
    *  - text (String): HTML string
@@ -13,9 +13,9 @@ WysiHat.Persistence = {
    *  text.format_html_output. This method has been extract so you can override
    *  it and provide your own custom output filter.
    */
-  outputFilter: function(text) {
+  function outputFilter(text) {
     return text.format_html_output();
-  },
+  }
 
   /**
    * WysiHat.Persistence#inputFilter(text) -> String
@@ -25,9 +25,9 @@ WysiHat.Persistence = {
    *  text.format_html_input. This method has been extract so you can override
    *  it and provide your own custom input filter.
    */
-  inputFilter: function(text) {
+  function inputFilter(text) {
     return text.format_html_input();
-  },
+  }
 
   /**
    * WysiHat.Persistence#content() -> String
@@ -41,9 +41,9 @@ WysiHat.Persistence = {
    *    return MyUtils.format_and_santize(text);
    *  };
    **/
-  content: function() {
+  function content() {
     return this.outputFilter(this.rawContent());
-  },
+  }
 
   /**
    * WysiHat.Persistence#setContent(text) -> undefined
@@ -59,34 +59,44 @@ WysiHat.Persistence = {
    *    return MyUtils.format_and_santize(text);
    *  };
    **/
-  setContent: function(text) {
+  function setContent(text) {
     this.setRawContent(this.inputFilter(text));
-  },
+  }
 
   /**
    * WysiHat.Persistence#save() -> undefined
    *  Saves editors contents back out to the textarea.
    **/
-  save: function() {
+  function save() {
     this.textarea.value = this.content();
-  },
+  }
 
   /**
    * WysiHat.Persistence#load() -> undefined
    *  Loads textarea contents into editor.
    **/
-   load: function() {
+   function load() {
      this.setContent(this.textarea.value);
-  },
+  }
 
   /**
    * WysiHat.Persistence#reload() -> undefined
    *  Saves current contents and loads contents into editor.
    **/
-  reload: function() {
+  function reload() {
     this.selection.setBookmark();
     this.save();
     this.load();
     this.selection.moveToBookmark();
   }
-}
+
+  return {
+    outputFilter: outputFilter,
+    inputFilter:  inputFilter,
+    content:      content,
+    setContent:   setContent,
+    save:         save,
+    load:         load,
+    reload:       reload
+  };
+})();

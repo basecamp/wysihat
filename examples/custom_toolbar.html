@@ -19,6 +19,11 @@
     .toolbar .selected {
       color: red !important;
     }
+
+    #error {
+      font: 18px helvetica, arial, sans-serif;
+      color: red;
+    }
   </style>
 
   <script type="text/javascript" src="../vendor/prototype.js"></script>
@@ -66,13 +71,18 @@
         else
           italic_button.removeClassName('selected');
       });
+
+      // Hide our error message if the editor loads fine
+      $('error').hide();
     });
   </script>
 </head>
 
 <body>
 
-<p>This is a more advanced example that does not use the built-in toolbar class. The code is a bit more verbose, however you have full control of the html.</p>
+  <p id="error">Opps, you need to build the package before running this example. Don't worry its easy, just run <code>rake</code> in the project's directory.</p>
+
+  <p>This is a more advanced example that does not use the built-in toolbar class. The code is a bit more verbose, however you have full control of the html.</p>
 
 <code><pre>
   Event.observe(window, 'load', function() {

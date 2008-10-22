@@ -146,9 +146,9 @@ WysiHat.Commands = {
 
     if (this.queryStateCommands.include(state))
       return document.queryCommandState(state);
-    else if (f = this['query' + state.capitalize()])
+    else if ((f = this['query' + state.capitalize()]))
       return f.bind(this).call();
     else
       return false;
   }
-}
+};
