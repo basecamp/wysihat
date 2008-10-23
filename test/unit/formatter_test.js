@@ -42,7 +42,11 @@ new Test.Unit.Runner({
         ['<p>Some <strong><u><em>bold, underlined, and italic</em></u></strong> text</p>',
          'Some <span class="Apple-style-span" style="font-weight: bold;"><span class="Apple-style-span" style="text-decoration: underline;"><span class="Apple-style-span" style="font-style: italic;">bold, underlined, and italic</span></span></span> text'],
         ['<p>Hello<br />\n </p>', '<div>Hello</div><div> <span class="Apple-style-span" style="font-weight: bold;"></span></div>'],
-        ['<p>Hello<span id="bookmark"> </span></p>', '<div>Hello<span id="bookmark"> </span></div>']
+        ['<p>Hello<span id="bookmark"> </span></p>', '<div>Hello<span id="bookmark"> </span></div>'],
+        
+        
+        ,
+        ["<p><img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\"></p>", "<img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\">"]
       ].each(function(assertion) {
         runner.assertEqual(assertion[0], assertion[1].format_html_output());
       });
@@ -67,7 +71,8 @@ new Test.Unit.Runner({
          ['<p>Some <em><strong>italic and bold</strong></em> text</p>',
            'Some <span style="font-style: italic; font-weight: bold;">italic and bold</span> text'],
          ['<p>Some <u><em><strong>bold, underline, and italic</strong></em></u> text</p>',
-            'Some <span style="font-weight: bold; text-decoration: underline; font-style: italic;">bold, underline, and italic</span> text']
+            'Some <span style="font-weight: bold; text-decoration: underline; font-style: italic;">bold, underline, and italic</span> text'],
+        ["<p><img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\"></p>", "<img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\">"]
       ].each(function(assertion) {
         runner.assertEqual(assertion[0], assertion[1].format_html_output());
       });

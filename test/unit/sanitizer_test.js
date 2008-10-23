@@ -56,5 +56,13 @@ new Test.Unit.Runner({
       "Hello<span id=\"bookmark\"> </span>",
       "Hello<span id=\"bookmark\"> </span>".sanitize({tags: ["span"], attributes: ["id"]})
     );
+    
+    runner.assertEqual(
+      "<img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\">",
+      "<img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\">".sanitize({
+        tags: ['span', 'p', 'br', 'strong', 'em', 'u', 'a', 'b', 'i', 'img'],
+        attributes: ["href", "src"]
+      })
+    );
   }
 });

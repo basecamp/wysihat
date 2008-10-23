@@ -125,9 +125,12 @@ Object.extend(String.prototype, (function() {
 
     }
 
+
+    var blank_innerHTML_OK = $A(['BR', 'IMG']);
+    
     for (var i = 0; i < element.descendants().length; i++) {
       var node = element.descendants()[i];
-      if (node.innerHTML.blank() && node.nodeName != 'BR' && node.id != 'bookmark')
+      if (node.innerHTML.blank() && !blank_innerHTML_OK.include(node.nodeName) && node.id != 'bookmark')
         node.remove();
     }
 
