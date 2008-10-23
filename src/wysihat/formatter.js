@@ -125,12 +125,12 @@ Object.extend(String.prototype, (function() {
 
     }
 
+    // TODO: This should be configurable
+    var acceptableBlankTags = $A(['BR', 'IMG']);
 
-    var blank_innerHTML_OK = $A(['BR', 'IMG']);
-    
     for (var i = 0; i < element.descendants().length; i++) {
       var node = element.descendants()[i];
-      if (node.innerHTML.blank() && !blank_innerHTML_OK.include(node.nodeName) && node.id != 'bookmark')
+      if (node.innerHTML.blank() && !acceptableBlankTags.include(node.nodeName) && node.id != 'bookmark')
         node.remove();
     }
 
