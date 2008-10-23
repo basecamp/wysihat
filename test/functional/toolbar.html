@@ -3,37 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <title>[test] WysiHat.Toolbar</title>
-
+  
+  <link rel="stylesheet" href="../test.css" type="text/css" />
+  
   <style type="text/css" media="screen">
     iframe {
-      width: 100%;
-      height: 100px;
-      border: 1px solid #999;
+      height: 500px;
+      width: 450px;
+      float: left;
     }
-
+    
     textarea {
-      width: 100%;
-      height: 100px;
+      height: 500px;
+      width: 450px;
     }
-
-    .editor_toolbar .button {
-      display: inline;
-      margin: 2px 5px;
-      padding: .1em .25em .1em .25em;
-      background-color: #ccc;
-      border-width: 1px 2px 2px 1px;
-      border-style: solid;
-      border-color: #aaa;
-      text-decoration: none;
-    }
-
-    .editor_toolbar .button:hover {
-      background-color: #aaa;
-      border-color: #555;
-    }
-
-    .editor_toolbar .selected {
-      color: red !important;
+    
+    #toolbars {
+      padding: 1em;
     }
   </style>
 
@@ -48,27 +34,93 @@
       editor = WysiHat.Editor.attach(textarea);
       var toolbar = new WysiHat.Toolbar(editor, {
         buttonSet: WysiHat.Toolbar.ButtonSets.Basic,
-        position: 'after',
-        container: 'toolbar_container'
+        position: 'bottom',
+        container: 'good_buttons'
       });
+      
+      var bad_toolbar = new WysiHat.Toolbar(editor, {
+        container: 'bad_buttons',
+        position: 'bottom'
+      });
+      
+      
+      textarea.show();
+      textarea.disable();
+      
+      var extra_buttons = $A([
+        [{ name: 'insertImage', label: "Image from selection" }, function(editor) {
+          editor.insertImage(editor.selection.getSelection());
+        }],
+        [{ name: 'insertImage', label: "Image from prompt" }, function(editor) {
+          /*
+            you could also have an ajax dialog let the user upload an image and
+            send a thumbnail url back in the response
+          */
+          var src = prompt("Enter the url of the image");
+          editor.insertImage(src);
+        }],
+        [{ name: 'strikethroughSelection', label: "strike" }, function(editor) {
+          editor.strikethroughSelection();
+        }],
+        [{ name: 'colorSelection', label: "Color" }, function(editor) {
+          editor.colorSelection(prompt("What color?"));
+        }],
+        [{ name: 'linkSelection', label: "link selection" }, function(editor) {
+          editor.linkSelection(prompt("Url?"));
+        }],
+        [{ name: 'insertOrderedList', label: "OL" }, function(editor) {
+          editor.insertOrderedList();
+        }]
+        
+      ]);
+      
+      toolbar.addButtonSet(extra_buttons);
+      
+      var bad_buttons = $A([
+        [{ name: 'blockquoteSelection', label: "Block quote" }, function(editor) {
+          editor.blockquoteSelection();
+        }]
+        
+      ]);
+      
+      bad_toolbar.addButtonSet(bad_buttons);
+      
+      
+      /*
+  insertOrderedList: function() {
+  insertUnorderedList: function() {
+      */
     });
   </script>
 </head>
 
 <body>
-  <form id="edit_note" action="#" method="post" style="width: 500px;">
-    <textarea class="editable" id="note_body">&lt;p&gt;Here is some basic text...&lt;br /&gt;
-...with a line break.&lt;/p&gt;
-
-&lt;p&gt;We want to put a paragraph...&lt;/p&gt;
-
-&lt;p&gt;...right there.&lt;/p&gt;</textarea>
-  </form>
-
-  <div id="toolbar_container">
-    <p>
-      The toolbar should be inserted right below this line
-    </p>
+  
+  <div id="toolbars" class="clear">
+      <p><strong>Working</strong></p>
+      <div id="good_buttons" class="clear"></div>
+      
+      <p><strong>Not working</strong></p>
+      <div id="bad_buttons" class="clear"></div>
   </div>
+  
+  <form id="edit_note" action="#" method="post">
+    <textarea class="editable" id="note_body">
+      Here are a few image urls. 
+      
+      Highlight this url then press the "image from selection" button
+      http://rubyonrails.com/images/rails.png
+      
+      Copy this one and click the "image from prompt" button
+      http://www.google.com/intl/en_ALL/images/logo.gif
+      
+      
+      This image is here for testing purposes. You should be able to
+      begin removing text from this without adding any first. Try
+      to delete the image below.
+      
+      <img src="http://rubyonrails.com/images/rails.png" />
+</textarea>
+  </form>
 </body>
 </html>
