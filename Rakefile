@@ -25,3 +25,33 @@ task :dist do
   output = preprocessor.output_file
   File.open(File.join(WYSIHAT_DIST_DIR, "wysihat.js"), 'w') { |f| f.write(output) }
 end
+
+desc "Builds the distribution, runs the JavaScript unit tests and collects their results."
+task :test => [:build_tests, :dist, :test_units]
+ 
+require 'test/lib/jstest'
+desc "Runs all the JavaScript unit tests and collects the results"
+JavaScriptTestTask.new(:test_units) do |t|
+  testcases        = ENV['TESTCASES']
+  tests_to_run     = ENV['TESTS']    && ENV['TESTS'].split(',')
+  browsers_to_test = ENV['BROWSERS'] && ENV['BROWSERS'].split(',')
+  
+  t.mount("/dist")
+  t.mount("/test")
+  
+  Dir["test/unit/*.html"].sort.each do |test_file|
+    tests = testcases ? { :url => "/#{test_file}", :testcases => testcases } : "/#{test_file}"
+    test_filename = test_file[/.*\/(.+?)\.html/, 1]
+    t.run(tests) unless tests_to_run && !tests_to_run.include?(test_filename)
+  end
+  
+  %w( safari firefox ie konqueror opera ).each do |browser|
+    t.browser(browser.to_sym) unless browsers_to_test && !browsers_to_test.include?(browser)
+  end
+end
+
+task :build_tests do
+  Dir["test/unit/*_test.js"].each do |test_file|
+    TestBuilder.new(test_file).render
+  end
+end
