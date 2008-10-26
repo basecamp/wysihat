@@ -54,7 +54,7 @@ WysiHat.Editor = {
       editArea.observe("wysihat:change", function(event) {
         event.target.save();
       });
-      
+
       editArea.focus();
     });
   }
