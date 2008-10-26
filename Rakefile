@@ -50,8 +50,14 @@ JavaScriptTestTask.new(:test_units) do |t|
   end
 end
 
-task :build_tests do
+task :build_tests => [:clean_test_files] do
   Dir["test/unit/*_test.js"].each do |test_file|
     TestBuilder.new(test_file).render
+  end
+end
+
+task :clean_test_files do
+  Dir["test/unit/*_test.html"].each do |test_file|
+    FileUtils.rm_rf(test_file)
   end
 end
