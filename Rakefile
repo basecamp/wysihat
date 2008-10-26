@@ -29,7 +29,7 @@ end
 desc "Builds the distribution, runs the JavaScript unit tests and collects their results."
 task :test => [:build_tests, :dist, :test_units]
 
-require 'test/lib/jstest'
+require 'vendor/jstest'
 desc "Runs all the JavaScript unit tests and collects the results"
 JavaScriptTestTask.new(:test_units) do |t|
   testcases        = ENV['TESTCASES']
