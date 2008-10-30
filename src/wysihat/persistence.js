@@ -3,7 +3,7 @@
  *
  *  Methods will be mixed into the editor element. These methods deal with
  *  extracting and filtering content going in and out of the editor.
- */
+ **/
 WysiHat.Persistence = (function() {
   /**
    * WysiHat.Persistence#outputFilter(text) -> String
@@ -12,7 +12,7 @@ WysiHat.Persistence = (function() {
    *  Use to filter content coming out of the editor. By default it calls
    *  text.format_html_output. This method has been extract so you can override
    *  it and provide your own custom output filter.
-   */
+   **/
   function outputFilter(text) {
     return text.format_html_output();
   }
@@ -24,7 +24,7 @@ WysiHat.Persistence = (function() {
    *  Use to filter content going into the editor. By default it calls
    *  text.format_html_input. This method has been extract so you can override
    *  it and provide your own custom input filter.
-   */
+   **/
   function inputFilter(text) {
     return text.format_html_input();
   }

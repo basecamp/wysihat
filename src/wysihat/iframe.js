@@ -48,7 +48,7 @@ WysiHat.iFrame.Methods = {
    *  change the font size and family of the editable text. This method also
    *  removes paragraph margins for IE and Opera so it feels you start a new
    *  line when you hit enter, not a new paragraph.
-   */
+   **/
   setStyle: function(styles) {
     var document = this.getDocument();
 
