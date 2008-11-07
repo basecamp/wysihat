@@ -1,3 +1,9 @@
+/*  WysiHat - WYSIWYG JavaScript framework, version 0.1
+ *  (c) 2008 Joshua Peek
+ *
+ *  WysiHat is freely distributable under the terms of an MIT-style license.
+ *--------------------------------------------------------------------------*/
+
 var WysiHat = {};
 
 //= require "wysihat/editor"
