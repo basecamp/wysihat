@@ -18,7 +18,7 @@ WysiHat.Editable = {
 
     return editArea;
   }
-}
+};
 
 WysiHat.Editable.Methods = {
   getDocument: function() {
@@ -36,4 +36,4 @@ WysiHat.Editable.Methods = {
   setRawContent: function(text) {
     this.innerHTML = text;
   }
-}
+};
