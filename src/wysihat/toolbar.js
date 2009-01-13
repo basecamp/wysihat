@@ -149,12 +149,15 @@ WysiHat.Toolbar = Class.create((function() {
    *  selected text was bold.
    **/
   function observeStateChanges(element, command) {
-    this.editArea.observe("wysihat:change", function(event) {
+    fun = function(event) {
       if (event.target.queryCommandState(command))
         element.addClassName('selected');
       else
         element.removeClassName('selected');
-    });
+    };
+    
+    this.editArea.observe("wysihat:change", fun);
+    this.editArea.observe("wysihat:mousemove", fun);
     return this;
   }
 
