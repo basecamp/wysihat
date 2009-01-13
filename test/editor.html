@@ -39,7 +39,7 @@
       toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
 
       editor.outputFilter = function(text) {
-        return text.format_html_output().sanitize({
+        return text.formatHTMLOutput().sanitize({
           tags: ['span', 'p', 'br', 'strong', 'em', 'u', 'a'],
           attributes: ['id', 'href']
         });

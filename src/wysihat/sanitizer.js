@@ -1,3 +1,6 @@
+/** section: lang
+ * String
+ **/
 Object.extend(String.prototype, {
   /**
    * String#sanitize([options]) -> String
@@ -5,14 +8,17 @@ Object.extend(String.prototype, {
    *
    *  Sanitizes HTML tags and attributes. Options accepts an array of
    *  allowed tags and attributes.
-   #
+   *
    *  "<a href='#'>Example</a>".sanitize({tags: ['a'], attributes: ['href']})
    **/
   sanitize: function(options) {
-    return Element("div").update(this).sanitize(options).innerHTML.tidy_xhtml();
+    return Element("div").update(this).sanitize(options).innerHTML.tidyXHTML();
   }
 });
 
+/** section: lang
+ * Element
+ **/
 Element.addMethods({
   /**
    * Element#sanitize([options]) -> Element
@@ -20,7 +26,7 @@ Element.addMethods({
    *
    *  Sanitizes element tags and attributes. Options accepts an array of
    *  allowed tags and attributes.
-   #
+   *
    *  This method is called by String#sanitize().
    **/
   sanitize: function(element, options) {

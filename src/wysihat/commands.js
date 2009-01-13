@@ -1,17 +1,17 @@
-/**
+/** section: editor
  * mixin WysiHat.Commands
  *
- *  Methods will be mixed into the editor element. Most of these
- *  methods will be used to bind to button clicks or key presses.
+ * Methods will be mixed into the editor element. Most of these
+ * methods will be used to bind to button clicks or key presses.
  *
- *  var editor = WysiHat.Editor.attach(textarea);
- *  $('bold_button').observe('click', function(event) {
- *    editor.boldSelection();
- *    Event.stop(event);
- *  });
+ * var editor = WysiHat.Editor.attach(textarea);
+ * $('bold_button').observe('click', function(event) {
+ *   editor.boldSelection();
+ *   Event.stop(event);
+ * });
  *
- *  In this example, it is important to stop the click event so you don't
- *  lose your current selection.
+ * In this example, it is important to stop the click event so you don't
+ * lose your current selection.
  **/
 WysiHat.Commands = {
   /**
@@ -56,7 +56,7 @@ WysiHat.Commands = {
 
   /**
    * WysiHat.Commands#colorSelection(color) -> undefined
-   *  - color (String): a color name or hexadecimal value
+   * - color (String): a color name or hexadecimal value
    *  Sets the foreground color of the current selection.
    **/
   colorSelection: function(color) {
@@ -65,7 +65,7 @@ WysiHat.Commands = {
 
   /**
    * WysiHat.Commands#linkSelection(url) -> undefined
-   *  - url (String): value for href
+   * - url (String): value for href
    *  Wraps the current selection in a link.
    **/
   linkSelection: function(url) {
@@ -92,7 +92,7 @@ WysiHat.Commands = {
 
   /**
    * WysiHat.Commands#insertImage(url) -> undefined
-   *  - url (String): value for src
+   * - url (String): value for src
    *  Insert an image at the insertion point with the given url.
    **/
   insertImage: function(url) {
@@ -101,7 +101,7 @@ WysiHat.Commands = {
 
   /**
    * WysiHat.Commands#insertHTML(html) -> undefined
-   *  - html (String): HTML or plain text
+   * - html (String): HTML or plain text
    *  Insert HTML at the insertion point.
    **/
   insertHTML: function(html) {
@@ -117,10 +117,10 @@ WysiHat.Commands = {
 
   /**
    * WysiHat.Commands#execCommand(command[, ui = false][, value = null]) -> undefined
-   *  - command (String): Command to execute
-   *  - ui (Boolean): Boolean flag for showing UI. Currenty this not
-   *  implemented by any browser. Just use false.
-   *  - value (String): Value to pass to command
+   * - command (String): Command to execute
+   * - ui (Boolean): Boolean flag for showing UI. Currenty this not
+   *   implemented by any browser. Just use false.
+   * - value (String): Value to pass to command
    *  A simple delegation method to the documents execCommand method.
    **/
   execCommand: function(command, ui, value) {
@@ -132,14 +132,14 @@ WysiHat.Commands = {
 
   /**
    * WysiHat.Commands#queryCommandState(state) -> Boolean
-   *  - state (String): bold, italic, underline, etc
+   * - state (String): bold, italic, underline, etc
    *  Determines whether the current selection has the given state.
    *  queryCommandState('bold') would return true if the selected text
    *  is bold.
    *
-   * You can extend this behavior by adding a custom method to the editor
-   * element, queryCustom(). However this API is not final.
-   * queryCommandState('link') would call queryLink().
+   *  You can extend this behavior by adding a custom method to the editor
+   *  element, queryCustom(). However this API is not final.
+   *  queryCommandState('link') would call queryLink().
    **/
   queryCommandState: function(state) {
     var document = this.getDocument();

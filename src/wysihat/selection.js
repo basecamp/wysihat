@@ -1,10 +1,10 @@
-/**
+/** section: editor
  * class WysiHat.Selection
  **/
 WysiHat.Selection = Class.create((function() {
   /**
-   *  new WysiHat.Selection(editor)
-   *  - editor (WysiHat.Editor): the editor object that you want to bind to
+   * new WysiHat.Selection(editor)
+   * - editor (WysiHat.Editor): the editor object that you want to bind to
    **/
   function initialize(editor) {
     this.window = editor.getWindow();

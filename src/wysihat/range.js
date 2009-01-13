@@ -1,4 +1,4 @@
-/**
+/** section: lang
  * class Range
  *
  *  *Under construction*

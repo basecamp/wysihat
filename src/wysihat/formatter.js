@@ -1,6 +1,9 @@
+/** section: lang
+ * String
+**/
 Object.extend(String.prototype, (function() {
   /**
-   * String#format_html_output() -> String
+   * String#formatHTMLOutput() -> String
    *
    *  Cleanup browser's HTML mess!
    *
@@ -14,11 +17,11 @@ Object.extend(String.prototype, (function() {
    *  create a new paragraph. This is similar to how Textile and Markdown
    *  handle whitespace.
    *
-   *  Raw browser content => String#format_html_output => Textarea
+   *  Raw browser content => String#formatHTMLOutput => Textarea
    **/
-  function format_html_output() {
+  function formatHTMLOutput() {
     var text = String(this);
-    text = text.tidy_xhtml();
+    text = text.tidyXHTML();
 
     if (Prototype.Browser.WebKit) {
       // Extra divs expand to line breaks
@@ -135,7 +138,7 @@ Object.extend(String.prototype, (function() {
     }
 
     text = element.innerHTML;
-    text = text.tidy_xhtml();
+    text = text.tidyXHTML();
 
     // Normalize whitespace after linebreaks and between paragraphs
     text = text.replace(/<br \/>(\n)*/g, "<br />\n");
@@ -151,18 +154,18 @@ Object.extend(String.prototype, (function() {
   }
 
   /**
-   * String#format_html_input() -> String
+   * String#formatHTMLInput() -> String
    *
    *  Prepares sane HTML for editing.
    *
-   *  This function preforms the reserve function of String#format_html_output. Each
+   *  This function preforms the reserve function of String#formatHTMLOutput. Each
    *  browser has difficulty editing mix formatting conventions. This restores
    *  most of the original browser specific formatting tags and some other
    *  styling conventions.
    *
-   *  Textarea => String#format_html_input => Raw content
-  **/
-  function format_html_input() {
+   *  Textarea => String#formatHTMLInput => Raw content
+   **/
+  function formatHTMLInput() {
     var text = String(this);
 
     var element = Element("body");
@@ -196,7 +199,7 @@ Object.extend(String.prototype, (function() {
       });
 
     text = element.innerHTML;
-    text = text.tidy_xhtml();
+    text = text.tidyXHTML();
 
     // Convert paragraphs into double returns
     text = text.replace(/<\/p>(\n)*<p>/g, "\n\n");
@@ -228,14 +231,14 @@ Object.extend(String.prototype, (function() {
   }
 
   /**
-   * String#tidy_xhtml() -> String
+   * String#tidyXHTML() -> String
    *
    *  Normalizes and tidies text into XHTML content.
-   *   * Strips out browser line breaks, '\r'
-   *   * Downcases tag names
-   *   * Closes line break tags
+   *  - Strips out browser line breaks, '\r'
+   *  - Downcases tag names
+   *  - Closes line break tags
    **/
-  function tidy_xhtml() {
+  function tidyXHTML() {
     var text = String(this);
 
     // Remove IE's linebreaks
@@ -257,8 +260,8 @@ Object.extend(String.prototype, (function() {
   }
 
   return {
-    format_html_output: format_html_output,
-    format_html_input:  format_html_input,
-    tidy_xhtml:         tidy_xhtml
+    formatHTMLOutput: formatHTMLOutput,
+    formatHTMLInput:  formatHTMLInput,
+    tidyXHTML:        tidyXHTML
   };
 })());

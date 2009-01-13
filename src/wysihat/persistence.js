@@ -1,4 +1,4 @@
-/**
+/** section: editor
  * mixin WysiHat.Persistence
  *
  *  Methods will be mixed into the editor element. These methods deal with
@@ -7,26 +7,26 @@
 WysiHat.Persistence = (function() {
   /**
    * WysiHat.Persistence#outputFilter(text) -> String
-   *  - text (String): HTML string
+   * - text (String): HTML string
    *
    *  Use to filter content coming out of the editor. By default it calls
-   *  text.format_html_output. This method has been extract so you can override
+   *  text.formatHTMLOutput. This method has been extract so you can override
    *  it and provide your own custom output filter.
    **/
   function outputFilter(text) {
-    return text.format_html_output();
+    return text.formatHTMLOutput();
   }
 
   /**
    * WysiHat.Persistence#inputFilter(text) -> String
-   *  - text (String): HTML string
+   * - text (String): HTML string
    *
    *  Use to filter content going into the editor. By default it calls
-   *  text.format_html_input. This method has been extract so you can override
+   *  text.formatHTMLInput. This method has been extract so you can override
    *  it and provide your own custom input filter.
    **/
   function inputFilter(text) {
-    return text.format_html_input();
+    return text.formatHTMLInput();
   }
 
   /**
@@ -35,7 +35,7 @@ WysiHat.Persistence = (function() {
    *  through outputFilter.
    *
    *  You can replace the generic outputFilter with your own function. The
-   *  default behavior is to use String#format_html_output.
+   *  default behavior is to use String#formatHTMLOutput.
    *
    *  editor.outputFilter = function(text) {
    *    return MyUtils.format_and_santize(text);
@@ -47,13 +47,13 @@ WysiHat.Persistence = (function() {
 
   /**
    * WysiHat.Persistence#setContent(text) -> undefined
-   *  - text (String): HTML string
+   * - text (String): HTML string
    *
    *  Replaces editor's entire contents with the given HTML. The contents are
    *  first passed through inputFilter.
    *
    *  You can replace the generic inputFilter with your own function. The
-   *  default behavior is to use String#format_html_input.
+   *  default behavior is to use String#formatHTMLInput.
    *
    *  editor.inputFilter = function(text) {
    *    return MyUtils.format_and_santize(text);

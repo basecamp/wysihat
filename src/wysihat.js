@@ -4,6 +4,14 @@
  *  WysiHat is freely distributable under the terms of an MIT-style license.
  *--------------------------------------------------------------------------*/
 
+/**
+ * == editor ==
+ **/
+
+/**
+ * == lang ==
+ **/
+
 var WysiHat = {};
 
 //= require "wysihat/editor"
