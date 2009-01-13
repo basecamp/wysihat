@@ -1,0 +1,3 @@
+[submodule "vendor/pdoc"]
+	path = vendor/pdoc
+	url = git://github.com/tobie/pdoc.git
