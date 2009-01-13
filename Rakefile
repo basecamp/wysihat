@@ -5,6 +5,7 @@ require 'rake/rdoctask'
 WYSIHAT_ROOT     = File.expand_path(File.dirname(__FILE__))
 WYSIHAT_SRC_DIR  = File.join(WYSIHAT_ROOT, 'src')
 WYSIHAT_DIST_DIR = File.join(WYSIHAT_ROOT, 'dist')
+WYSIHAT_DOC_DIR  = File.join(WYSIHAT_ROOT, 'doc')
 
 task :default => :dist
 
@@ -26,24 +27,23 @@ task :dist do
   File.open(File.join(WYSIHAT_DIST_DIR, "wysihat.js"), 'w') { |f| f.write(output) }
 end
 
-
-desc "Builds the documentation"
-task :build_doc do
-  require File.join(WYSIHAT_ROOT, "vendor", "pdoc", "lib", "pdoc")
-  output = File.expand_path(File.join(File.dirname(__FILE__), "output"))
-  files = Dir["#{File.expand_path(File.dirname(__FILE__))}/src/**/*.js"]
-  files << { :output => output }
-  PDoc::Runner.new(*files).run
-end
-
-desc "Empties output directory"
-task :remove_doc do
-  rm_rf Dir.glob(File.join(File.dirname(__FILE__), "output", "*"))
-end
-
 desc "Empties the output directory and builds the documentation."
-task :doc => [:remove_doc, :build_doc]
+task :doc => ["doc:clean", "doc:build"]
 
+namespace :doc do
+  desc "Builds the documentation"
+  task :build do
+    require File.join(WYSIHAT_ROOT, "vendor", "pdoc", "lib", "pdoc")
+    files = Dir["#{File.expand_path(File.dirname(__FILE__))}/src/**/*.js"]
+    files << { :output => WYSIHAT_DOC_DIR }
+    PDoc::Runner.new(*files).run
+  end
+
+  desc "Empties documentation directory"
+  task :clean do
+    rm_rf WYSIHAT_DOC_DIR
+  end
+end
 
 desc "Builds the distribution, runs the JavaScript unit tests and collects their results."
 task :test => [:build_tests, :dist, :test_units]
