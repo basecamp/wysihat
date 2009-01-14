@@ -1,6 +1,6 @@
 /** section: lang
- * String
-**/
+ * class String
+ **/
 Object.extend(String.prototype, (function() {
   /**
    * String#formatHTMLOutput() -> String
@@ -17,7 +17,7 @@ Object.extend(String.prototype, (function() {
    *  create a new paragraph. This is similar to how Textile and Markdown
    *  handle whitespace.
    *
-   *  Raw browser content => String#formatHTMLOutput => Textarea
+   *  Raw browser content => `String#formatHTMLOutput` => Textarea
    **/
   function formatHTMLOutput() {
     var text = String(this);
@@ -158,12 +158,12 @@ Object.extend(String.prototype, (function() {
    *
    *  Prepares sane HTML for editing.
    *
-   *  This function preforms the reserve function of String#formatHTMLOutput. Each
+   *  This function preforms the reserve function of `String#formatHTMLOutput`. Each
    *  browser has difficulty editing mix formatting conventions. This restores
    *  most of the original browser specific formatting tags and some other
    *  styling conventions.
    *
-   *  Textarea => String#formatHTMLInput => Raw content
+   *  Textarea => `String#formatHTMLInput` => Raw content
    **/
   function formatHTMLInput() {
     var text = String(this);
@@ -234,6 +234,7 @@ Object.extend(String.prototype, (function() {
    * String#tidyXHTML() -> String
    *
    *  Normalizes and tidies text into XHTML content.
+   *
    *  - Strips out browser line breaks, '\r'
    *  - Downcases tag names
    *  - Closes line break tags

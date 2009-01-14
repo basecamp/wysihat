@@ -1,5 +1,5 @@
 /** section: lang
- * String
+ * class String
  **/
 Object.extend(String.prototype, {
   /**
@@ -9,7 +9,10 @@ Object.extend(String.prototype, {
    *  Sanitizes HTML tags and attributes. Options accepts an array of
    *  allowed tags and attributes.
    *
-   *  "<a href='#'>Example</a>".sanitize({tags: ['a'], attributes: ['href']})
+   *  `"<a href='#'>Example</a>".sanitize({
+   *      tags: ['a'],
+   *      attributes: ['href']
+   *   })`
    **/
   sanitize: function(options) {
     return Element("div").update(this).sanitize(options).innerHTML.tidyXHTML();
@@ -17,7 +20,7 @@ Object.extend(String.prototype, {
 });
 
 /** section: lang
- * Element
+ * class Element
  **/
 Element.addMethods({
   /**
@@ -27,7 +30,7 @@ Element.addMethods({
    *  Sanitizes element tags and attributes. Options accepts an array of
    *  allowed tags and attributes.
    *
-   *  This method is called by String#sanitize().
+   *  This method is called by `String#sanitize()`.
    **/
   sanitize: function(element, options) {
     element = $(element);

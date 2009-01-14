@@ -10,6 +10,7 @@
 
 /**
  * == lang ==
+ * Language extensions.
  **/
 
 var WysiHat = {};
