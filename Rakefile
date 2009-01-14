@@ -7,6 +7,11 @@ WYSIHAT_SRC_DIR  = File.join(WYSIHAT_ROOT, 'src')
 WYSIHAT_DIST_DIR = File.join(WYSIHAT_ROOT, 'dist')
 WYSIHAT_DOC_DIR  = File.join(WYSIHAT_ROOT, 'doc')
 
+desc "Update git submodules"
+task :update_submodules do
+  system("git submodule update --init")
+end
+
 task :default => :dist
 
 desc "Builds the distribution."
@@ -32,7 +37,7 @@ task :doc => ["doc:clean", "doc:build"]
 
 namespace :doc do
   desc "Builds the documentation"
-  task :build do
+  task :build => :update_submodules do
     require File.join(WYSIHAT_ROOT, "vendor", "pdoc", "lib", "pdoc")
     files = Dir["#{File.expand_path(File.dirname(__FILE__))}/src/**/*.js"]
     files << { :output => WYSIHAT_DOC_DIR }
