@@ -42,6 +42,9 @@ the project from source. It is not required to run the code.
 
 Check out the WysiHat source with
   $ git clone git://github.com/josh/wysihat.git
+  $ cd wysihat
+  $ git submodule init
+  $ git submodule update
 
 GitHub pull requests are welcome.
 
