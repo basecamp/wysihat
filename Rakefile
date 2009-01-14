@@ -15,8 +15,8 @@ end
 task :default => :dist
 
 desc "Builds the distribution."
-task :dist do
-  require File.join(WYSIHAT_ROOT, "vendor", "sprockets")
+task :dist => :update_submodules do
+  require File.join(WYSIHAT_ROOT, "vendor", "sprockets", "lib", "sprockets")
 
   Dir.chdir(WYSIHAT_SRC_DIR)
 
