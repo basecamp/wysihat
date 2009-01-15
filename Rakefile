@@ -9,7 +9,7 @@ WYSIHAT_DOC_DIR  = File.join(WYSIHAT_ROOT, 'doc')
 
 desc "Update git submodules"
 task :update_submodules do
-  system("git submodule update --init")
+  system("git submodule update")
 end
 
 task :default => :dist
