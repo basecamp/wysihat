@@ -20,6 +20,11 @@ task :default => :dist
 
 desc "Builds the distribution."
 task :dist => :update_submodules do
+  FileUtils.mkdir_p(WYSIHAT_DIST_DIR)
+
+  prototype_js = File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "assets", "prototype.js")
+  FileUtils.cp_r(prototype_js, WYSIHAT_DIST_DIR)
+
   require File.join(WYSIHAT_ROOT, "vendor", "sprockets", "lib", "sprockets")
 
   Dir.chdir(WYSIHAT_SRC_DIR)
@@ -34,9 +39,6 @@ task :dist => :update_submodules do
 
   output = preprocessor.output_file
   File.open(File.join(WYSIHAT_DIST_DIR, "wysihat.js"), 'w') { |f| f.write(output) }
-
-  prototype_js = File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "assets", "prototype.js")
-  FileUtils.cp_r(prototype_js, WYSIHAT_DIST_DIR)
 end
 
 desc "Empties the output directory and builds the documentation."
