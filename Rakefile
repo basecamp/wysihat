@@ -34,6 +34,9 @@ task :dist => :update_submodules do
 
   output = preprocessor.output_file
   File.open(File.join(WYSIHAT_DIST_DIR, "wysihat.js"), 'w') { |f| f.write(output) }
+
+  prototype_js = File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "assets", "prototype.js")
+  FileUtils.cp_r(prototype_js, WYSIHAT_DIST_DIR)
 end
 
 desc "Empties the output directory and builds the documentation."
