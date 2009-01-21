@@ -21,7 +21,9 @@ WysiHat currently supports:
 
 == Documentation
 
-Code is documented inline with pdoc.
+Code is documented inline with PDoc (http://pdoc.org/).
+
+The generated HTML documentation can be found on the <tt>gh-pages</tt> branch or viewed online at (http://josh.github.com/wysihat/).
 
 === Examples
 
