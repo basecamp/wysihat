@@ -42,15 +42,26 @@ task :dist => :update_submodules do
 end
 
 desc "Empties the output directory and builds the documentation."
-task :doc => ['doc:clean', 'doc:build']
+task :doc => 'doc:build'
 
 namespace :doc do
   desc "Builds the documentation"
-  task :build => :update_submodules do
+  task :build => [:update_submodules, :clean] do
     require File.join(WYSIHAT_ROOT, "vendor", "pdoc", "lib", "pdoc")
     files = Dir["#{File.expand_path(File.dirname(__FILE__))}/src/**/*.js"]
     files << { :output => WYSIHAT_DOC_DIR }
     PDoc::Runner.new(*files).run
+  end
+
+  task :publish => :build do
+    Dir.chdir(WYSIHAT_DOC_DIR) do
+      system "git init"
+      system "git add ."
+      system "git commit -m \"import docs\""
+      system "git remote add origin git@github.com:josh/wysihat.git"
+      system "git checkout -b gh-pages"
+      system "git push -f origin gh-pages"
+    end
   end
 
   desc "Empties documentation directory"
