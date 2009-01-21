@@ -1,4 +1,4 @@
-/** section: editor
+/** section: wysihat
  * class WysiHat.Selection
  **/
 WysiHat.Selection = Class.create((function() {

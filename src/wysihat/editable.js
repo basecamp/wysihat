@@ -1,3 +1,7 @@
+/** section: wysihat
+ * WysiHat.Editable
+ *  includes WysiHat.Commands, WysiHat.Persistence, WysiHat.Window, WysiHat.Editable.Methods
+ **/
 WysiHat.Editable = {
   create: function(textarea, callback) {
     var editArea = new Element('div', {
@@ -20,6 +24,9 @@ WysiHat.Editable = {
   }
 };
 
+/** section: wysihat
+ * WysiHat.Editable.Methods
+ **/
 WysiHat.Editable.Methods = {
   getDocument: function() {
     return document;

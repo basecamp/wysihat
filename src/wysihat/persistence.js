@@ -1,4 +1,4 @@
-/** section: editor
+/** section: wysihat
  * mixin WysiHat.Persistence
  *
  *  Methods will be mixed into the editor element. These methods deal with

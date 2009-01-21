@@ -1,3 +1,7 @@
+/** section: wysihat
+ * WysiHat.iFrame
+ *  includes WysiHat.Commands, WysiHat.Persistence, WysiHat.Window, WysiHat.iFrame.Methods
+ **/
 WysiHat.iFrame = {
   create: function(textarea, callback) {
     var editArea = new Element('iframe', { 'id': textarea.id + '_editor', 'class': 'editor' });
@@ -15,9 +19,9 @@ WysiHat.iFrame = {
   }
 };
 
-/** section: editor
+/** section: wysihat
  * WysiHat.iFrame.Methods
-**/
+ **/
 WysiHat.iFrame.Methods = {
   attach: function(element, callback) {
     this.textarea = element;

@@ -5,14 +5,12 @@
  *--------------------------------------------------------------------------*/
 
 /**
- * == editor ==
+ * == wysihat ==
  **/
 
-/**
- * == lang ==
- * Language extensions.
+/** section: wysihat
+ * WysiHat
  **/
-
 var WysiHat = {};
 
 //= require "wysihat/editor"

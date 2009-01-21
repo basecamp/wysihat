@@ -1,4 +1,4 @@
-/** section: lang
+/** section: wysihat
  * class String
  **/
 Object.extend(String.prototype, {
@@ -19,7 +19,7 @@ Object.extend(String.prototype, {
   }
 });
 
-/** section: lang
+/** section: wysihat
  * class Element
  **/
 Element.addMethods({

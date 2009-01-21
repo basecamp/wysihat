@@ -1,4 +1,4 @@
-/** section: lang
+/** section: wysihat
  * class String
  **/
 Object.extend(String.prototype, (function() {

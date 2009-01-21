@@ -1,5 +1,8 @@
+/** section: wysihat
+ * WysiHat.Editor
+ **/
 WysiHat.Editor = {
-  /** section: editor
+  /** section: wysihat
    * WysiHat.Editor.attach(textarea) -> undefined
    * - textarea (String | Element): an id or DOM node of the textarea that
    *   you want to convert to rich text.

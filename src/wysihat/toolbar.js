@@ -1,4 +1,4 @@
-/** section: editor
+/** section: wysihat
  * class WysiHat.Toolbar
  **/
 WysiHat.Toolbar = Class.create((function() {
@@ -198,7 +198,7 @@ WysiHat.Toolbar = Class.create((function() {
 
 WysiHat.Toolbar.ButtonSets = {};
 
-/** section: editor
+/** section: wysihat
  * WysiHat.Toolbar.ButtonSets.Basic = $A([
  *    [{ name: 'bold', label: "Bold" }, function(editor) {
  *      editor.boldSelection();

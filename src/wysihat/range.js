@@ -1,4 +1,4 @@
-/** section: lang
+/** section: wysihat
  * class Range
  *
  *  *Under construction*
