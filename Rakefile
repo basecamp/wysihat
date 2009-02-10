@@ -27,18 +27,13 @@ task :dist => :update_submodules do
 
   require File.join(WYSIHAT_ROOT, "vendor", "sprockets", "lib", "sprockets")
 
-  Dir.chdir(WYSIHAT_SRC_DIR)
-
-  environment  = Sprockets::Environment.new(".")
-  preprocessor = Sprockets::Preprocessor.new(environment)
-
-  %w(wysihat.js).each do |filename|
-    pathname = environment.find(filename)
-    preprocessor.require(pathname.source_file)
-  end
-
-  output = preprocessor.output_file
-  File.open(File.join(WYSIHAT_DIST_DIR, "wysihat.js"), 'w') { |f| f.write(output) }
+  secretary = Sprockets::Secretary.new(
+    :load_path    => WYSIHAT_SRC_DIR,
+    :source_files => "wysihat.js",
+    :expand_paths => false
+  )
+  concatenation = secretary.concatenation
+  concatenation.save_to(File.join(WYSIHAT_DIST_DIR, "wysihat.js"))
 end
 
 desc "Empties the output directory and builds the documentation."
