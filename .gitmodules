@@ -1,6 +1,9 @@
 [submodule "pdoc"]
 	path = vendor/pdoc
 	url = git://github.com/tobie/pdoc.git
+[submodule "prototype"]
+	path = vendor/prototype
+	url = git://github.com/sstephenson/prototype.git
 [submodule "sprockets"]
 	path = vendor/sprockets
 	url = git://github.com/sstephenson/sprockets.git

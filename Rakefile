@@ -19,21 +19,39 @@ end
 task :default => :dist
 
 desc "Builds the distribution."
-task :dist => :update_submodules do
-  FileUtils.mkdir_p(WYSIHAT_DIST_DIR)
+task :dist => ["sprocketize:prototype", "sprocketize:wysihat"]
 
-  prototype_js = File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "assets", "prototype.js")
-  FileUtils.cp_r(prototype_js, WYSIHAT_DIST_DIR)
+namespace :sprocketize do
+  task :dist_dir do
+    FileUtils.mkdir_p(WYSIHAT_DIST_DIR)
+  end
 
-  require File.join(WYSIHAT_ROOT, "vendor", "sprockets", "lib", "sprockets")
+  task :wysihat => [:update_submodules, :dist_dir] do
+    require File.join(WYSIHAT_ROOT, "vendor", "sprockets", "lib", "sprockets")
 
-  secretary = Sprockets::Secretary.new(
-    :load_path    => WYSIHAT_SRC_DIR,
-    :source_files => "wysihat.js",
-    :expand_paths => false
-  )
-  concatenation = secretary.concatenation
-  concatenation.save_to(File.join(WYSIHAT_DIST_DIR, "wysihat.js"))
+    secretary = Sprockets::Secretary.new(
+      :root         => File.join(WYSIHAT_ROOT, "src"),
+      :load_path    => [WYSIHAT_SRC_DIR],
+      :source_files => ["wysihat.js"]
+    )
+
+    secretary.concatenation.save_to(File.join(WYSIHAT_DIST_DIR, "wysihat.js"))
+  end
+
+  task :prototype => [:update_submodules, :dist_dir] do
+    require File.join(WYSIHAT_ROOT, "vendor", "sprockets", "lib", "sprockets")
+
+    prototype_root    = File.join(WYSIHAT_ROOT, "vendor", "prototype")
+    prototype_src_dir = File.join(prototype_root, 'src')
+
+    secretary = Sprockets::Secretary.new(
+      :root         => File.join(prototype_root, "src"),
+      :load_path    => [prototype_src_dir],
+      :source_files => ["prototype.js"]
+    )
+
+    secretary.concatenation.save_to(File.join(WYSIHAT_DIST_DIR, "prototype.js"))
+  end
 end
 
 desc "Empties the output directory and builds the documentation."
