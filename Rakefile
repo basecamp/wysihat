@@ -84,9 +84,33 @@ namespace :doc do
 end
 
 desc "Builds the distribution, runs the JavaScript unit tests and collects their results."
-task :test => ['test:build']
+task :test => ['test:build', 'test:run']
 
 namespace :test do
+  task :run do
+    testcases        = ENV['TESTCASES']
+    browsers_to_test = ENV['BROWSERS'] && ENV['BROWSERS'].split(',')
+    tests_to_run     = ENV['TESTS'] && ENV['TESTS'].split(',')
+    runner           = UnittestJS::WEBrickRunner::Runner.new(:test_dir => WYSIHAT_TMP_DIR)
+
+    Dir[File.join(WYSIHAT_TMP_DIR, '*_test.html')].each do |file|
+      file = File.basename(file)
+      test = file.sub('_test.html', '')
+      unless tests_to_run && !tests_to_run.include?(test)
+        runner.add_test(file, testcases)
+      end
+    end
+
+    UnittestJS::Browser::SUPPORTED.each do |browser|
+      unless browsers_to_test && !browsers_to_test.include?(browser)
+        runner.add_browser(browser.to_sym)
+      end
+    end
+
+    trap('INT') { runner.teardown; exit }
+    runner.run
+  end
+
   task :build => [:clean, :dist] do
     require File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "lib", "unittest_js")
     builder = UnittestJS::Builder::SuiteBuilder.new({
