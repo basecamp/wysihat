@@ -21,6 +21,11 @@ task :default => :dist
 desc "Builds the distribution."
 task :dist => ["sprocketize:prototype", "sprocketize:wysihat"]
 
+task :watch do
+  ENV['WATCH'] = "1"
+  Rake::Task["sprocketize:wysihat"].invoke
+end
+
 namespace :sprocketize do
   task :dist_dir do
     FileUtils.mkdir_p(WYSIHAT_DIST_DIR)
@@ -28,6 +33,7 @@ namespace :sprocketize do
 
   task :wysihat => [:update_submodules, :dist_dir] do
     require File.join(WYSIHAT_ROOT, "vendor", "sprockets", "lib", "sprockets")
+    require File.join(WYSIHAT_ROOT, "vendor", "sprockwatch", "lib", "sprockwatch")
 
     secretary = Sprockets::Secretary.new(
       :root         => File.join(WYSIHAT_ROOT, "src"),
@@ -35,7 +41,11 @@ namespace :sprocketize do
       :source_files => ["wysihat.js"]
     )
 
-    secretary.concatenation.save_to(File.join(WYSIHAT_DIST_DIR, "wysihat.js"))
+    save = lambda {
+      secretary.concatenation.save_to(File.join(WYSIHAT_DIST_DIR, "wysihat.js"))
+    }
+
+    ENV['WATCH'] ? secretary.watch!(&save) : save.call
   end
 
   task :prototype => [:update_submodules, :dist_dir] do
