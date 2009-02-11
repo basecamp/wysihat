@@ -31,7 +31,7 @@ Several examples can be found under <tt>examples/</tt> to get you started.
 
 === Downloading
 
-Tagged releases will be posted on the GitHub wiki (http://github.com/josh/wysihat/wikis/download).
+Tagged releases will be posted on the GitHub downloads section (http://github.com/josh/wysihat/downloads).
 
 === Building from source
 
