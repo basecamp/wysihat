@@ -62,7 +62,7 @@
   <h1>WysiHat functional tests for the Selection class</h1>
 
   <form action="#" method="post" style="width: 500px;">
-    <textarea id="content"><strong>Lorem ipsum</strong> dolor sit amet, <em>consectetuer</em> adipiscing elit.</textarea>
+    <textarea id="content"><strong>Lorem ipsum</strong> dolor sit amet, <em>consectetuer</em> adipiscing elit.<br/><br/><img src="http://37signals.com/images/logo-37signals.png" /></textarea>
   </form>
 
   <div id="log">log empty</div>
@@ -151,6 +151,39 @@
         } else {
           testElem.failed('Fail');
         }
+      }
+    });
+  </script>
+
+  <!-- 
+    If a selection contains segments WITH and WITHOUT a style - like
+    italic and not italic segments - then it should be considered not to have
+    that style. 
+  -->
+  <p id="testSelectionState">
+    testSelectionState: select the entire first line, 
+    then <a href="#">click here</a>
+  </p>
+  <script type="text/javascript">
+    $('testSelectionState').down('a').observe('click', function (e) {
+      if (!editor.queryCommandState('italic')) {
+        $('testSelectionState').passed('Pass');
+      } else {
+        $('testSelectionState').failed('Fail');
+      }
+    });
+  </script>
+
+  <p id="testSelectImage">
+    testSelectImage: click on the image, 
+    then <a href="#">click here</a>
+  </p>
+  <script type="text/javascript">
+    $('testSelectImage').down('a').observe('click', function (e) {
+      if (editor.selection.getNode().tagName.toLowerCase() == 'img') {
+        $('testSelectImage').passed('Pass');
+      } else {
+        $('testSelectImage').failed('Fail')
       }
     });
   </script>
