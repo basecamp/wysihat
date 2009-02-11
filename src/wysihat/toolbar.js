@@ -156,8 +156,7 @@ WysiHat.Toolbar = Class.create((function() {
         element.removeClassName('selected');
     };
     
-    this.editArea.observe("wysihat:change", fun);
-    this.editArea.observe("wysihat:mousemove", fun);
+    this.editArea.observe("wysihat:cursormove", fun);
     return this;
   }
 

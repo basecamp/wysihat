@@ -58,6 +58,19 @@ WysiHat.Editor = {
         event.target.save();
       });
 
+
+      // Fire the cursormove event if selection has changed due to some event
+      fun = function (event) {
+        var rg = editArea.selection.getRange();
+        if (editArea.lastRange != rg) {
+          editArea.fire("wysihat:cursormove");
+          editArea.lastRange = rg;
+        }
+      }
+      editArea.observe("wysihat:change", fun);
+      editArea.observe("wysihat:mouseup", fun);
+      editArea.observe("wysihat:mousemove", fun);
+
       // Firefox starts "locked"
       // Insert a character bogus character and undo
       if (Prototype.Browser.Gecko) {

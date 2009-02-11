@@ -135,5 +135,25 @@
       Event.stop(e);
     });
   </script>
+
+  <p id="testCursorMove">testCursorMove: click here, click in the text, and click here again</p>
+  <script type="text/javascript">
+    testElem = $('testCursorMove');
+    testElem.observe('click', function (e) {
+      if (!testElem.testRunning) {
+        testElem.testRunning = true;
+        testElem.fn = function (e) { testElem.testEventRecorded = "true"; }
+        Event.observe(editor, 'wysihat:cursormove', testElem.fn);
+      } else {
+        Event.stopObserving(editor, 'wysihat:cursormove', testElem.fn);
+        if (testElem.testEventRecorded) {
+          testElem.passed('Pass');
+        } else {
+          testElem.failed('Fail');
+        }
+      }
+    });
+  </script>
+
 </body>
 </html>
