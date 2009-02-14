@@ -47,14 +47,14 @@
       },
 
       /* Overriding default behavior to add buttons inside <li> tags.
-       *  If buttonSpec has a "build" method, this will be called -- a 
-       *  HTML element is expected in the return value. The build method must 
-       *  tell the editor when to invoke the action, and can set up an event 
+       *  If buttonSpec has a "build" method, this will be called -- a
+       *  HTML element is expected in the return value. The build method must
+       *  tell the editor when to invoke the action, and can set up an event
        *  whereby the state of the widget is updated.
        */
       addButton: function (buttonSpec) {
         this.editArea.registerAction(buttonSpec.action);
-        var button = Object.isFunction(buttonSpec.build) ? 
+        var button = Object.isFunction(buttonSpec.build) ?
           buttonSpec.build(this) :
           this.buildButtonElement(buttonSpec);
 
@@ -68,7 +68,7 @@
 
     /* ... AND DEFINE SOME CUSTOM ACTIONS ... */
     Advanced.Actions = {};
-    
+
     // An action to add or remove anchor tags.
     Advanced.Actions.Link = {
       name: 'link',
@@ -83,7 +83,7 @@
             editor.linkSelection(value);
         }
       },
-      query: function(editor) { 
+      query: function(editor) {
         var node = editor.selection.getNode();
         return node ? node.tagName == 'A' : false;
       }
@@ -129,7 +129,7 @@
 
         // invoke the action when the select value changes.
         this.ui.observe(
-          'change', 
+          'change',
           function (event) { editor.invokeAction('styles', event.target.value) }
         )
 
@@ -137,7 +137,7 @@
         ui = this.ui;
         editor.observe(
           'wysihat:state:styles',
-          function (event) { 
+          function (event) {
             ui.select('option').each(function (opt) { opt.selected = null; });
             var o;
             if (event.memo.state) {

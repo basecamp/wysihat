@@ -3,7 +3,7 @@
  *
  *  Actions are the objects that define how users can modify the contents of
  *  the editor. An action has two required properties:
- *  
+ *
  *  * name - the unique identifier of this action, used for invocation and
  *      in event names for this action.
  *  * handler - the function that modifies the editor. Its first argument is
@@ -16,7 +16,7 @@
  *
  *  The following optional properties are also recognised for actions:
  *
- *  * query - a function that takes the editor as its argument, and 
+ *  * query - a function that takes the editor as its argument, and
  *      returns true if this action has been applied to the current
  *      selection. It can also return some positive value other than true, if
  *      the action can have multiple valid states.
@@ -34,29 +34,29 @@ WysiHat.Actions = {}
 WysiHat.Actions.Methods = {
   /**
    * WysiHat.Action.Methods#registerAction(actionClass) -> Object
-   * - actionClass (Class): a class that, when instantiated, responds to 
+   * - actionClass (Class): a class that, when instantiated, responds to
    *     'name' and 'handler'
    *
-   *  Instantiates and registers the action with the editor, so that the 
-   *  editor can iterate over all the actions available to modify its 
-   *  contents. If the action has a function for its 'query' property, 
-   *  this is hooked up so that when the cursor moves, the function is 
-   *  called -- if it returns a different result to previous results, 
+   *  Instantiates and registers the action with the editor, so that the
+   *  editor can iterate over all the actions available to modify its
+   *  contents. If the action has a function for its 'query' property,
+   *  this is hooked up so that when the cursor moves, the function is
+   *  called -- if it returns a different result to previous results,
    *  a "wysihat:state:<actionname>"  event is fired.
    *
    *  For example, if you have a 'bold' action and you move the cursor
    *  _into_ or _out of_ a bolded section of text, the "wysihat:state:bold"
    *  event will fire. If you subscribe to this event, you can look at the
-   *  action's state to see how it has changed (this is available as 
+   *  action's state to see how it has changed (this is available as
    *  event.memo.state).
    **/
   registerAction: function (action) {
     /* Validate the action -- it should have a name and a handler function. */
-    if (!Object.isString(action.name)) { 
-      throw new Error("Action name not a string"); 
+    if (!Object.isString(action.name)) {
+      throw new Error("Action name not a string");
     }
-    if (!Object.isFunction(action.handler)) { 
-      throw new Error("Action handler not a function"); 
+    if (!Object.isFunction(action.handler)) {
+      throw new Error("Action handler not a function");
     }
 
     // FIXME: is there a nicer way to initialize properties in a mixin?
@@ -74,13 +74,13 @@ WysiHat.Actions.Methods = {
     var editor = this;
     if (Object.isFunction(action.query)) {
       editor.observe(
-        'wysihat:cursormove', 
+        'wysihat:cursormove',
         function (event) {
           var result = action.query(editor);
           if (result == editor.states[action.name]) { return; }
           editor.states[action.name] = result;
           this.fire(
-            "wysihat:state:"+action.name, 
+            "wysihat:state:"+action.name,
             {action: action, state: result}
           );
         }
@@ -116,7 +116,7 @@ WysiHat.Actions.Methods = {
       result = action.handler.apply(action, data);
       this.fire("wysihat:change");
       this.focus();
-    } 
+    }
     return result;
   }
 }

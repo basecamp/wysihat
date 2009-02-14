@@ -43,7 +43,7 @@
             editor.linkSelection(value);
         }
       },
-      query: function(editor) { 
+      query: function(editor) {
         var node = editor.selection.getNode();
         return node ? node.tagName == 'A' : false;
       }
@@ -79,7 +79,7 @@
           editor.linkSelection(value);
       }
     },
-    query: function(editor) { 
+    query: function(editor) {
       var node = editor.selection.getNode();
       return node ? node.tagName == 'A' : false;
     }
