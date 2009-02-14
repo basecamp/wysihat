@@ -27,7 +27,7 @@ WysiHat.Commands = {
    *  Check if current selection is bold or strong.
    **/
   boldSelected: function() {
-    this.queryCommandState('bold');
+    return this.queryCommandState('bold');
   },
 
   /**
@@ -43,7 +43,7 @@ WysiHat.Commands = {
    *  Check if current selection is underlined.
    **/
   underlineSelected: function() {
-    this.queryCommandState('underline');
+    return this.queryCommandState('underline');
   },
 
   /**
@@ -59,7 +59,7 @@ WysiHat.Commands = {
    *  Check if current selection is italic or emphasized.
    **/
   italicSelected: function() {
-    this.queryCommandState('italic');
+    return this.queryCommandState('italic');
   },
 
   /**
