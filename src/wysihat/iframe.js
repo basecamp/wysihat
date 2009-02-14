@@ -10,6 +10,7 @@ WysiHat.iFrame = {
     Object.extend(editArea, WysiHat.Persistence);
     Object.extend(editArea, WysiHat.Window);
     Object.extend(editArea, WysiHat.iFrame.Methods);
+    Object.extend(editArea, WysiHat.Actions.Methods);
 
     editArea.attach(textarea, callback);
 

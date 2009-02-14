@@ -25,16 +25,7 @@ WysiHat.Toolbar = Class.create((function() {
 
     this.editArea = editArea;
 
-    this.hasMouseDown = false;
     this.element = new Element('div', { 'class': 'editor_toolbar' });
-
-    var toolbar = this;
-    this.element.observe('mousedown', function(event) {
-      toolbar.mouseDown(event);
-    });
-    this.element.observe('mouseup', function(event) {
-      toolbar.mouseUp(event);
-    });
 
     insertToolbar(this, options);
 
@@ -55,177 +46,120 @@ WysiHat.Toolbar = Class.create((function() {
   /**
    * WysiHat.Toolbar#addButtonSet(set) -> undefined
    * - set (Array): The set array contains nested arrays that hold the
-   *   button options, and handler.
+   *   button specifications.
    *
    *  Adds a button set to the toolbar.
    *
    *  WysiHat.Toolbar.ButtonSets.Basic is a built in button set,
    *  that looks like:
    *  [
-   *    [{ name: 'bold', label: "Bold" }, function(editor) {
-   *      editor.boldSelection();
-   *    }],
-   *    [{ name: 'underline', label: "Underline" }, function(editor) {
-   *      editor.underlineSelection();
-   *    }],
-   *    [{ name: 'italic', label: "Italic" }, function(editor) {
-   *      editor.italicSelection();
-   *    }]
+   *    { label: 'Bold', action: WysiHat.Actions.Bold },
+   *    { label: 'Underline', action: WysiHat.Actions.Underline },
+   *    { label: 'Italic', action: WysiHat.Actions.Italic }
    *  ]
    **/
   function addButtonSet(set) {
     var toolbar = this;
-    $A(set).each(function(button) {
-      var options = button.first();
-      var handler = button.last();
-      toolbar.addButton(options, handler);
+    $A(set).each(function(buttonSpec){
+      toolbar.addButton(buttonSpec);
     });
 
     return this;
   }
 
   /**
-   * WysiHat.Toolbar#addButton(options, handler) -> undefined
-   * - options (Hash): Required options hash
-   * - handler (Function): Function to bind to the button
+   * WysiHat.Toolbar#addButton(buttonSpec) -> undefined
+   * - buttonSpec (Object): Required object or hash
    *
-   *  The options hash accepts two required keys, name and label. The label
-   *  value is used as the link's inner text. The name value is set to the
-   *  link's class and is used to check the button state.
+   *  The buttonSpec must respond to "action", which should be a WysiHat.Action.
+   *  It should also have a "label" string property, which is used as the
+   *  button link's inner text.
    *
-   *  toolbar.addButton({
-   *    name: 'bold', label: "Bold" }, function(editor) {
-   *      editor.boldSelection();
-   *  });
+   *  toolbar.addButton({ label: "Bold", action: WysiHat.Actions.Bold });
    *
    *  Would create a link,
    *  "<a href='#' class='button bold'><span>Bold</span></a>"
    **/
-  function addButton(options, handler) {
-    options = $H(options);
-    var button = Element('a', { 'class': 'button', 'href': '#' }).update('<span>' + options.get('label') + '</span>');
-    button.addClassName(options.get('name'));
-
-    this.observeButtonClick(button, handler);
-    this.observeStateChanges(button, options.get('name'));
+  function addButton(buttonSpec) {
+    this.editArea.registerAction(buttonSpec.action);
+    var button = this.buildButtonElement(buttonSpec);
     this.element.appendChild(button);
-
     return this;
   }
 
   /**
-   * WysiHat.Toolbar#observeButtonClick(element, handler) -> undefined
-   * - element (String | Element): Element to bind handler to
-   * - handler (Function): Function to bind to the element
-   *   fires wysihat:change
+   * WysiHat.Toolbar#buildButtonElement(buttonSpec) -> Object
+   * - buttonSpec (Object): Required object or hash
    *
-   *  In addition to binding the given handler to the element, this observe
-   *  function also sets up a few more events. When the elements onclick is
-   *  fired, the toolbars hasMouseDown property will be set to true and
-   *  back to false on exit.
+   *  Simply generates the HTML element (a link, containing a span for the
+   *  label), and sets up the events whereby its action is invoked and its 
+   *  display state is updated.
+   * 
+   *  Override this method in a subclass of WysiHat.Toolbar to build more 
+   *  complex buttons and toolbar widgets.
    **/
-  function observeButtonClick(element, handler) {
+  function buildButtonElement(buttonSpec) {
     var toolbar = this;
-    $(element).observe('click', function(event) {
-      toolbar.hasMouseDown = true;
-      handler(toolbar.editArea);
-      toolbar.editArea.fire("wysihat:change");
-      Event.stop(event);
-      toolbar.hasMouseDown = false;
-    });
-    return this;
-  }
 
-  /**
-   * WysiHat.Toolbar#observeStateChanges(element, command) -> undefined
-   * - element (String | Element): Element to receive changes
-   * - command (String): Name of editor command to observe
-   *
-   *  Adds the class "selected" to the given Element when the selected text
-   *  matches the command.
-   *
-   *  toolbar.observeStateChanges(buttonElement, 'bold')
-   *  would add the class "selected" to the buttonElement when the editor's
-   *  selected text was bold.
-   **/
-  function observeStateChanges(element, command) {
-    fun = function(event) {
-      if (event.target.queryCommandState(command))
-        element.addClassName('selected');
-      else
-        element.removeClassName('selected');
-    };
-    
-    this.editArea.observe("wysihat:cursormove", fun);
-    return this;
-  }
+    // create the HTML element
+    var btn = Element(
+      'a', 
+      {"class": "button button" + buttonSpec.label, "href": "#"}
+    );
+    btn.update('<span>' + buttonSpec.label + '</span>');
 
-  /**
-   * WysiHat.Toolbar#mouseDown(event) -> undefined
-   * - event (Event)
-   *  This function is triggered when the user clicks their mouse down on
-   *  the toolbar element. For now, it only updates the hasMouseDown property
-   *  to true.
-   **/
-  function mouseDown(event) {
-    this.hasMouseDown = true;
-  }
+    // invoke the action when the button is clicked
+    btn.observe(
+      'click', 
+      function (event) { 
+        toolbar.editArea.invokeAction(buttonSpec.action.name);
+        Event.stop(event);
+      }
+    );
 
-  /**
-   * WysiHat.Toolbar#mouseDown(event) -> undefined
-   * - event (Event)
-   *  This function is triggered when the user releases their mouse from
-   *  the toolbar element. It resets the hasMouseDown property back to false
-   *  and refocuses on the editing window.
-   **/
-  function mouseUp(event) {
-    // refocus the editing area
-    this.editArea.focus();
-    this.hasMouseDown = false;
+    // set or remove the 'selected' class on the element when state changes
+    toolbar.editArea.observe(
+      'wysihat:state:'+buttonSpec.action.name,
+      function (event) {
+        if (event.memo.state) {
+          btn.addClassName('selected');
+        } else {
+          btn.removeClassName('selected');
+        }
+      }
+    );
+
+    return btn;
   }
 
   return {
     initialize:          initialize,
     addButtonSet:        addButtonSet,
     addButton:           addButton,
-    observeButtonClick:  observeButtonClick,
-    observeStateChanges: observeStateChanges,
-    mouseDown:           mouseDown,
-    mouseUp:             mouseUp
+    buildButtonElement:  buildButtonElement
   };
 })());
 
+/** section: wysihat
+ * WysiHat.Toolbar.ButtonSets
+ *
+ * A namespace for various sets of Toolbar buttons. These sets should be
+ *  compatible with WysiHat.Toolbar, and can be added to the toolbar with:
+ *  toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+ **/
 WysiHat.Toolbar.ButtonSets = {};
 
 /** section: wysihat
  * WysiHat.Toolbar.ButtonSets.Basic = $A([
- *    [{ name: 'bold', label: "Bold" }, function(editor) {
- *      editor.boldSelection();
- *    }],
+ *   { label: 'Bold', action: WysiHat.Actions.Bold },
+ *   { label: 'Underline', action: WysiHat.Actions.Underline },
+ *   { label: 'Italic', action: WysiHat.Actions.Italic }
+ * ]);
  *
- *    [{ name: 'underline', label: "Underline" }, function(editor) {
- *      editor.underlineSelection();
- *    }],
- *
- *    [{ name: 'italic', label: "Italic" }, function(editor) {
- *      editor.italicSelection();
- *    }]
- *  ])
- *
- *  A basic set of buttons: bold, underline, and italic. This set is
- *  compatible with WysiHat.Toolbar, and can be added to the toolbar with:
- *  toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+ *  A basic set of buttons: bold, underline, and italic.  
  **/
 WysiHat.Toolbar.ButtonSets.Basic = $A([
-  [{ name: 'bold', label: "Bold" }, function(editor) {
-    editor.boldSelection();
-  }],
-
-  [{ name: 'underline', label: "Underline" }, function(editor) {
-    editor.underlineSelection();
-  }],
-
-  [{ name: 'italic', label: "Italic" }, function(editor) {
-    editor.italicSelection();
-  }]
+  { label: 'Bold', action: WysiHat.Actions.Bold },
+  { label: 'Underline', action: WysiHat.Actions.Underline },
+  { label: 'Italic', action: WysiHat.Actions.Italic }
 ]);

@@ -28,4 +28,5 @@ var WysiHat = {};
 //= require "wysihat/range"
 //= require "wysihat/selection"
 
+//= require "wysihat/actions"
 //= require "wysihat/toolbar"

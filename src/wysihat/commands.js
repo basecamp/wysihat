@@ -128,27 +128,14 @@ WysiHat.Commands = {
     document.execCommand(command, ui, value);
   },
 
-  queryStateCommands: $A(['bold', 'italic', 'underline', 'strikethrough']),
-
   /**
    * WysiHat.Commands#queryCommandState(state) -> Boolean
    * - state (String): bold, italic, underline, etc
-   *  Determines whether the current selection has the given state.
-   *  queryCommandState('bold') would return true if the selected text
-   *  is bold.
    *
-   *  You can extend this behavior by adding a custom method to the editor
-   *  element, queryCustom(). However this API is not final.
-   *  queryCommandState('link') would call queryLink().
+   *  A simple delegation method to the document's queryCommandState method.
    **/
   queryCommandState: function(state) {
     var document = this.getDocument();
-
-    if (this.queryStateCommands.include(state))
-      return document.queryCommandState(state);
-    else if ((f = this['query' + state.capitalize()]))
-      return f.bind(this).call();
-    else
-      return false;
+    return document.queryCommandState(state);
   }
 };
