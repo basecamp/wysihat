@@ -34,20 +34,18 @@
       var editor = WysiHat.Editor.attach('content');
       var toolbar = new WysiHat.Toolbar(editor);
 
-      toolbar.addButton(
-        { name: 'bold', label: "Bold" }, function(editor) {
-        editor.boldSelection();
-      });
-      
-      toolbar.addButton(
-        { name: 'underline', label: "Underline" }, function(editor) {
-        editor.underlineSelection();
-      });
-      
-      toolbar.addButton(
-        { name: 'italic', label: "Italic" }, function(editor) {
-        editor.italicSelection();
-      });
+      // Adding a button for a predefined action.
+      toolbar.addButton({label: "Strong", action: WysiHat.Actions.Bold});
+
+      // Defining a new action...
+      var strikeAction = {
+        name: 'strikethrough',
+        handler: function (ed) { ed.strikethroughSelection() },
+        query: function (ed) { return ed.queryCommandState('strikethrough'); }
+      }
+
+      // ...and adding a button for it.
+      toolbar.addButton({label: "Strike", action: strikeAction});
 
       // Hide our error message if the editor loads fine
       $('error').hide();
@@ -56,38 +54,35 @@
 </head>
 
 <body>
-  <p id="error">Opps, you need to build the package before running this example. Don't worry its easy, just run <code>rake</code> in the project's directory.</p>
+  <p id="error">Oops, you need to build the package before running this example. It's easy: just run <code>rake</code> in the project's directory.</p>
 
-  <p>This examples shows how to add custom buttons and behavior with the built-in toolbar class.</p>
+  <p>This examples shows how to add custom buttons and actions with the built-in toolbar class.</p>
 
 <code><pre>
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
     var toolbar = new WysiHat.Toolbar(editor);
 
-    toolbar.addButton(
-      { name: 'bold', label: "Bold" }, function(editor) {
-        editor.boldSelection();
-    });
+    // Adding a button for a predefined action.
+    toolbar.addButton({label: "Strong", action: WysiHat.Actions.Bold});
 
-    toolbar.addButton(
-      { name: 'underline', label: "Underline" }, function(editor) {
-        editor.underlineSelection();
-    });
+    // Defining a new action...
+    var strikeAction = {
+      name: 'strikethrough',
+      handler: function (ed) { ed.strikethroughSelection() },
+      query: function (ed) { return ed.queryCommandState('strikethrough'); }
+    }
 
-    toolbar.addButton(
-      { name: 'italic', label: "Italic" }, function(editor) {
-        editor.italicSelection();
-    });
+    // ...and adding a button for it.
+    toolbar.addButton({label: "Strike", action: strikeAction});
   });
 </pre></code>
 
   <form action="#" method="post" style="width: 500px;">
     <!-- This HTML will be automatically generated for you by the toolbar class
     <div class="editor_toolbar">
-      <a class="button bold" href="#"><span>Bold</span></a>
-      <a class="button underline" href="#"><span>Underline</span></a>
-      <a class="button italic" href="#"><span>Italic</span></a>
+      <a class="button buttonStrong" href="#"><span>Strong</span></a>
+      <a class="button buttonStrikethrough" href="#"><span>Strikethrough</span></a>
     </div>
     <iframe id="content_editor" style="display: none;"> -->
     <textarea id="content"></textarea>

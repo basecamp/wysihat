@@ -30,21 +30,21 @@
   <script type="text/javascript" src="../dist/wysihat.js"></script>
 
   <script type="text/javascript" charset="utf-8">
-    var LinkSelection = {
-      promptLinkSelection: function() {
-        var node = this.selection.getNode();
+    var linkAction = {
+      name: 'link',
+      handler: function (editor) {
+        var node = editor.selection.getNode();
         if (node.tagName == 'A') {
           if (confirm("Remove link?"))
-            this.execCommand('unlink');
+            editor.execCommand('unlink');
         } else {
           var value = prompt("Enter a URL", "http://www.google.com/");
           if (value)
-            this.linkSelection(value);
+            editor.linkSelection(value);
         }
       },
-
-      queryLink: function() {
-        var node = this.selection.getNode();
+      query: function(editor) { 
+        var node = editor.selection.getNode();
         return node ? node.tagName == 'A' : false;
       }
     }
@@ -52,13 +52,7 @@
     Event.observe(window, 'load', function() {
       var editor = WysiHat.Editor.attach('content');
       var toolbar = new WysiHat.Toolbar(editor);
-
-      Object.extend(editor, LinkSelection);
-
-      toolbar.addButton(
-        { name: 'link', label: "Link" }, function(editor) {
-          editor.promptLinkSelection();
-      });
+      toolbar.addButton({label: "Link", action: linkAction});
 
       // Hide our error message if the editor loads fine
       $('error').hide();
@@ -67,26 +61,26 @@
 </head>
 
 <body>
-  <p id="error">Opps, you need to build the package before running this example. Don't worry its easy, just run <code>rake</code> in the project's directory.</p>
+  <p id="error">Oops, you need to build the package before running this example. It's easy: just run <code>rake</code> in the project's directory.</p>
 
   <p>This example shows you how to create a simple UI for linking and unlinking selections</p>
 
 <code><pre>
-  var LinkSelection = {
-    promptLinkSelection: function() {
-      var node = this.selection.getNode();
+  var linkAction = {
+    name: 'link',
+    handler: function (editor) {
+      var node = editor.selection.getNode();
       if (node.tagName == 'A') {
         if (confirm("Remove link?"))
-          this.execCommand('unlink');
+          editor.execCommand('unlink');
       } else {
         var value = prompt("Enter a URL", "http://www.google.com/");
         if (value)
-          this.linkSelection(value);
+          editor.linkSelection(value);
       }
     },
-
-    queryLink: function() {
-      var node = this.selection.getNode();
+    query: function(editor) { 
+      var node = editor.selection.getNode();
       return node ? node.tagName == 'A' : false;
     }
   }
@@ -94,14 +88,7 @@
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
     var toolbar = new WysiHat.Toolbar(editor);
-
-    // Add our link selection methods to the editor object
-    Object.extend(editor, LinkSelection);
-
-    toolbar.addButton(
-      { name: 'link', label: "Link" }, function(editor) {
-        editor.promptLinkSelection();
-    });
+    toolbar.addButton({label: "Link", action: linkAction});
   });
 </pre></code>
 

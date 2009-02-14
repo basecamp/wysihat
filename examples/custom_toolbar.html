@@ -33,43 +33,46 @@
     Event.observe(window, 'load', function() {
       var editor = WysiHat.Editor.attach('content');
 
-      var bold_button = $$('.toolbar .bold').first();
-      bold_button.observe('click', function(event) {
-        editor.boldSelection();
+      editor.registerAction(WysiHat.Actions.Bold);
+      var boldButton = $$('.toolbar .bold').first();
+      boldButton.observe('click', function(event) {
+        editor.invokeAction('bold');
         Event.stop(event);
       });
-
-      editor.observe("wysihat:change", function(event) {
-        if (editor.queryCommandState('bold'))
-          bold_button.addClassName('selected');
-        else
-          bold_button.removeClassName('selected');
+      editor.observe('wysihat:state:bold', function (event) {
+        if (event.memo.state) {
+          boldButton.addClassName('selected') 
+        } else {
+          boldButton.removeClassName('selected');
+        }
       });
 
-      var underline_button = $$('.toolbar .underline').first();
-      underline_button.observe('click', function(event) {
-        editor.underlineSelection();
+      editor.registerAction(WysiHat.Actions.Underline);
+      var underlineButton = $$('.toolbar .underline').first();
+      underlineButton.observe('click', function(event) {
+        editor.invokeAction('underline');
         Event.stop(event);
       });
-
-      editor.observe("wysihat:change", function(event) {
-        if (editor.queryCommandState('underline'))
-          underline_button.addClassName('selected');
-        else
-          underline_button.removeClassName('selected');
+      editor.observe('wysihat:state:underline', function (event) {
+        if (event.memo.state) {
+          underlineButton.addClassName('selected') 
+        } else {
+          underlineButton.removeClassName('selected');
+        }
       });
 
-      var italic_button = $$('.toolbar .italic').first();
-      italic_button.observe('click', function(event) {
-        editor.italicSelection();
+      editor.registerAction(WysiHat.Actions.Italic);
+      var italicButton = $$('.toolbar .italic').first();
+      italicButton.observe('click', function(event) {
+        editor.invokeAction('italic');
         Event.stop(event);
       });
-
-      editor.observe("wysihat:change", function(event) {
-        if (editor.queryCommandState('italic'))
-          italic_button.addClassName('selected');
-        else
-          italic_button.removeClassName('selected');
+      editor.observe('wysihat:state:italic', function (event) {
+        if (event.memo.state) {
+          italicButton.addClassName('selected') 
+        } else {
+          italicButton.removeClassName('selected');
+        }
       });
 
       // Hide our error message if the editor loads fine
@@ -79,52 +82,54 @@
 </head>
 
 <body>
+  <p id="error">Oops, you need to build the package before running this example. It's easy: just run <code>rake</code> in the project's directory.</p>
 
-  <p id="error">Opps, you need to build the package before running this example. Don't worry its easy, just run <code>rake</code> in the project's directory.</p>
-
-  <p>This is a more advanced example that does not use the built-in toolbar class. The code is a bit more verbose, however you have full control of the html.</p>
+  <p>This is a more advanced example that extends the built-in toolbar class. The code is a bit more verbose, however you have full control of the html.</p>
 
 <code><pre>
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
 
-    var bold_button = $$('.toolbar .bold').first();
-    bold_button.observe('click', function(event) {
-      editor.boldSelection();
+    editor.registerAction(WysiHat.Actions.Bold);
+    var boldButton = $$('.toolbar .bold').first();
+    boldButton.observe('click', function(event) {
+      editor.invokeAction('bold');
       Event.stop(event);
     });
-
-    editor.observe("wysihat:change", function(event) {
-      if (editor.queryCommandState('bold'))
-        bold_button.addClassName('selected');
-      else
-        bold_button.removeClassName('selected');
+    editor.observe('wysihat:state:bold', function (event) {
+      if (event.memo.state) {
+        boldButton.addClassName('selected') 
+      } else {
+        boldButton.removeClassName('selected');
+      }
     });
 
-    var underline_button = $$('.toolbar .underline').first();
-    underline_button.observe('click', function(event) {
-      editor.underlineSelection();
+    editor.registerAction(WysiHat.Actions.Underline);
+    var underlineButton = $$('.toolbar .underline').first();
+    underlineButton.observe('click', function(event) {
+      editor.invokeAction('underline');
       Event.stop(event);
     });
-
-    editor.observe("wysihat:change", function(event) {
-      if (editor.queryCommandState('underline'))
-        underline_button.addClassName('selected');
-      else
-        underline_button.removeClassName('selected');
+    editor.observe('wysihat:state:underline', function (event) {
+      if (event.memo.state) {
+        underlineButton.addClassName('selected') 
+      } else {
+        underlineButton.removeClassName('selected');
+      }
     });
 
-    var italic_button = $$('.toolbar .italic').first();
-    italic_button.observe('click', function(event) {
-      editor.italicSelection();
+    editor.registerAction(WysiHat.Actions.Italic);
+    var italicButton = $$('.toolbar .italic').first();
+    italicButton.observe('click', function(event) {
+      editor.invokeAction('italic');
       Event.stop(event);
     });
-
-    editor.observe("wysihat:change", function(event) {
-      if (editor.queryCommandState('italic'))
-        italic_button.addClassName('selected');
-      else
-        italic_button.removeClassName('selected');
+    editor.observe('wysihat:state:italic', function (event) {
+      if (event.memo.state) {
+        italicButton.addClassName('selected') 
+      } else {
+        italicButton.removeClassName('selected');
+      }
     });
   });
 </pre></code>
