@@ -45,6 +45,10 @@
         });
       };
 
+      editor.observe("wysihat:change", function(event) {
+        editor.save();
+      });
+
       editor.observe("wysihat:paste", function(event) {
         setTimeout(function() {
           editor.reload();
