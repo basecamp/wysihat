@@ -126,17 +126,17 @@ WysiHat.Actions.Methods = {
 WysiHat.Actions.Bold = {
   name: 'bold',
   handler: function (editor) { return editor.boldSelection(); },
-  query: function (editor) { return editor.queryCommandState('bold'); }
+  query: function (editor) { return editor.boldSelected(); }
 };
 
 WysiHat.Actions.Underline = {
   name: 'underline',
   handler: function (editor) { return editor.underlineSelection(); },
-  query: function (editor) { return editor.queryCommandState('underline'); }
+  query: function (editor) { return editor.underlineSelected(); }
 };
 
 WysiHat.Actions.Italic = {
   name: 'italic',
   handler: function (editor) { return editor.italicSelection(); },
-  query: function (editor) { return editor.queryCommandState('italic'); }
+  query: function (editor) { return editor.italicSelected(); }
 };

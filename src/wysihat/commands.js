@@ -23,11 +23,27 @@ WysiHat.Commands = {
   },
 
   /**
+   * WysiHat.Commands#boldSelected() -> boolean
+   *  Check if current selection is bold or strong.
+   **/
+  boldSelected: function() {
+    this.queryCommandState('bold');
+  },
+
+  /**
    * WysiHat.Commands#underlineSelection() -> undefined
    *  Underlines the current selection.
    **/
   underlineSelection: function() {
     this.execCommand('underline', false, null);
+  },
+
+  /**
+   * WysiHat.Commands#underlineSelected() -> boolean
+   *  Check if current selection is underlined.
+   **/
+  underlineSelected: function() {
+    this.queryCommandState('underline');
   },
 
   /**
@@ -39,6 +55,14 @@ WysiHat.Commands = {
   },
 
   /**
+   * WysiHat.Commands#italicSelected() -> boolean
+   *  Check if current selection is italic or emphasized.
+   **/
+  italicSelected: function() {
+    this.queryCommandState('italic');
+  },
+
+  /**
    * WysiHat.Commands#italicSelection() -> undefined
    *  Strikethroughs the current selection.
    **/
@@ -47,7 +71,7 @@ WysiHat.Commands = {
   },
 
   /**
-   * WysiHat.Commands#italicSelection() -> undefined
+   * WysiHat.Commands#blockquoteSelection() -> undefined
    *  Blockquotes the current selection.
    **/
   blockquoteSelection: function() {
