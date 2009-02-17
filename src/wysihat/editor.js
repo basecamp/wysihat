@@ -69,7 +69,6 @@ WysiHat.Editor = {
       // Firefox starts "locked"
       // Insert a character bogus character and undo
       if (Prototype.Browser.Gecko) {
-        editArea.execCommand('inserthtml', false, '-');
         editArea.execCommand('undo', false, null);
       }
 
