@@ -26,7 +26,7 @@
 WysiHat.Actions = {}
 
 /** section: wysihat
- * mixin WysiHat.Action
+ * mixin WysiHat.Action.Methods
  *
  * Methods will be mixed into the editor element. These methods allow you
  * to register and invoke commands on the editor.
