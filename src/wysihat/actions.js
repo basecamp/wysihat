@@ -51,7 +51,7 @@ WysiHat.Actions.Methods = {
    *  event.memo.state).
    **/
   registerAction: function (action) {
-    /* Validate the action -- it should have a name and a handler function. */
+    // Validate the action -- it should have a name and a handler function.
     if (!Object.isString(action.name)) {
       throw new Error("Action name not a string");
     }
@@ -59,18 +59,17 @@ WysiHat.Actions.Methods = {
       throw new Error("Action handler not a function");
     }
 
-    // FIXME: is there a nicer way to initialize properties in a mixin?
-    /* A hash, keyed on action names, of actions registered to this editor. */
+    // A hash, keyed on action names, of actions registered to this editor.
     this.actions = this.actions || $H();
 
-    /* A hash, keyed on action name, of the current state of each action,
-     * based on the cursor location within the editor. */
+    // A hash, keyed on action name, of the current state of each action,
+    // based on the cursor location within the editor.
     this.states = this.states || $H();
 
     this.actions[action.name] = action;
     this.states[action.name] = null;
 
-    /* Subscribe this action's query function to the cursormove event. */
+    // Subscribe this action's query function to the cursormove event.
     var editor = this;
     if (Object.isFunction(action.query)) {
       editor.observe(
