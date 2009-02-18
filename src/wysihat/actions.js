@@ -33,11 +33,11 @@ WysiHat.Actions = {}
  **/
 WysiHat.Actions.Methods = {
   /**
-   * WysiHat.Action.Methods#registerAction(actionClass) -> Object
-   * - actionClass (Class): a class that, when instantiated, responds to
-   *     'name' and 'handler'
+   * WysiHat.Action.Methods#registerAction(action) -> Object
+   * - action (Object): any object that responds to 'name' (String) and
+   *     'handler' (Function)
    *
-   *  Instantiates and registers the action with the editor, so that the
+   *  Registers the action with the editor, so that the
    *  editor can iterate over all the actions available to modify its
    *  contents. If the action has a function for its 'query' property,
    *  this is hooked up so that when the cursor moves, the function is
@@ -114,6 +114,7 @@ WysiHat.Actions.Methods = {
       data.shift();
       data.unshift(this);
       result = action.handler.apply(action, data);
+      this.lastRange = null;
       this.fire("wysihat:change");
       this.focus();
     }
