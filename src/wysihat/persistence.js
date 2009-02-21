@@ -101,4 +101,4 @@ WysiHat.Persistence = (function() {
   };
 })();
 
-WysiHat.Editor.extension(WysiHat.Persistence);
+WysiHat.Editor.include(WysiHat.Persistence);

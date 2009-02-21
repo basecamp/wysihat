@@ -57,4 +57,4 @@ WysiHat.Window = (function() {
   };
 })();
 
-WysiHat.Editor.extension(WysiHat.Window);
+WysiHat.Editor.include(WysiHat.Window);

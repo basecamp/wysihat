@@ -164,4 +164,4 @@ WysiHat.Commands = {
   }
 };
 
-WysiHat.Editor.extension(WysiHat.Commands);
+WysiHat.Editor.include(WysiHat.Commands);

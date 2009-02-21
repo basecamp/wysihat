@@ -12,11 +12,11 @@ new Test.Unit.Runner({
     runner.assertEqual('on', $('content_editor').getDocument().designMode);
   },
 
-  testExtensibility: function () { with(this) {
+  testIncludedModules: function () { with(this) {
     var module = { xyz123: function () {} }
     var editor1 = WysiHat.Editor.attach('content');
 
-    WysiHat.Editor.extension(module);
+    WysiHat.Editor.include(module);
     var editor2 = WysiHat.Editor.attach('content');
 
     // The extension should not be retrospective.

@@ -6,17 +6,12 @@ WysiHat.iFrame = {
   create: function(textarea, callback) {
     var editArea = new Element('iframe', { 'id': textarea.id + '_editor', 'class': 'editor' });
 
-    //Object.extend(editArea, WysiHat.Commands);
-    //Object.extend(editArea, WysiHat.Persistence);
-    //Object.extend(editArea, WysiHat.Window);
-    //Object.extend(editArea, WysiHat.Actions.Methods);
-
-    if (WysiHat.Editor.extensions) {
-      WysiHat.Editor.extensions.each(function (ext) {
-        Object.extend(editArea, ext);
+    Object.extend(editArea, WysiHat.iFrame.Methods);
+    if (WysiHat.Editor.includedModules) {
+      WysiHat.Editor.includedModules.each(function (mod) {
+        Object.extend(editArea, mod);
       });
     }
-    Object.extend(editArea, WysiHat.iFrame.Methods);
 
     editArea.attach(textarea, callback);
 
