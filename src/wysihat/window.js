@@ -56,3 +56,5 @@ WysiHat.Window = (function() {
     blur: blur
   };
 })();
+
+WysiHat.Editor.extension(WysiHat.Window);

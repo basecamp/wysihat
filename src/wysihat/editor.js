@@ -77,5 +77,32 @@ WysiHat.Editor = {
 
       editArea.focus();
     });
+  },
+
+  /** section: wysihat
+   * WysiHat.Editor.extension(module) -> Array
+   * - module (Object): an object that will extend each editor element.
+   *
+   *  Provides extensibility for the editor. Register a module via this method,
+   *  and its function properties will be available on any editor instance.
+   *
+   *  eg:
+   *    WysiHat.Editor.extension({echo: function (val) { alert(val) }})
+   *
+   *  This makes the 'echo' function defined in that module available directly
+   *  on the editor instance. Consequently (if 'editor' is the result of
+   *  a prior call to WysiHat.Editor.attach)...
+   *
+   *    editor.echo('Hello world!')
+   *
+   *  ... will show an alert box.
+   *
+   *  You must register the module via this method *before* the editor
+   *  instance is created -- this is not retrospective, and extant editor
+   *  instances will be unaffected.
+   **/
+  extension: function (module) {
+    this.extensions = this.extensions || $A();
+    this.extensions.push(module);
   }
 };

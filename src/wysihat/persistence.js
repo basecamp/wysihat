@@ -100,3 +100,5 @@ WysiHat.Persistence = (function() {
     reload:       reload
   };
 })();
+
+WysiHat.Editor.extension(WysiHat.Persistence);

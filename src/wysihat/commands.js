@@ -163,3 +163,5 @@ WysiHat.Commands = {
     return document.queryCommandState(state);
   }
 };
+
+WysiHat.Editor.extension(WysiHat.Commands);

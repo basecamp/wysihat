@@ -121,6 +121,8 @@ WysiHat.Actions.Methods = {
   }
 }
 
+WysiHat.Editor.extension(WysiHat.Actions.Methods);
+
 // A library of built-in actions. In the future, perhaps this could replace
 // most of the primitives in commands.js?
 WysiHat.Actions.Bold = {
