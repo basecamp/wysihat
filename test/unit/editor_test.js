@@ -2,14 +2,17 @@ new Test.Unit.Runner({
   testAttachAndCreateIframe: function() {
     var runner = this;
 
-    WysiHat.Editor.attach('content');
+    var editor = WysiHat.Editor.attach('content');
+    editor.whenReady(function () {
+      runner.assertNotVisible($('content'));
+      runner.assert($('content_editor'));
+      runner.assert($('content_editor').ready);
+      runner.assert($('content_editor').getDocument());
+      runner.assert($('content_editor').getWindow());
+      runner.assertEqual('on', $('content_editor').getDocument().designMode);
+    });
 
-    runner.assertNotVisible($('content'));
-    runner.assert($('content_editor'));
-    runner.assert($('content_editor').ready);
-    runner.assert($('content_editor').getDocument());
-    runner.assert($('content_editor').getWindow());
-    runner.assertEqual('on', $('content_editor').getDocument().designMode);
+    runner.wait(1000, function () {});
   },
 
   testIncludedModules: function () { with(this) {
