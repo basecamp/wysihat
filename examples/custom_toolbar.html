@@ -33,46 +33,40 @@
     Event.observe(window, 'load', function() {
       var editor = WysiHat.Editor.attach('content');
 
-      editor.registerAction(WysiHat.Actions.Bold);
       var boldButton = $$('.toolbar .bold').first();
       boldButton.observe('click', function(event) {
-        editor.invokeAction('bold');
+        editor.boldSelection();
         Event.stop(event);
       });
-      editor.observe('wysihat:state:bold', function (event) {
-        if (event.memo.state) {
+      editor.observe('wysihat:change', function(event) {
+        if (editor.boldSelected())
           boldButton.addClassName('selected')
-        } else {
+        else
           boldButton.removeClassName('selected');
-        }
       });
 
-      editor.registerAction(WysiHat.Actions.Underline);
       var underlineButton = $$('.toolbar .underline').first();
       underlineButton.observe('click', function(event) {
-        editor.invokeAction('underline');
+        editor.underlineSelection();
         Event.stop(event);
       });
-      editor.observe('wysihat:state:underline', function (event) {
-        if (event.memo.state) {
+      editor.observe('wysihat:change', function(event) {
+        if (editor.underlineSelected())
           underlineButton.addClassName('selected')
-        } else {
+        else
           underlineButton.removeClassName('selected');
-        }
       });
 
-      editor.registerAction(WysiHat.Actions.Italic);
       var italicButton = $$('.toolbar .italic').first();
       italicButton.observe('click', function(event) {
-        editor.invokeAction('italic');
+        editor.italicSelection();
         Event.stop(event);
       });
-      editor.observe('wysihat:state:italic', function (event) {
-        if (event.memo.state) {
+      editor.observe('wysihat:change', function(event) {
+        if (editor.italicSelected())
           italicButton.addClassName('selected')
-        } else {
+        else
           italicButton.removeClassName('selected');
-        }
       });
 
       // Hide our error message if the editor loads fine
@@ -90,46 +84,40 @@
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
 
-    editor.registerAction(WysiHat.Actions.Bold);
     var boldButton = $$('.toolbar .bold').first();
     boldButton.observe('click', function(event) {
-      editor.invokeAction('bold');
+      editor.boldSelection();
       Event.stop(event);
     });
-    editor.observe('wysihat:state:bold', function (event) {
-      if (event.memo.state) {
+    editor.observe('wysihat:change', function(event) {
+      if (editor.boldSelected())
         boldButton.addClassName('selected')
-      } else {
+      else
         boldButton.removeClassName('selected');
-      }
     });
 
-    editor.registerAction(WysiHat.Actions.Underline);
     var underlineButton = $$('.toolbar .underline').first();
     underlineButton.observe('click', function(event) {
-      editor.invokeAction('underline');
+      editor.underlineSelection();
       Event.stop(event);
     });
-    editor.observe('wysihat:state:underline', function (event) {
-      if (event.memo.state) {
+    editor.observe('wysihat:change', function(event) {
+      if (editor.underlineSelected())
         underlineButton.addClassName('selected')
-      } else {
+      else
         underlineButton.removeClassName('selected');
-      }
     });
 
-    editor.registerAction(WysiHat.Actions.Italic);
     var italicButton = $$('.toolbar .italic').first();
     italicButton.observe('click', function(event) {
-      editor.invokeAction('italic');
+      editor.italicSelection();
       Event.stop(event);
     });
-    editor.observe('wysihat:state:italic', function (event) {
-      if (event.memo.state) {
+    editor.observe('wysihat:change', function(event) {
+      if (editor.italicSelected())
         italicButton.addClassName('selected')
-      } else {
+      else
         italicButton.removeClassName('selected');
-      }
     });
   });
 </pre></code>

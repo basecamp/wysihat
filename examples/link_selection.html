@@ -30,29 +30,39 @@
   <script type="text/javascript" src="../dist/wysihat.js"></script>
 
   <script type="text/javascript" charset="utf-8">
-    var linkAction = {
-      name: 'link',
-      handler: function (editor) {
-        var node = editor.selection.getNode();
+    var LinkSelectionHelper = {
+      promptLinkSelection: function() {
+        var node = this.selection.getNode();
         if (node.tagName == 'A') {
+          this.selection.selectNode(node);
           if (confirm("Remove link?"))
-            editor.execCommand('unlink');
+            this.execCommand('unlink');
         } else {
           var value = prompt("Enter a URL", "http://www.google.com/");
           if (value)
-            editor.linkSelection(value);
+            this.linkSelection(value);
         }
       },
-      query: function(editor) {
-        var node = editor.selection.getNode();
+
+      linkSelected: function() {
+        var node = this.selection.getNode();
         return node ? node.tagName == 'A' : false;
       }
     }
 
+    WysiHat.Editor.include(LinkSelectionHelper);
+
     Event.observe(window, 'load', function() {
       var editor = WysiHat.Editor.attach('content');
       var toolbar = new WysiHat.Toolbar(editor);
-      toolbar.addButton({label: "Link", action: linkAction});
+      toolbar.addButton({
+        label: "Link",
+        action: {
+          name: 'link',
+          handler: function (editor) { return editor.promptLinkSelection(); },
+          query: function (editor) { return editor.linkSelected(); }
+        }
+      });
 
       // Hide our error message if the editor loads fine
       $('error').hide();
@@ -66,29 +76,39 @@
   <p>This example shows you how to create a simple UI for linking and unlinking selections</p>
 
 <code><pre>
-  var linkAction = {
-    name: 'link',
-    handler: function (editor) {
-      var node = editor.selection.getNode();
+  var LinkSelectionHelper = {
+    promptLinkSelection: function() {
+      var node = this.selection.getNode();
       if (node.tagName == 'A') {
+        this.selection.selectNode(node);
         if (confirm("Remove link?"))
-          editor.execCommand('unlink');
+          this.execCommand('unlink');
       } else {
         var value = prompt("Enter a URL", "http://www.google.com/");
         if (value)
-          editor.linkSelection(value);
+          this.linkSelection(value);
       }
     },
-    query: function(editor) {
-      var node = editor.selection.getNode();
+
+    linkSelected: function() {
+      var node = this.selection.getNode();
       return node ? node.tagName == 'A' : false;
     }
   }
 
+  WysiHat.Editor.include(LinkSelectionHelper);
+
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
     var toolbar = new WysiHat.Toolbar(editor);
-    toolbar.addButton({label: "Link", action: linkAction});
+    toolbar.addButton({
+      label: "Link",
+      action: {
+        name: 'link',
+        handler: function (editor) { return editor.promptLinkSelection(); },
+        query: function (editor) { return editor.linkSelected(); }
+      }
+    });
   });
 </pre></code>
 
