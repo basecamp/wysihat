@@ -16,6 +16,7 @@ var WysiHat = {};
 //= require "wysihat/editor"
 
 //= require "wysihat/commands"
+//= require "wysihat/events"
 //= require "wysihat/persistence"
 //= require "wysihat/window"
 

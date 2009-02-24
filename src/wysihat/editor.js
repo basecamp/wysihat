@@ -26,45 +26,7 @@ WysiHat.Editor = {
       Event.observe(window, 'focus', function(event) { editArea.focus(); });
       Event.observe(window, 'blur', function(event) { editArea.blur(); });
 
-
-      Event.observe(document, 'mouseup', function(event) {
-        editArea.fire("wysihat:mouseup");
-      });
-
-      Event.observe(document, 'mousemove', function(event) {
-        editArea.fire("wysihat:mousemove");
-      });
-
-      Event.observe(document, 'keypress', function(event) {
-        editArea.fire("wysihat:change");
-        editArea.fire("wysihat:keypress");
-      });
-
-      Event.observe(document, 'keyup', function(event) {
-        editArea.fire("wysihat:change");
-        editArea.fire("wysihat:keyup");
-      });
-
-      Event.observe(document, 'keydown', function(event) {
-        if (event.keyCode == 86)
-          editArea.fire("wysihat:paste");
-      });
-
-      Event.observe(window, 'paste', function(event) {
-        editArea.fire("wysihat:paste");
-      });
-
-      // Fire the cursormove event if selection has changed due to some event
-      fun = function (event) {
-        var rg = editArea.selection.getRange();
-        if (editArea.lastRange != rg) {
-          editArea.fire("wysihat:cursormove");
-          editArea.lastRange = rg;
-        }
-      }
-      editArea.observe("wysihat:change", fun);
-      editArea.observe("wysihat:mouseup", fun);
-      editArea.observe("wysihat:mousemove", fun);
+      editArea.observeEvents();
 
       // Firefox starts "locked"
       // Insert a character bogus character and undo
