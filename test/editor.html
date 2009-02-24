@@ -35,6 +35,7 @@
       handler: function (editor) {
         var node = editor.selection.getNode();
         if (node.tagName == 'A') {
+          editor.selection.selectNode(node);
           if (confirm("Remove link?"))
             editor.execCommand('unlink');
         } else {
