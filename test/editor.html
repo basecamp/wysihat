@@ -30,6 +30,25 @@
   <script type="text/javascript" src="../dist/wysihat.js"></script>
 
   <script type="text/javascript" charset="utf-8">
+    var linkAction = {
+      name: 'link',
+      handler: function (editor) {
+        var node = editor.selection.getNode();
+        if (node.tagName == 'A') {
+          if (confirm("Remove link?"))
+            editor.execCommand('unlink');
+        } else {
+          var value = prompt("Enter a URL", "http://www.google.com/");
+          if (value)
+            editor.linkSelection(value);
+        }
+      },
+      query: function(editor) {
+        var node = editor.selection.getNode();
+        return node ? node.tagName == 'A' : false;
+      }
+    }
+
     var textarea, editor;
 
     Event.observe(window, 'load', function() {
@@ -37,6 +56,7 @@
       editor = WysiHat.Editor.attach(textarea);
       var toolbar = new WysiHat.Toolbar(editor);
       toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+      toolbar.addButton({label: "Link", action: linkAction});
 
       editor.outputFilter = function(text) {
         return text.formatHTMLOutput().sanitize({
