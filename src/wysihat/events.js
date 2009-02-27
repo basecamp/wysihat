@@ -4,10 +4,6 @@ WysiHat.Events = (function() {
       editor.fire("wysihat:mouseup");
     });
 
-    Event.observe(document, 'keypress', function(event) {
-      editor.fire("wysihat:keypress");
-    });
-
     Event.observe(document, 'keyup', function(event) {
       editor.fire("wysihat:keyup");
     });
@@ -25,27 +21,13 @@ WysiHat.Events = (function() {
   }
 
   function observeChanges(document, editor) {
-    Event.observe(document, 'keypress', function(event) {
+    Event.observe(document, 'mouseup', function(event) {
       editor.fire("wysihat:change");
     });
 
     Event.observe(document, 'keyup', function(event) {
       editor.fire("wysihat:change");
     });
-  }
-
-  function observeMovements(document, editor) {
-    // Fire the cursormove event if selection has changed due to some event
-    var handler = function (event) {
-      var rg = editor.selection.getRange();
-      if (editor.lastRange != rg) {
-        editor.fire("wysihat:cursormove");
-        editor.lastRange = rg;
-      }
-    }
-
-    editor.observe("wysihat:change", handler);
-    editor.observe("wysihat:mouseup", handler);
   }
 
   function observeEvents() {
@@ -58,7 +40,6 @@ WysiHat.Events = (function() {
     forwardEvents(document, this);
     observePasteEvent(window, document, this);
     observeChanges(document, this);
-    observeMovements(document, this);
 
     this.observers_setup = true;
   }
