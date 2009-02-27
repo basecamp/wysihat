@@ -30,25 +30,27 @@
   <script type="text/javascript" src="../dist/wysihat.js"></script>
 
   <script type="text/javascript" charset="utf-8">
-    var linkAction = {
-      name: 'link',
-      handler: function (editor) {
-        var node = editor.selection.getNode();
+    var LinkSelectionHelper = {
+      promptLinkSelection: function() {
+        var node = this.selection.getNode();
         if (node.tagName == 'A') {
-          editor.selection.selectNode(node);
+          this.selection.selectNode(node);
           if (confirm("Remove link?"))
-            editor.execCommand('unlink');
+            this.execCommand('unlink');
         } else {
           var value = prompt("Enter a URL", "http://www.google.com/");
           if (value)
-            editor.linkSelection(value);
+            this.linkSelection(value);
         }
       },
-      query: function(editor) {
-        var node = editor.selection.getNode();
+
+      linkSelected: function() {
+        var node = this.selection.getNode();
         return node ? node.tagName == 'A' : false;
       }
     }
+
+    WysiHat.Editor.include(LinkSelectionHelper);
 
     var textarea, editor;
 
@@ -57,7 +59,12 @@
       editor = WysiHat.Editor.attach(textarea);
       var toolbar = new WysiHat.Toolbar(editor);
       toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
-      toolbar.addButton({label: "Link", action: linkAction});
+
+      toolbar.addButton({
+        label: "Link",
+        handler: function (editor) { return editor.promptLinkSelection(); },
+        query: function (editor) { return editor.linkSelected(); }
+      });
 
       editor.outputFilter = function(text) {
         return text.formatHTMLOutput().sanitize({

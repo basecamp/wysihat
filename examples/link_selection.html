@@ -55,13 +55,11 @@
     Event.observe(window, 'load', function() {
       var editor = WysiHat.Editor.attach('content');
       var toolbar = new WysiHat.Toolbar(editor);
+
       toolbar.addButton({
         label: "Link",
-        action: {
-          name: 'link',
-          handler: function (editor) { return editor.promptLinkSelection(); },
-          query: function (editor) { return editor.linkSelected(); }
-        }
+        handler: function (editor) { return editor.promptLinkSelection(); },
+        query: function (editor) { return editor.linkSelected(); }
       });
 
       // Hide our error message if the editor loads fine
@@ -101,13 +99,11 @@
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
     var toolbar = new WysiHat.Toolbar(editor);
+
     toolbar.addButton({
       label: "Link",
-      action: {
-        name: 'link',
-        handler: function (editor) { return editor.promptLinkSelection(); },
-        query: function (editor) { return editor.linkSelected(); }
-      }
+      handler: function (editor) { return editor.promptLinkSelection(); },
+      query: function (editor) { return editor.linkSelected(); }
     });
   });
 </pre></code>

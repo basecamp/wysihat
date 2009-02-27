@@ -20,11 +20,10 @@ WysiHat.Toolbar = Class.create((function() {
    *  - container (String | Element): an id or DOM node of the element to
    *     insert the Toolbar into. It is inserted before the editor by default.
    **/
-  function initialize(editArea, options) {
+  function initialize(editor, options) {
     options = $H(options);
 
-    this.editArea = editArea;
-
+    this.editor = editor;
     this.element = new Element('div', { 'class': 'editor_toolbar' });
 
     insertToolbar(this, options);
@@ -36,7 +35,7 @@ WysiHat.Toolbar = Class.create((function() {
 
   function insertToolbar(toolbar, options) {
     var position = options.get('position') || 'before';
-    var container = options.get('container') || toolbar.editArea;
+    var container = options.get('container') || toolbar.editor;
 
     var insertOptions = $H({});
     insertOptions.set(position, toolbar.element);
@@ -45,98 +44,130 @@ WysiHat.Toolbar = Class.create((function() {
 
   /**
    * WysiHat.Toolbar#addButtonSet(set) -> undefined
-   * - set (Array): The set array contains nested arrays that hold the
-   *   button specifications.
+   *  - set (Array): The set array contains nested arrays that hold the
+   *  button options, and handler.
    *
    *  Adds a button set to the toolbar.
    *
    *  WysiHat.Toolbar.ButtonSets.Basic is a built in button set,
    *  that looks like:
    *  [
-   *    { label: 'Bold', action: WysiHat.Actions.Bold },
-   *    { label: 'Underline', action: WysiHat.Actions.Underline },
-   *    { label: 'Italic', action: WysiHat.Actions.Italic }
+   *    [{ name: 'bold', label: "Bold" }, function(editor) {
+   *      editor.boldSelection();
+   *    }],
+   *    [{ name: 'underline', label: "Underline" }, function(editor) {
+   *      editor.underlineSelection();
+   *    }],
+   *    [{ name: 'italic', label: "Italic" }, function(editor) {
+   *      editor.italicSelection();
+   *    }]
    *  ]
    **/
   function addButtonSet(set) {
     var toolbar = this;
-    $A(set).each(function(buttonSpec){
-      toolbar.addButton(buttonSpec);
+    $A(set).each(function(button){
+      toolbar.addButton(button);
     });
 
     return this;
   }
 
   /**
-   * WysiHat.Toolbar#addButton(buttonSpec) -> undefined
-   * - buttonSpec (Object): Required object or hash
+   * WysiHat.Toolbar#addButton(options, handler) -> undefined
+   * - options (Hash): Required options hash
+   * - handler (Function): Function to bind to the button
    *
-   *  The buttonSpec must respond to "action", which should be a WysiHat.Action.
-   *  It should also have a "label" string property, which is used as the
-   *  button link's inner text.
+   *  The options hash accepts two required keys, name and label. The label
+   *  value is used as the link's inner text. The name value is set to the
+   *  link's class and is used to check the button state.
    *
-   *  toolbar.addButton({ label: "Bold", action: WysiHat.Actions.Bold });
+   *  toolbar.addButton({
+   *    name: 'bold', label: "Bold" }, function(editor) {
+   *      editor.boldSelection();
+   *  });
    *
    *  Would create a link,
    *  "<a href='#' class='button bold'><span>Bold</span></a>"
    **/
-  function addButton(buttonSpec) {
-    this.editArea.registerAction(buttonSpec.action);
-    var button = this.buildButtonElement(buttonSpec);
+  function addButton(options, handler) {
+    options = $H(options);
+
+    var label = options.get('label');
+    var name = options.get('name') || label.toLowerCase();
+
+    var button = Element('a', {
+      'class': 'button', 'href': '#'
+    }).update('<span>' + label + '</span>');
+    button.addClassName(name);
+
+    var handler = handler || options.get('handler');
+    this.observeButtonClick(button, handler);
+
+    var query = options.get('query') || function(editor) {
+      return editor.queryCommandState(name);
+    };
+    this.observeStateChanges(button, query);
+
     this.element.appendChild(button);
+
     return this;
   }
 
   /**
-   * WysiHat.Toolbar#buildButtonElement(buttonSpec) -> Object
-   * - buttonSpec (Object): Required object or hash
+   * WysiHat.Toolbar#observeButtonClick(element, handler) -> undefined
+   * - element (String | Element): Element to bind handler to
+   * - handler (Function): Function to bind to the element
+   *   fires wysihat:change
    *
-   *  Simply generates the HTML element (a link, containing a span for the
-   *  label), and sets up the events whereby its action is invoked and its 
-   *  display state is updated.
-   * 
-   *  Override this method in a subclass of WysiHat.Toolbar to build more 
-   *  complex buttons and toolbar widgets.
+   *  In addition to binding the given handler to the element, this observe
+   *  function also sets up a few more events. When the elements onclick is
+   *  fired, the toolbars hasMouseDown property will be set to true and
+   *  back to false on exit.
    **/
-  function buildButtonElement(buttonSpec) {
+  function observeButtonClick(element, handler) {
     var toolbar = this;
+    $(element).observe('click', function(event) {
+      handler(toolbar.editor);
+      toolbar.editor.fire("wysihat:change");
+      Event.stop(event);
+    });
+    return this;
+  }
 
-    // create the HTML element
-    var btn = Element(
-      'a', 
-      {"class": "button button_" + buttonSpec.action.name, "href": "#"}
-    );
-    btn.update('<span>' + buttonSpec.label + '</span>');
+  /**
+   * WysiHat.Toolbar#observeStateChanges(element, command) -> undefined
+   * - element (String | Element): Element to receive changes
+   * - command (String): Name of editor command to observe
+   *
+   *  Adds the class "selected" to the given Element when the selected text
+   *  matches the command.
+   *
+   *  toolbar.observeStateChanges(buttonElement, 'bold')
+   *  would add the class "selected" to the buttonElement when the editor's
+   *  selected text was bold.
+   **/
+  function observeStateChanges(element, handler) {
+    var editor = this.editor;
 
-    // invoke the action when the button is clicked
-    btn.observe(
-      'click', 
-      function (event) { 
-        toolbar.editArea.invokeAction(buttonSpec.action.name);
-        Event.stop(event);
-      }
-    );
+    callback = function(event) {
+      if (handler(editor))
+        element.addClassName('selected');
+      else
+        element.removeClassName('selected');
+    };
 
-    // set or remove the 'selected' class on the element when state changes
-    toolbar.editArea.observe(
-      'wysihat:state:'+buttonSpec.action.name,
-      function (event) {
-        if (event.memo.state) {
-          btn.addClassName('selected');
-        } else {
-          btn.removeClassName('selected');
-        }
-      }
-    );
+    editor.observe("wysihat:change", callback);
+    editor.observe("wysihat:mousemove", callback);
 
-    return btn;
+    return this;
   }
 
   return {
     initialize:          initialize,
     addButtonSet:        addButtonSet,
     addButton:           addButton,
-    buildButtonElement:  buildButtonElement
+    observeButtonClick:  observeButtonClick,
+    observeStateChanges: observeStateChanges
   };
 })());
 
@@ -149,17 +180,33 @@ WysiHat.Toolbar = Class.create((function() {
  **/
 WysiHat.Toolbar.ButtonSets = {};
 
-/** section: wysihat
+/**
  * WysiHat.Toolbar.ButtonSets.Basic = $A([
- *   { label: 'Bold', action: WysiHat.Actions.Bold },
- *   { label: 'Underline', action: WysiHat.Actions.Underline },
- *   { label: 'Italic', action: WysiHat.Actions.Italic }
- * ]);
+ *    [{ name: 'bold', label: "Bold" }, function(editor) {
+ *      editor.boldSelection();
+ *    }],
  *
- *  A basic set of buttons: bold, underline, and italic.  
+ *    [{ name: 'underline', label: "Underline" }, function(editor) {
+ *      editor.underlineSelection();
+ *    }],
+ *
+ *    [{ name: 'italic', label: "Italic" }, function(editor) {
+ *      editor.italicSelection();
+ *    }]
+ *  ])
+ *
+ *  A basic set of buttons: bold, underline, and italic. This set is
+ *  compatible with WysiHat.Toolbar, and can be added to the toolbar with:
+ *  toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
  **/
 WysiHat.Toolbar.ButtonSets.Basic = $A([
-  { label: 'Bold', action: WysiHat.Actions.Bold },
-  { label: 'Underline', action: WysiHat.Actions.Underline },
-  { label: 'Italic', action: WysiHat.Actions.Italic }
+  { label: "Bold", handler: function(editor) {
+    editor.boldSelection(); }
+  },
+  { label: "Underline", handler: function(editor) {
+    editor.underlineSelection(); }
+  },
+  { label: "Italic", handler: function(editor) {
+    editor.italicSelection(); }
+  }
 ]);

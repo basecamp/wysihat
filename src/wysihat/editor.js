@@ -64,7 +64,7 @@ WysiHat.Editor = {
    *  instances will be unaffected.
    **/
   include: function (module) {
-    this.includedModules = this.includedModules || $A();
+    this.includedModules = this.includedModules || $A([]);
     this.includedModules.push(module);
   }
 };
