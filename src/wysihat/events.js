@@ -4,10 +4,6 @@ WysiHat.Events = (function() {
       editor.fire("wysihat:mouseup");
     });
 
-    Event.observe(document, 'mousemove', function(event) {
-      editor.fire("wysihat:mousemove");
-    });
-
     Event.observe(document, 'keypress', function(event) {
       editor.fire("wysihat:keypress");
     });
@@ -50,7 +46,6 @@ WysiHat.Events = (function() {
 
     editor.observe("wysihat:change", handler);
     editor.observe("wysihat:mouseup", handler);
-    editor.observe("wysihat:mousemove", handler);
   }
 
   function observeEvents() {

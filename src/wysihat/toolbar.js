@@ -144,15 +144,12 @@ WysiHat.Toolbar = Class.create((function() {
   function observeStateChanges(element, handler) {
     var editor = this.editor;
 
-    callback = function(event) {
+    editor.observe("wysihat:change", function(event) {
       if (handler(editor))
         element.addClassName('selected');
       else
         element.removeClassName('selected');
-    };
-
-    editor.observe("wysihat:change", callback);
-    editor.observe("wysihat:mousemove", callback);
+    });
 
     return this;
   }
