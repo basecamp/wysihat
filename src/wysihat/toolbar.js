@@ -15,7 +15,6 @@ WysiHat.Toolbar = Class.create((function() {
    *  on top of.
    *
    *  The options hash accepts a few configuration options.
-   *  - buttonSet (Array): see WysiHat.Toolbar.ButtonSets.Basic for an example
    *  - position (String): before, after, top, or bottom
    *  - container (String | Element): an id or DOM node of the element to
    *     insert the Toolbar into. It is inserted before the editor by default.
@@ -27,10 +26,6 @@ WysiHat.Toolbar = Class.create((function() {
     this.element = new Element('div', { 'class': 'editor_toolbar' });
 
     insertToolbar(this, options);
-
-    var buttonSet = options.get('buttonSet');
-    if (buttonSet)
-      this.addButtonSet(buttonSet);
   }
 
   function insertToolbar(toolbar, options) {

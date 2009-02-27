@@ -32,7 +32,8 @@
   <script type="text/javascript" charset="utf-8">
     Event.observe(window, 'load', function() {
       var editor = WysiHat.Editor.attach('content');
-      new WysiHat.Toolbar(editor, {buttonSet: WysiHat.Toolbar.ButtonSets.Basic});
+      var toolbar = new WysiHat.Toolbar(editor);
+      toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
 
       // Hide our error message if the editor loads fine
       $('error').hide();
@@ -48,7 +49,8 @@
 <code><pre>
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
-    new WysiHat.Toolbar(editor, {buttonSet: WysiHat.Toolbar.ButtonSets.Basic});
+    var toolbar = new WysiHat.Toolbar(editor);
+    toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
   });
 </pre></code>
 
