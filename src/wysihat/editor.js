@@ -26,7 +26,7 @@ WysiHat.Editor = {
       Event.observe(window, 'focus', function(event) { editArea.focus(); });
       Event.observe(window, 'blur', function(event) { editArea.blur(); });
 
-      editArea.observeEvents();
+      editArea._observeEvents();
 
       // Firefox starts "locked"
       // Insert a character bogus character and undo
