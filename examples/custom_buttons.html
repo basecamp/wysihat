@@ -34,13 +34,9 @@
       var editor = WysiHat.Editor.attach('content');
       var toolbar = new WysiHat.Toolbar(editor);
 
-      toolbar.addButton({ label: "Bold" }, function(editor) {
-        editor.boldSelection();
-      });
+      toolbar.addButton({ name: 'bold', label: "Strong" });
 
-      toolbar.addButton({ label: "Underline",
-        handler: function(editor) { editor.underlineSelection(); }
-      });
+      toolbar.addButton({ label: "Underline" });
 
       toolbar.addButton({
         name: 'em',
@@ -65,14 +61,16 @@
     var editor = WysiHat.Editor.attach('content');
     var toolbar = new WysiHat.Toolbar(editor);
 
-    toolbar.addButton({ label: "Bold" }, function(editor) {
-      editor.boldSelection();
-    });
+    // The name will be used for the div class and the command to execute
+    // The label is the text you see for the button.
+    toolbar.addButton({ name: 'bold', label: "Strong" });
 
-    toolbar.addButton({ label: "Underline",
-      handler: function(editor) { editor.underlineSelection(); }
-    });
+    // The label is the only required option. If no name is given,
+    // the label will be downcased and set to the name.
+    toolbar.addButton({ label: "Underline" });
 
+    // You can override all the conventions by passing in your own
+    // name, label, handler, and query options.
     toolbar.addButton({
       name: 'em',
       label: "Emphasis",

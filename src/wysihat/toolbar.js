@@ -95,7 +95,9 @@ WysiHat.Toolbar = Class.create((function() {
     }).update('<span>' + label + '</span>');
     button.addClassName(name);
 
-    var handler = handler || options.get('handler');
+    var handler = handler || options.get('handler') || function(editor) {
+      editor.execCommand(name);
+    };
     this.observeButtonClick(button, handler);
 
     var query = options.get('query') || function(editor) {
@@ -173,32 +175,13 @@ WysiHat.Toolbar = Class.create((function() {
 WysiHat.Toolbar.ButtonSets = {};
 
 /**
- * WysiHat.Toolbar.ButtonSets.Basic = $A([
- *    [{ name: 'bold', label: "Bold" }, function(editor) {
- *      editor.boldSelection();
- *    }],
- *
- *    [{ name: 'underline', label: "Underline" }, function(editor) {
- *      editor.underlineSelection();
- *    }],
- *
- *    [{ name: 'italic', label: "Italic" }, function(editor) {
- *      editor.italicSelection();
- *    }]
- *  ])
- *
+ * WysiHat.Toolbar.ButtonSets.Basic
  *  A basic set of buttons: bold, underline, and italic. This set is
  *  compatible with WysiHat.Toolbar, and can be added to the toolbar with:
  *  toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
  **/
 WysiHat.Toolbar.ButtonSets.Basic = $A([
-  { label: "Bold", handler: function(editor) {
-    editor.boldSelection(); }
-  },
-  { label: "Underline", handler: function(editor) {
-    editor.underlineSelection(); }
-  },
-  { label: "Italic", handler: function(editor) {
-    editor.italicSelection(); }
-  }
+  { label: "Bold" },
+  { label: "Underline" },
+  { label: "Italic" }
 ]);
