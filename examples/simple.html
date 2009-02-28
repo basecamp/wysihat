@@ -48,8 +48,14 @@
 
 <code><pre>
   Event.observe(window, 'load', function() {
+    // Replaces the textarea 'content' with the wysiwyg editor on load
     var editor = WysiHat.Editor.attach('content');
+
+    // Create a simple toolbar bar
+    // View the source of this page to see the generated HTML
     var toolbar = new WysiHat.Toolbar(editor);
+
+    // Add the basic set of buttons, bold, underline and italic
     toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
   });
 </pre></code>
