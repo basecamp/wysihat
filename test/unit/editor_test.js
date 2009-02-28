@@ -3,7 +3,7 @@ new Test.Unit.Runner({
     var runner = this;
 
     var editor = WysiHat.Editor.attach('content');
-    editor.whenReady(function () {
+    editor.whenReady(function() {
       runner.assertNotVisible($('content'));
       runner.assert($('content_editor'));
       runner.assert($('content_editor').ready);
@@ -12,11 +12,11 @@ new Test.Unit.Runner({
       runner.assertEqual('on', $('content_editor').getDocument().designMode);
     });
 
-    runner.wait(1000, function () {});
+    runner.wait(1000, function() {});
   },
 
-  testIncludedModules: function () { with(this) {
-    var module = { xyz123: function () {} }
+  testIncludedModules: function() { with(this) {
+    var module = { xyz123: function() {} }
     var editor1 = WysiHat.Editor.attach('content');
 
     WysiHat.Editor.include(module);

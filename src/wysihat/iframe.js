@@ -55,8 +55,8 @@ WysiHat.iFrame.Methods = {
    *   'ready'.
    *
    *   Some things, like the selection object, are invalid until the
-   *   editor is ready. For certain browsers, the editor is ready 
-   *   instantaneously, for other browsers this happens after a short delay. 
+   *   editor is ready. For certain browsers, the editor is ready
+   *   instantaneously, for other browsers this happens after a short delay.
    *   Use this method to avoid having to think about it.
    **/
   whenReady: function (callback) {
@@ -64,7 +64,7 @@ WysiHat.iFrame.Methods = {
       callback(this);
     } else {
       var editor = this;
-      editor.observe('wysihat:ready', function () { callback(editor); });
+      editor.observe('wysihat:ready', function() { callback(editor); });
     }
     return this;
   },
