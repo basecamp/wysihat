@@ -49,7 +49,7 @@ WysiHat.Editor = {
    *  and its function properties will be available on any editor instance.
    *
    *  eg:
-   *    WysiHat.Editor.include({echo: function (val) { alert(val) }})
+   *    WysiHat.Editor.include({echo: function(val) { alert(val) }})
    *
    *  This makes the 'echo' function defined in that module available directly
    *  on the editor instance. Consequently (if 'editor' is the result of
@@ -63,7 +63,7 @@ WysiHat.Editor = {
    *  instance is created -- this is not retrospective, and extant editor
    *  instances will be unaffected.
    **/
-  include: function (module) {
+  include: function(module) {
     this.includedModules = this.includedModules || $A([]);
     this.includedModules.push(module);
   }

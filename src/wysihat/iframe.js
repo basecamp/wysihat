@@ -8,8 +8,8 @@ WysiHat.iFrame = {
 
     Object.extend(editArea, WysiHat.iFrame.Methods);
     if (WysiHat.Editor.includedModules) {
-      WysiHat.Editor.includedModules.each(function (mod) {
-        Object.extend(editArea, mod);
+      WysiHat.Editor.includedModules.each(function(module) {
+        Object.extend(editArea, module);
       });
     }
 
@@ -59,7 +59,7 @@ WysiHat.iFrame.Methods = {
    *   instantaneously, for other browsers this happens after a short delay.
    *   Use this method to avoid having to think about it.
    **/
-  whenReady: function (callback) {
+  whenReady: function(callback) {
     if (this.ready) {
       callback(this);
     } else {

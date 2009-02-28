@@ -139,10 +139,10 @@
   <p id="testCursorMove">testCursorMove: click here, click in the text, and click here again</p>
   <script type="text/javascript">
     testElem = $('testCursorMove');
-    testElem.observe('click', function (e) {
+    testElem.observe('click', function(e) {
       if (!testElem.testRunning) {
         testElem.testRunning = true;
-        testElem.fn = function (e) { testElem.testEventRecorded = "true"; }
+        testElem.fn = function(e) { testElem.testEventRecorded = "true"; }
         Event.observe(editor, 'wysihat:cursormove', testElem.fn);
       } else {
         Event.stopObserving(editor, 'wysihat:cursormove', testElem.fn);
@@ -165,7 +165,7 @@
     then <a href="#">click here</a>
   </p>
   <script type="text/javascript">
-    $('testSelectionState').down('a').observe('click', function (e) {
+    $('testSelectionState').down('a').observe('click', function(e) {
       if (!editor.queryCommandState('italic')) {
         $('testSelectionState').passed('Pass');
       } else {
@@ -179,7 +179,7 @@
     then <a href="#">click here</a>
   </p>
   <script type="text/javascript">
-    $('testSelectImage').down('a').observe('click', function (e) {
+    $('testSelectImage').down('a').observe('click', function(e) {
       if (editor.selection.getNode().tagName.toLowerCase() == 'img') {
         $('testSelectImage').passed('Pass');
       } else {
