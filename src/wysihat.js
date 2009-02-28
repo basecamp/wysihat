@@ -14,19 +14,7 @@
 var WysiHat = {};
 
 //= require "wysihat/editor"
-
-//= require "wysihat/commands"
-//= require "wysihat/events"
-//= require "wysihat/persistence"
-//= require "wysihat/window"
-
-//= require "wysihat/iframe"
-//= require "wysihat/editable"
-
-//= require "wysihat/formatter"
-//= require "wysihat/sanitizer"
-
-//= require "wysihat/range"
-//= require "wysihat/selection"
-
+//= require "wysihat/models"
+//= require "wysihat/lang"
+//= require "wysihat/dom"
 //= require "wysihat/toolbar"

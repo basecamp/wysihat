@@ -75,3 +75,8 @@ WysiHat.Editor = {
     });
   }
 };
+
+//= require "editor/commands"
+//= require "editor/events"
+//= require "editor/persistence"
+//= require "editor/window"
