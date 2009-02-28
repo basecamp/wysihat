@@ -55,8 +55,7 @@
 
       toolbar.addButton({
         label: "Link",
-        handler: function (editor) { return editor.promptLinkSelection(); },
-        query: function (editor) { return editor.linkSelected(); }
+        handler: function(editor) { return editor.promptLinkSelection(); }
       });
 
       editor.outputFilter = function(text) {

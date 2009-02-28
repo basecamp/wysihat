@@ -13,143 +13,143 @@
  * In this example, it is important to stop the click event so you don't
  * lose your current selection.
  **/
-WysiHat.Commands = {
+WysiHat.Commands = (function() {
   /**
    * WysiHat.Commands#boldSelection() -> undefined
    *  Bolds the current selection.
    **/
-  boldSelection: function() {
+  function boldSelection() {
     this.execCommand('bold', false, null);
-  },
+  }
 
   /**
    * WysiHat.Commands#boldSelected() -> boolean
    *  Check if current selection is bold or strong.
    **/
-  boldSelected: function() {
+  function boldSelected() {
     return this.queryCommandState('bold');
-  },
+  }
 
   /**
    * WysiHat.Commands#underlineSelection() -> undefined
    *  Underlines the current selection.
    **/
-  underlineSelection: function() {
+  function underlineSelection() {
     this.execCommand('underline', false, null);
-  },
+  }
 
   /**
    * WysiHat.Commands#underlineSelected() -> boolean
    *  Check if current selection is underlined.
    **/
-  underlineSelected: function() {
+  function underlineSelected() {
     return this.queryCommandState('underline');
-  },
+  }
 
   /**
    * WysiHat.Commands#italicSelection() -> undefined
    *  Italicizes the current selection.
    **/
-  italicSelection: function() {
+  function italicSelection() {
     this.execCommand('italic', false, null);
-  },
+  }
 
   /**
    * WysiHat.Commands#italicSelected() -> boolean
    *  Check if current selection is italic or emphasized.
    **/
-  italicSelected: function() {
+  function italicSelected() {
     return this.queryCommandState('italic');
-  },
+  }
 
   /**
    * WysiHat.Commands#italicSelection() -> undefined
    *  Strikethroughs the current selection.
    **/
-  strikethroughSelection: function() {
+  function strikethroughSelection() {
     this.execCommand('strikethrough', false, null);
-  },
+  }
 
   /**
    * WysiHat.Commands#blockquoteSelection() -> undefined
    *  Blockquotes the current selection.
    **/
-  blockquoteSelection: function() {
+  function blockquoteSelection() {
     this.execCommand('blockquote', false, null);
-  },
+  }
 
   /**
    * WysiHat.Commands#colorSelection(color) -> undefined
    * - color (String): a color name or hexadecimal value
    *  Sets the foreground color of the current selection.
    **/
-  colorSelection: function(color) {
+  function colorSelection(color) {
     this.execCommand('forecolor', false, color);
-  },
+  }
 
   /**
    * WysiHat.Commands#linkSelection(url) -> undefined
    * - url (String): value for href
    *  Wraps the current selection in a link.
    **/
-  linkSelection: function(url) {
+  function linkSelection(url) {
     this.execCommand('createLink', false, url);
-  },
+  }
 
   /**
    * WysiHat.Commands#unlinkSelection() -> undefined
    *  Selects the entire link at the cursor and removes it
    **/
-  unlinkSelection: function() {
+  function unlinkSelection() {
     var node = this.selection.getNode();
     if (this.linkSelected())
       this.selection.selectNode(node);
 
     this.execCommand('unlink', false, null);
-  },
+  }
 
   /**
    * WysiHat.Commands#linkSelected() -> boolean
    *  Check if current selection is link.
    **/
-  linkSelected: function() {
+  function linkSelected() {
     var node = this.selection.getNode();
     return node ? node.tagName.toUpperCase() == 'A' : false;
-  },
+  }
 
   /**
    * WysiHat.Commands#insertOrderedList() -> undefined
    *  Formats current selection as an ordered list. If the selection is empty
    *  a new list is inserted.
    **/
-  insertOrderedList: function() {
+  function insertOrderedList() {
     this.execCommand('insertorderedlist', false, null);
-  },
+  }
 
   /**
    * WysiHat.Commands#insertUnorderedList() -> undefined
    *  Formats current selection as an unordered list. If the selection is empty
    *  a new list is inserted.
    **/
-  insertUnorderedList: function() {
+  function insertUnorderedList() {
     this.execCommand('insertunorderedlist', false, null);
-  },
+  }
 
   /**
    * WysiHat.Commands#insertImage(url) -> undefined
    * - url (String): value for src
    *  Insert an image at the insertion point with the given url.
    **/
-  insertImage: function(url) {
+  function insertImage(url) {
     this.execCommand('insertImage', false, url);
-  },
+  }
 
   /**
    * WysiHat.Commands#insertHTML(html) -> undefined
    * - html (String): HTML or plain text
    *  Insert HTML at the insertion point.
    **/
-  insertHTML: function(html) {
+  function insertHTML(html) {
     if (Prototype.Browser.IE) {
       var range = this._selection.getRange();
       range.pasteHTML(html);
@@ -158,7 +158,7 @@ WysiHat.Commands = {
     } else {
       this.execCommand('insertHTML', false, html);
     }
-  },
+  }
 
   /**
    * WysiHat.Commands#execCommand(command[, ui = false][, value = null]) -> undefined
@@ -168,21 +168,57 @@ WysiHat.Commands = {
    * - value (String): Value to pass to command
    *  A simple delegation method to the documents execCommand method.
    **/
-  execCommand: function(command, ui, value) {
+  function execCommand(command, ui, value) {
     var document = this.getDocument();
     document.execCommand(command, ui, value);
-  },
+  }
 
   /**
    * WysiHat.Commands#queryCommandState(state) -> Boolean
    * - state (String): bold, italic, underline, etc
    *
-   *  A simple delegation method to the document's queryCommandState method.
+   *  A delegation method to the document's queryCommandState method.
+   *
+   *  Custom states handlers can be added to the queryCommands hash,
+   *  which will be checked before calling the native queryCommandState
+   *  command.
+   *
+   *  editor.queryCommands.set("link", editor.linkSelected);
    **/
-  queryCommandState: function(state) {
+  function queryCommandState(state) {
     var document = this.getDocument();
-    return document.queryCommandState(state);
+
+    var handler = this.queryCommands.get(state)
+    if (handler)
+      return handler.bind(this)();
+    else
+      return document.queryCommandState(state);
   }
-};
+
+  return {
+    boldSelection:          boldSelection,
+    boldSelected:           boldSelected,
+    underlineSelection:     underlineSelection,
+    underlineSelected:      underlineSelected,
+    italicSelection:        italicSelection,
+    italicSelected:         italicSelected,
+    strikethroughSelection: strikethroughSelection,
+    blockquoteSelection:    blockquoteSelection,
+    colorSelection:         colorSelection,
+    linkSelection:          linkSelection,
+    unlinkSelection:        unlinkSelection,
+    linkSelected:           linkSelected,
+    insertOrderedList:      insertOrderedList,
+    insertUnorderedList:    insertUnorderedList,
+    insertImage:            insertImage,
+    insertHTML:             insertHTML,
+    execCommand:            execCommand,
+    queryCommandState:      queryCommandState,
+
+    queryCommands: $H({
+      link: linkSelected
+    })
+  };
+})();
 
 WysiHat.Editor.include(WysiHat.Commands);

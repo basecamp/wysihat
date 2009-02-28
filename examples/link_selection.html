@@ -51,8 +51,7 @@
 
       toolbar.addButton({
         label: "Link",
-        handler: function (editor) { return editor.promptLinkSelection(); },
-        query: function (editor) { return editor.linkSelected(); }
+        handler: function(editor) { return editor.promptLinkSelection(); }
       });
 
       // Hide our error message if the editor loads fine
@@ -88,8 +87,7 @@
 
     toolbar.addButton({
       label: "Link",
-      handler: function (editor) { return editor.promptLinkSelection(); },
-      query: function (editor) { return editor.linkSelected(); }
+      handler: function(editor) { return editor.promptLinkSelection(); }
     });
   });
 </pre></code>
