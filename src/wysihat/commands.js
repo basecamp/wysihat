@@ -170,7 +170,12 @@ WysiHat.Commands = (function() {
    **/
   function execCommand(command, ui, value) {
     var document = this.getDocument();
-    document.execCommand(command, ui, value);
+
+    var handler = this.commands.get(command)
+    if (handler)
+      handler.bind(this)(value);
+    else
+      document.execCommand(command, ui, value);
   }
 
   /**
@@ -214,6 +219,8 @@ WysiHat.Commands = (function() {
     insertHTML:             insertHTML,
     execCommand:            execCommand,
     queryCommandState:      queryCommandState,
+
+    commands: $H({}),
 
     queryCommands: $H({
       link: linkSelected
