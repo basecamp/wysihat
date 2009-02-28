@@ -97,6 +97,27 @@ WysiHat.Commands = {
   },
 
   /**
+   * WysiHat.Commands#unlinkSelection() -> undefined
+   *  Selects the entire link at the cursor and removes it
+   **/
+  unlinkSelection: function() {
+    var node = this.selection.getNode();
+    if (this.linkSelected())
+      this.selection.selectNode(node);
+
+    this.execCommand('unlink', false, null);
+  },
+
+  /**
+   * WysiHat.Commands#linkSelected() -> boolean
+   *  Check if current selection is link.
+   **/
+  linkSelected: function() {
+    var node = this.selection.getNode();
+    return node ? node.tagName.toUpperCase() == 'A' : false;
+  },
+
+  /**
    * WysiHat.Commands#insertOrderedList() -> undefined
    *  Formats current selection as an ordered list. If the selection is empty
    *  a new list is inserted.

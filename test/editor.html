@@ -32,21 +32,14 @@
   <script type="text/javascript" charset="utf-8">
     var LinkSelectionHelper = {
       promptLinkSelection: function() {
-        var node = this.selection.getNode();
-        if (node.tagName == 'A') {
-          this.selection.selectNode(node);
+        if (this.linkSelected()) {
           if (confirm("Remove link?"))
-            this.execCommand('unlink');
+            this.unlinkSelection();
         } else {
           var value = prompt("Enter a URL", "http://www.google.com/");
           if (value)
             this.linkSelection(value);
         }
-      },
-
-      linkSelected: function() {
-        var node = this.selection.getNode();
-        return node ? node.tagName == 'A' : false;
       }
     }
 
