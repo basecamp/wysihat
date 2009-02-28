@@ -11,9 +11,7 @@ WysiHat.Editable = {
     });
     editArea.textarea = textarea;
 
-    Object.extend(editArea, WysiHat.Commands);
-    Object.extend(editArea, WysiHat.Persistence);
-    Object.extend(editArea, WysiHat.Window);
+    WysiHat.Editor.extend(editArea);
     Object.extend(editArea, WysiHat.Editable.Methods);
 
     callback(editArea);

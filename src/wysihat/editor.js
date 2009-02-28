@@ -66,5 +66,12 @@ WysiHat.Editor = {
   include: function(module) {
     this.includedModules = this.includedModules || $A([]);
     this.includedModules.push(module);
+  },
+
+  extend: function(object) {
+    var modules = this.includedModules || $A([]);
+    modules.each(function(module) {
+      Object.extend(object, module);
+    });
   }
 };
