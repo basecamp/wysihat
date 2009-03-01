@@ -143,6 +143,7 @@ WysiHat.Toolbar = Class.create((function() {
     element.observe('click', function(event) {
       handler(toolbar.editor);
       toolbar.editor.fire("wysihat:change");
+      toolbar.editor.fire("wysihat:cursormove");
       Event.stop(event);
     });
   }
