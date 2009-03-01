@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>WYSIWYG</title>
+
+  <style type="text/css" media="screen">
+    iframe {
+      width: 100%;
+      height: 150px;
+      border: 1px solid #999;
+    }
+
+    .toolbar a {
+      float: left;
+      margin: 2px 5px;
+    }
+
+    .toolbar .highlight {
+      color: red !important;
+    }
+
+    #error {
+      font: 18px helvetica, arial, sans-serif;
+      color: red;
+    }
+  </style>
+
+  <script type="text/javascript" src="../dist/prototype.js"></script>
+  <script type="text/javascript" src="../dist/wysihat.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+    Toolbar = Class.create(WysiHat.Toolbar, {
+      createToolbarElement: function() {
+        var toolbar = new Element('div', { 'class': 'toolbar' });
+        this.editor.insert({before: toolbar});
+        return toolbar;
+      },
+
+      createButtonElement: function(toolbar, options) {
+        var button = Element('a', { 'href': '#' });
+        button.update(options.get('label'));
+        button.addClassName('button_' + options.get('name'));
+        toolbar.appendChild(button);
+
+        return button;
+      },
+
+      updateButtonState: function(element, name, state) {
+        if (state)
+          element.addClassName('highlight');
+        else
+          element.removeClassName('highlight');
+      }
+    });
+
+    Event.observe(window, 'load', function() {
+      var editor = WysiHat.Editor.attach('content');
+      var toolbar = new Toolbar(editor);
+      toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+
+      // Hide our error message if the editor loads fine
+      $('error').hide();
+    });
+  </script>
+</head>
+
+<body>
+  <p id="error">Oops, you need to build the package before running this example. It's easy: just run <code>rake</code> in the project's directory.</p>
+
+  <p>This demonstrates how you can subclass the built in toolbar class and add your own behavior to it.</p>
+
+<code><pre>
+  Toolbar = Class.create(WysiHat.Toolbar, {
+    createToolbarElement: function() {
+      var toolbar = new Element('div', { 'class': 'toolbar' });
+      this.editor.insert({before: toolbar});
+      return toolbar;
+    },
+
+    createButtonElement: function(toolbar, options) {
+      var button = Element('a', { 'href': '#' });
+      button.update(options.get('label'));
+      button.addClassName('button_' + options.get('name'));
+      toolbar.appendChild(button);
+
+      return button;
+    },
+
+    updateButtonState: function(element, name, state) {
+      if (state)
+        element.addClassName('highlight');
+      else
+        element.removeClassName('highlight');
+    }
+  });
+
+  Event.observe(window, 'load', function() {
+    var editor = WysiHat.Editor.attach('content');
+    var toolbar = new Toolbar(editor);
+    toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+  });
+</pre></code>
+
+  <form action="#" method="post" style="width: 500px;">
+    <!-- This HTML will be automatically generated for you by the toolbar class
+    <div class="toolbar">
+      <a class="button_bold" href="#">Bold</a>
+      <a class="button_underline" href="#">Underline</a>
+      <a class="button_italic" href="#">Italic</a>
+    </div>
+    <iframe id="content_editor" style="display: none;"> -->
+    <textarea id="content"></textarea>
+  </form>
+</body>
+</html>

@@ -3,38 +3,27 @@
  **/
 WysiHat.Toolbar = Class.create((function() {
   /**
-   * new WysiHat.Toolbar(editor[, options])
+   * new WysiHat.Toolbar(editor)
    * - editor (WysiHat.Editor): the editor object that you want to attach to
-   * - options (Hash): options for configuring the Toolbar
    *
    *  Creates a toolbar element above the editor. The WysiHat.Toolbar object
    *  has many helper methods to easily add buttons to the toolbar.
    *
    *  This toolbar class is not required for the Editor object to function.
    *  It is merely a set of helper methods to get you started and to build
-   *  on top of.
-   *
-   *  The options hash accepts a few configuration options.
-   *  - position (String): before, after, top, or bottom
-   *  - container (String | Element): an id or DOM node of the element to
-   *     insert the Toolbar into. It is inserted before the editor by default.
+   *  on top of. If you are going to use this class in your application,
+   *  it is highly recommended that you subclass it and override methods
+   *  to add custom functionality.
    **/
-  function initialize(editor, options) {
-    options = $H(options);
-
+  function initialize(editor) {
     this.editor = editor;
-    this.element = new Element('div', { 'class': 'editor_toolbar' });
-
-    insertToolbar(this, options);
+    this.element = this.createToolbarElement();
   }
 
-  function insertToolbar(toolbar, options) {
-    var position = options.get('position') || 'before';
-    var container = options.get('container') || toolbar.editor;
-
-    var insertOptions = $H({});
-    insertOptions.set(position, toolbar.element);
-    $(container).insert(insertOptions.toObject());
+  function createToolbarElement() {
+    var toolbar = new Element('div', { 'class': 'editor_toolbar' });
+    this.editor.insert({before: toolbar});
+    return toolbar;
   }
 
   /**
@@ -63,8 +52,6 @@ WysiHat.Toolbar = Class.create((function() {
     $A(set).each(function(button){
       toolbar.addButton(button);
     });
-
-    return this;
   }
 
   /**
@@ -87,81 +74,84 @@ WysiHat.Toolbar = Class.create((function() {
   function addButton(options, handler) {
     options = $H(options);
 
-    var label = options.get('label');
-    var name = options.get('name') || label.toLowerCase();
+    if (!options.get('name'))
+      options.set('name', options.get('label').toLowerCase());
+    var name = options.get('name');
 
-    var button = Element('a', {
-      'class': 'button', 'href': '#'
-    }).update('<span>' + label + '</span>');
-    button.addClassName(name);
+    var button = this.createButtonElement(this.element, options);
 
-    var handler = handler || options.get('handler') || function(editor) {
-      editor.execCommand(name);
-    };
+    var handler = this.buttonHandler(name, options);
     this.observeButtonClick(button, handler);
 
-    var query = options.get('query') || function(editor) {
-      return editor.queryCommandState(name);
-    };
-    this.observeStateChanges(button, query);
-
-    this.element.appendChild(button);
-
-    return this;
+    var handler = this.buttonStateHandler(name, options);
+    this.observeStateChanges(button, name, handler)
   }
 
-  /**
-   * WysiHat.Toolbar#observeButtonClick(element, handler) -> undefined
-   * - element (String | Element): Element to bind handler to
-   * - handler (Function): Function to bind to the element
-   *   fires wysihat:change
-   *
-   *  In addition to binding the given handler to the element, this observe
-   *  function also sets up a few more events. When the elements onclick is
-   *  fired, the toolbars hasMouseDown property will be set to true and
-   *  back to false on exit.
-   **/
+  function createButtonElement(toolbar, options) {
+    var button = Element('a', {
+      'class': 'button', 'href': '#'
+    });
+    button.update('<span>' + options.get('label') + '</span>');
+    button.addClassName(options.get('name'));
+
+    toolbar.appendChild(button);
+
+    return button;
+  }
+
+  function buttonHandler(name, options) {
+    if (options.handler)
+      return options.handler;
+    else if (options.get('handler'))
+      return options.get('handler');
+    else
+      return function(editor) { editor.execCommand(name); };
+  }
+
   function observeButtonClick(element, handler) {
     var toolbar = this;
-    $(element).observe('click', function(event) {
+    element.observe('click', function(event) {
       handler(toolbar.editor);
       toolbar.editor.fire("wysihat:change");
       Event.stop(event);
     });
-    return this;
   }
 
-  /**
-   * WysiHat.Toolbar#observeStateChanges(element, command) -> undefined
-   * - element (String | Element): Element to receive changes
-   * - command (String): Name of editor command to observe
-   *
-   *  Adds the class "selected" to the given Element when the selected text
-   *  matches the command.
-   *
-   *  toolbar.observeStateChanges(buttonElement, 'bold')
-   *  would add the class "selected" to the buttonElement when the editor's
-   *  selected text was bold.
-   **/
-  function observeStateChanges(element, handler) {
-    var editor = this.editor;
+  function buttonStateHandler(name, options) {
+    if (options.query)
+      return options.query;
+    else if (options.get('query'))
+      return options.get('query');
+    else
+      return function(editor) { return editor.queryCommandState(name); };
+  }
 
-    editor.observe("wysihat:cursormove", function(event) {
-      if (handler(editor))
-        element.addClassName('selected');
-      else
-        element.removeClassName('selected');
+  function observeStateChanges(element, name, handler) {
+    var toolbar = this;
+    toolbar.editor.observe("wysihat:cursormove", function(event) {
+      var state = handler(toolbar.editor);
+      toolbar.updateButtonState(element, name, state);
     });
+  }
 
-    return this;
+  function updateButtonState(element, name, state) {
+    if (state)
+      element.addClassName('selected');
+    else
+      element.removeClassName('selected');
   }
 
   return {
-    initialize:          initialize,
-    addButtonSet:        addButtonSet,
-    addButton:           addButton,
-    observeButtonClick:  observeButtonClick,
-    observeStateChanges: observeStateChanges
+    initialize:           initialize,
+    createToolbarElement: createToolbarElement,
+    addButtonSet:         addButtonSet,
+    addButton:            addButton,
+    createButtonElement:  createButtonElement,
+    buttonHandler:        buttonHandler,
+    observeButtonClick:   observeButtonClick,
+    buttonStateHandler:   buttonStateHandler,
+    observeStateChanges:  observeStateChanges,
+    updateButtonState:    updateButtonState
   };
 })());
 
