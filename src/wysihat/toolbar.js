@@ -1,10 +1,10 @@
-/** section: wysihat
- * class WysiHat.Toolbar
- **/
+/** section: toolbar
+ *  class WysiHat.Toolbar
+**/
 WysiHat.Toolbar = Class.create((function() {
   /**
-   * new WysiHat.Toolbar(editor)
-   * - editor (WysiHat.Editor): the editor object that you want to attach to
+   *  new WysiHat.Toolbar(editor)
+   *  - editor (WysiHat.Editor): the editor object that you want to attach to
    *
    *  Creates a toolbar element above the editor. The WysiHat.Toolbar object
    *  has many helper methods to easily add buttons to the toolbar.
@@ -14,14 +14,15 @@ WysiHat.Toolbar = Class.create((function() {
    *  on top of. If you are going to use this class in your application,
    *  it is highly recommended that you subclass it and override methods
    *  to add custom functionality.
-   **/
+  **/
   function initialize(editor) {
     this.editor = editor;
     this.element = this.createToolbarElement();
   }
 
   /**
-   * WysiHat.Toolbar#createToolbarElement() -> Element
+   *  WysiHat.Toolbar#createToolbarElement() -> Element
+   *
    *  Creates a toolbar container element and inserts it right above the
    *  original textarea element. The element is a div with the class
    *  'editor_toolbar'.
@@ -29,7 +30,7 @@ WysiHat.Toolbar = Class.create((function() {
    *  You can override this method to customize the element attributes and
    *  insert position. Be sure to return the element after it has been
    *  inserted.
-   **/
+  **/
   function createToolbarElement() {
     var toolbar = new Element('div', { 'class': 'editor_toolbar' });
     this.editor.insert({before: toolbar});
@@ -37,12 +38,12 @@ WysiHat.Toolbar = Class.create((function() {
   }
 
   /**
-   * WysiHat.Toolbar#addButtonSet(set) -> undefined
+   *  WysiHat.Toolbar#addButtonSet(set) -> undefined
    *  - set (Array): The set array contains nested arrays that hold the
    *  button options, and handler.
    *
    *  Adds a button set to the toolbar.
-   **/
+  **/
   function addButtonSet(set) {
     var toolbar = this;
     $A(set).each(function(button){
@@ -51,9 +52,9 @@ WysiHat.Toolbar = Class.create((function() {
   }
 
   /**
-   * WysiHat.Toolbar#addButton(options[, handler]) -> undefined
-   * - options (Hash): Required options hash
-   * - handler (Function): Function to bind to the button
+   *  WysiHat.Toolbar#addButton(options[, handler]) -> undefined
+   *  - options (Hash): Required options hash
+   *  - handler (Function): Function to bind to the button
    *
    *  The options hash accepts two required keys, name and label. The label
    *  value is used as the link's inner text. The name value is set to the
@@ -72,7 +73,7 @@ WysiHat.Toolbar = Class.create((function() {
    *
    *  Would create a link,
    *  "<a href='#' class='button bold'><span>Bold</span></a>"
-   **/
+  **/
   function addButton(options, handler) {
     options = $H(options);
 
@@ -90,9 +91,9 @@ WysiHat.Toolbar = Class.create((function() {
   }
 
   /**
-   * WysiHat.Toolbar#createButtonElement(toolbar, options) -> Element
-   * - toolbar (Element): Toolbar element created by createToolbarElement
-   * - options (Hash): Options hash that pass from addButton
+   *  WysiHat.Toolbar#createButtonElement(toolbar, options) -> Element
+   *  - toolbar (Element): Toolbar element created by createToolbarElement
+   *  - options (Hash): Options hash that pass from addButton
    *
    *  Creates individual button elements and inserts them into the toolbar
    *  container. The default elements are 'a' tags with a 'button' class.
@@ -100,7 +101,7 @@ WysiHat.Toolbar = Class.create((function() {
    *  You can override this method to customize the element attributes and
    *  insert positions. Be sure to return the element after it has been
    *  inserted.
-   **/
+  **/
   function createButtonElement(toolbar, options) {
     var button = Element('a', {
       'class': 'button', 'href': '#'
@@ -114,14 +115,14 @@ WysiHat.Toolbar = Class.create((function() {
   }
 
   /**
-   * WysiHat.Toolbar#buttonHandler(name, options) -> Function
-   * - name (String): Name of button command: 'bold', 'italic'
-   * - options (Hash): Options hash that pass from addButton
+   *  WysiHat.Toolbar#buttonHandler(name, options) -> Function
+   *  - name (String): Name of button command: 'bold', 'italic'
+   *  - options (Hash): Options hash that pass from addButton
    *
    *  Returns the button handler function to bind to the buttons onclick
    *  event. It checks the options for a 'handler' attribute otherwise it
    *  defaults to a function that calls execCommand with the button name.
-   **/
+  **/
   function buttonHandler(name, options) {
     if (options.handler)
       return options.handler;
@@ -132,12 +133,12 @@ WysiHat.Toolbar = Class.create((function() {
   }
 
   /**
-   * WysiHat.Toolbar#observeButtonClick(element, handler) -> undefined
-   * - element (Element): Button element
-   * - handler (Function): Handler function to bind to element
+   *  WysiHat.Toolbar#observeButtonClick(element, handler) -> undefined
+   *  - element (Element): Button element
+   *  - handler (Function): Handler function to bind to element
    *
    *  Bind handler to elements onclick event.
-   **/
+  **/
   function observeButtonClick(element, handler) {
     var toolbar = this;
     element.observe('click', function(event) {
@@ -149,15 +150,15 @@ WysiHat.Toolbar = Class.create((function() {
   }
 
   /**
-   * WysiHat.Toolbar#buttonStateHandler(name, options) -> Function
-   * - name (String): Name of button command: 'bold', 'italic'
-   * - options (Hash): Options hash that pass from addButton
+   *  WysiHat.Toolbar#buttonStateHandler(name, options) -> Function
+   *  - name (String): Name of button command: 'bold', 'italic'
+   *  - options (Hash): Options hash that pass from addButton
    *
    *  Returns the button handler function that checks whether the button
    *  state is on (true) or off (false). It checks the options for a
    *  'query' attribute otherwise it defaults to a function that calls
    *  queryCommandState with the button name.
-   **/
+  **/
   function buttonStateHandler(name, options) {
     if (options.query)
       return options.query;
@@ -168,14 +169,14 @@ WysiHat.Toolbar = Class.create((function() {
   }
 
   /**
-   * WysiHat.Toolbar#observeStateChanges(element, name, handler) -> undefined
-   * - element (Element): Button element
-   * - name (String): Button name
-   * - handler (Function): State query function
+   *  WysiHat.Toolbar#observeStateChanges(element, name, handler) -> undefined
+   *  - element (Element): Button element
+   *  - name (String): Button name
+   *  - handler (Function): State query function
    *
    *  Determines buttons state by calling the query handler function then
    *  calls updateButtonState.
-   **/
+  **/
   function observeStateChanges(element, name, handler) {
     var toolbar = this;
     var previousState = handler(toolbar.editor);
@@ -189,17 +190,17 @@ WysiHat.Toolbar = Class.create((function() {
   }
 
   /**
-   * WysiHat.Toolbar#updateButtonState(element, name, state) -> undefined
-   * - element (Element): Button element
-   * - name (String): Button name
-   * - state (Boolean): Whether button state is on/off
+   *  WysiHat.Toolbar#updateButtonState(element, name, state) -> undefined
+   *  - element (Element): Button element
+   *  - name (String): Button name
+   *  - state (Boolean): Whether button state is on/off
    *
    *  If the state is on, it adds a 'selected' class to the button element.
    *  Otherwise it removes the 'selected' class.
    *
    *  You can override this method to change the class name or styles
    *  applied to buttons when their state changes.
-   **/
+  **/
   function updateButtonState(element, name, state) {
     if (state)
       element.addClassName('selected');

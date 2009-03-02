@@ -1,10 +1,10 @@
-/** section: wysihat
- * class String
- **/
+/** section: lang
+ *  class String
+**/
 Object.extend(String.prototype, {
   /**
-   * String#sanitize([options]) -> String
-   * - options (Hash): Whitelist options
+   *  String#sanitize([options]) -> String
+   *  - options (Hash): Whitelist options
    *
    *  Sanitizes HTML tags and attributes. Options accepts an array of
    *  allowed tags and attributes.
@@ -13,25 +13,25 @@ Object.extend(String.prototype, {
    *      tags: ['a'],
    *      attributes: ['href']
    *   })`
-   **/
+  **/
   sanitize: function(options) {
     return Element("div").update(this).sanitize(options).innerHTML.tidyXHTML();
   }
 });
 
-/** section: wysihat
- * class Element
- **/
+/** section: lang
+ *  class Element
+**/
 Element.addMethods({
   /**
-   * Element#sanitize([options]) -> Element
-   * - options (Hash): Whitelist options
+   *  Element#sanitize([options]) -> Element
+   *  - options (Hash): Whitelist options
    *
    *  Sanitizes element tags and attributes. Options accepts an array of
    *  allowed tags and attributes.
    *
    *  This method is called by `String#sanitize()`.
-   **/
+  **/
   sanitize: function(element, options) {
     element = $(element);
     options = $H(options);

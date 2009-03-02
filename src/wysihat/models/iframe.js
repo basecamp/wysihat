@@ -1,7 +1,7 @@
-/** section: wysihat
- * WysiHat.iFrame
+/** section: models
+ *  WysiHat.iFrame
  *  includes WysiHat.Commands, WysiHat.Persistence, WysiHat.Window, WysiHat.iFrame.Methods
- **/
+**/
 WysiHat.iFrame = {
   create: function(textarea, callback) {
     var editArea = new Element('iframe', { 'id': textarea.id + '_editor', 'class': 'editor' });
@@ -16,9 +16,9 @@ WysiHat.iFrame = {
   }
 };
 
-/** section: wysihat
- * WysiHat.iFrame.Methods
- **/
+/** section: models
+ *  WysiHat.iFrame.Methods
+**/
 WysiHat.iFrame.Methods = {
   attach: function(element, callback) {
     this.textarea = element;
@@ -45,15 +45,15 @@ WysiHat.iFrame.Methods = {
   },
 
   /**
-   * WysiHat.iFrame#whenReady(callback) -> HTMLElement
-   * - callback (Function): a function that is called if or when the editor is
-   *   'ready'.
+   *  WysiHat.iFrame#whenReady(callback) -> Element
+   *  - callback (Function): a function that is called if or when the editor is
+   *    'ready'.
    *
-   *   Some things, like the selection object, are invalid until the
-   *   editor is ready. For certain browsers, the editor is ready
-   *   instantaneously, for other browsers this happens after a short delay.
-   *   Use this method to avoid having to think about it.
-   **/
+   *  Some things, like the selection object, are invalid until the
+   *  editor is ready. For certain browsers, the editor is ready
+   *  instantaneously, for other browsers this happens after a short delay.
+   *  Use this method to avoid having to think about it.
+  **/
   whenReady: function(callback) {
     if (this.ready) {
       callback(this);
@@ -65,15 +65,15 @@ WysiHat.iFrame.Methods = {
   },
 
   /**
-   * WysiHat.iFrame.Methods#setStyle(styles) -> HTMLElement
-   * - styles (Hash): Styles are passed as a hash of property-value pairs in
-   *  which the properties are specified in their camelized form.
+   *  WysiHat.iFrame.Methods#setStyle(styles) -> Element
+   *  - styles (Hash): Styles are passed as a hash of property-value pairs in
+   *    which the properties are specified in their camelized form.
    *
    *  Sets the style of the body element inside the iFrame. You can use this to
    *  change the font size and family of the editable text. This method also
    *  removes paragraph margins for IE and Opera so it feels you start a new
    *  line when you hit enter, not a new paragraph.
-   **/
+  **/
   setStyle: function(styles) {
     var document = this.getDocument();
 

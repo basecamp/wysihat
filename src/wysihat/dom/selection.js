@@ -1,28 +1,28 @@
-/** section: wysihat
- * class WysiHat.Selection
+/** section: dom
+ *  class WysiHat.Selection
  **/
 WysiHat.Selection = Class.create((function() {
   /**
-   * new WysiHat.Selection(editor)
-   * - editor (WysiHat.Editor): the editor object that you want to bind to
-   **/
+   *  new WysiHat.Selection(editor)
+   *  - editor (WysiHat.Editor): the editor object that you want to bind to
+  **/
   function initialize(editor) {
     this.window = editor.getWindow();
     this.document = editor.getDocument();
   }
 
   /**
-   * WysiHat.Selection#getSelection() -> Selection
+   *  WysiHat.Selection#getSelection() -> Selection
    *  Get selected text.
-   **/
+  **/
   function getSelection() {
     return this.window.getSelection ? this.window.getSelection() : this.document.selection;
   }
 
   /**
-   * WysiHat.Selection#getRange() -> Range
+   *  WysiHat.Selection#getRange() -> Range
    *  Get range for selected text.
-   **/
+  **/
   function getRange() {
     var selection = this.getSelection();
 
@@ -43,9 +43,9 @@ WysiHat.Selection = Class.create((function() {
   }
 
   /**
-   * WysiHat.Selection#selectNode(node) -> undefined
-   * - node (Element): Element or node to select
-   **/
+   *  WysiHat.Selection#selectNode(node) -> undefined
+   *  - node (Element): Element or node to select
+  **/
   function selectNode(node) {
     var selection = this.getSelection();
 
@@ -67,9 +67,9 @@ WysiHat.Selection = Class.create((function() {
   }
 
   /**
-   * WysiHat.Selection#getNode() -> Element
+   *  WysiHat.Selection#getNode() -> Element
    *  Returns selected node.
-   **/
+  **/
   function getNode() {
     var nodes = null, candidates = [], children, el;
     var range = this.getRange();

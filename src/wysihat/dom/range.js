@@ -1,11 +1,11 @@
-/** section: wysihat
- * class Range
+/** section: dom
+ *  class Range
  *
  *  *Under construction*
  *
  *  An attempt to implement the W3C Range in IE.
  *
- **/
+**/
 if (Prototype.Browser.IE) {
   function Range(ownerDocument) {
     this.ownerDocument = ownerDocument;

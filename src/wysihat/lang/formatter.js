@@ -1,9 +1,9 @@
-/** section: wysihat
- * class String
- **/
+/** section: lang
+ *  class String
+**/
 Object.extend(String.prototype, (function() {
   /**
-   * String#formatHTMLOutput() -> String
+   *  String#formatHTMLOutput() -> String
    *
    *  Cleanup browser's HTML mess!
    *
@@ -18,7 +18,7 @@ Object.extend(String.prototype, (function() {
    *  handle whitespace.
    *
    *  Raw browser content => `String#formatHTMLOutput` => Textarea
-   **/
+  **/
   function formatHTMLOutput() {
     var text = String(this);
     text = text.tidyXHTML();
@@ -154,7 +154,7 @@ Object.extend(String.prototype, (function() {
   }
 
   /**
-   * String#formatHTMLInput() -> String
+   *  String#formatHTMLInput() -> String
    *
    *  Prepares sane HTML for editing.
    *
@@ -164,7 +164,7 @@ Object.extend(String.prototype, (function() {
    *  styling conventions.
    *
    *  Textarea => `String#formatHTMLInput` => Raw content
-   **/
+  **/
   function formatHTMLInput() {
     var text = String(this);
 
@@ -231,14 +231,14 @@ Object.extend(String.prototype, (function() {
   }
 
   /**
-   * String#tidyXHTML() -> String
+   *  String#tidyXHTML() -> String
    *
    *  Normalizes and tidies text into XHTML content.
    *
    *  - Strips out browser line breaks, '\r'
    *  - Downcases tag names
    *  - Closes line break tags
-   **/
+  **/
   function tidyXHTML() {
     var text = String(this);
 

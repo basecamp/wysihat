@@ -5,12 +5,8 @@
  *--------------------------------------------------------------------------*/
 
 /**
- * == wysihat ==
- **/
-
-/** section: wysihat
- * WysiHat
- **/
+ *  namespace WysiHat
+**/
 var WysiHat = {};
 
 //= require "wysihat/editor"

@@ -1,14 +1,14 @@
-/** section: wysihat
- * WysiHat.Editor
- **/
+/** section: editor
+ *  WysiHat.Editor
+**/
 WysiHat.Editor = {
-  /** section: wysihat
-   * WysiHat.Editor.attach(textarea) -> undefined
-   * - textarea (String | Element): an id or DOM node of the textarea that
-   *   you want to convert to rich text.
+  /** section: editor
+   *  WysiHat.Editor.attach(textarea) -> undefined
+   *  - textarea (String | Element): an id or DOM node of the textarea that
+   *    you want to convert to rich text.
    *
    *  Creates a new editor for the textarea.
-   **/
+  **/
   attach: function(textarea, options, block) {
     options = $H(options);
     textarea = $(textarea);
@@ -41,9 +41,9 @@ WysiHat.Editor = {
     });
   },
 
-  /** section: wysihat
-   * WysiHat.Editor.include(module) -> Array
-   * - module (Object): an object that will extend each editor element.
+  /** section: editor
+   *  WysiHat.Editor.include(module) -> Array
+   *  - module (Object): an object that will extend each editor element.
    *
    *  Provides extensibility for the editor. Register a module via this method,
    *  and its function properties will be available on any editor instance.
@@ -62,7 +62,7 @@ WysiHat.Editor = {
    *  You must register the module via this method *before* the editor
    *  instance is created -- this is not retrospective, and extant editor
    *  instances will be unaffected.
-   **/
+  **/
   include: function(module) {
     this.includedModules = this.includedModules || $A([]);
     this.includedModules.push(module);
