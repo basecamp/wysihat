@@ -19,19 +19,7 @@ Object.extend(String.prototype, {
   }
 });
 
-/** section: lang
- *  class Element
-**/
 Element.addMethods({
-  /**
-   *  Element#sanitize([options]) -> Element
-   *  - options (Hash): Whitelist options
-   *
-   *  Sanitizes element tags and attributes. Options accepts an array of
-   *  allowed tags and attributes.
-   *
-   *  This method is called by `String#sanitize()`.
-  **/
   sanitize: function(element, options) {
     element = $(element);
     options = $H(options);
