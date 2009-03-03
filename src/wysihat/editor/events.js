@@ -1,4 +1,4 @@
-/** section: editor
+/** section: wysihat
  *  mixin WysiHat.Events
  *
  *  Forwards common DOM events to the editor element. All events are

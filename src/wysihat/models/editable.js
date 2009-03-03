@@ -1,5 +1,5 @@
-/** section: models
- *  WysiHat.Editable
+/** section: wysihat
+ * WysiHat.Editable
  *  includes WysiHat.Commands, WysiHat.Persistence, WysiHat.Window, WysiHat.Editable.Methods
 **/
 WysiHat.Editable = {
@@ -22,8 +22,8 @@ WysiHat.Editable = {
   }
 };
 
-/** section: models
- *  WysiHat.Editable.Methods
+/** section: wysihat
+ *  mixin WysiHat.Editable.Methods
 **/
 WysiHat.Editable.Methods = {
   getDocument: function() {

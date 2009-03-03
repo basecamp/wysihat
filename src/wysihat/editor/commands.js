@@ -1,4 +1,4 @@
-/** section: editor
+/** section: wysihat
  *  mixin WysiHat.Commands
  *
  *  Methods will be mixed into the editor element. Most of these

@@ -5,7 +5,11 @@
  *--------------------------------------------------------------------------*/
 
 /**
- *  namespace WysiHat
+ * == wysihat ==
+**/
+
+/** section: wysihat
+ * WysiHat
 **/
 var WysiHat = {};
 

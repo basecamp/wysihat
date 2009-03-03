@@ -1,4 +1,4 @@
-/** section: toolbar
+/** section: wysihat
  *  class WysiHat.Toolbar
 **/
 WysiHat.Toolbar = Class.create((function() {

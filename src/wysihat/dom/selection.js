@@ -1,6 +1,6 @@
 /** section: dom
  *  class WysiHat.Selection
- **/
+**/
 WysiHat.Selection = Class.create((function() {
   /**
    *  new WysiHat.Selection(editor)

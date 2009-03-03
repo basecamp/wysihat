@@ -1,5 +1,5 @@
-/** section: models
- *  WysiHat.iFrame
+/** section: wysihat
+ * WysiHat.iFrame
  *  includes WysiHat.Commands, WysiHat.Persistence, WysiHat.Window, WysiHat.iFrame.Methods
 **/
 WysiHat.iFrame = {
@@ -16,8 +16,8 @@ WysiHat.iFrame = {
   }
 };
 
-/** section: models
- *  WysiHat.iFrame.Methods
+/** section: wysihat
+ *  mixin WysiHat.iFrame.Methods
 **/
 WysiHat.iFrame.Methods = {
   attach: function(element, callback) {
