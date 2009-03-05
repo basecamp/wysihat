@@ -1,0 +1,28 @@
+<li><h4 id="<%= dom_id(object) %>"><%= object.name %></h4>
+  
+  <% if object.is_a?(Documentation::Method) %>
+    <%= method_synopsis(object) %>
+    <% unless object.arguments.empty? %>
+      <ul class="argument-list">
+        <% object.arguments.each do |arg| %>
+          <li>
+            <code><%= arg.name %></code>
+            <% unless arg.types.empty? %>
+              (<%= arg.types.map { |t| auto_link(t, false) }.join(' | ') %>)
+            <% end %>
+            <%= ' &ndash; ' + arg.description unless arg.description.empty? %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+  
+  <% unless object.aliases.empty? %>
+    <p class="alias aliases">Aliased as: <%= object.aliases.map { |a| auto_link(a, false) }.join(', ') %></p>
+  <% end %>
+  <% if object.alias? %>
+    <p class="alias alias-of">Alias for <%= auto_link(object.alias_of, false) %></p>
+  <% end %>
+  
+	<%= htmlize(object.description) %>
+</li>

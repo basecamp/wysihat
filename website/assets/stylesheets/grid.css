@@ -1,0 +1,13 @@
+body.grid {
+  width: 955px;
+  margin: auto;
+}
+
+body.grid div#page {
+  overflow: hidden;
+  background: url(http://prototype.conio.net/new/images/grid-55-5.png);
+}
+
+body.grid div#page * {
+  opacity: .9;
+}

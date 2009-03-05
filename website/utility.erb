@@ -1,0 +1,13 @@
+<% d = @doc_instance %>
+
+<% @title = "#{@doc_instance.full_name} utility" %>
+
+<h2><span>utility</span> <%= @doc_instance.name %></h2>
+
+<% # What's it related to? %>
+<% unless @doc_instance.related_to.nil? %>
+  <div class="section section-related">
+    <h3>Related to</h3>
+    <p><%= auto_link(d.related_to, false) %></p>
+  </div> <!-- .section -->
+<% end %>
