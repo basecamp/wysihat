@@ -1,11 +1,13 @@
-= WysiHat
-==== A WYSIWYG JavaScript framework
+WysiHat
+=======
+
+#### A WYSIWYG JavaScript framework
 
 WysiHat is a WYSIWYG JavaScript framework that provides an extensible
 foundation to design your own rich text editor. WysiHat stays out of your
 way and leaves the UI design to you.
 
-=== Support platforms
+### Support platforms
 
 WysiHat currently supports:
 
@@ -15,41 +17,42 @@ WysiHat currently supports:
 * Opera 9.52 and higher
 * Google Chrome
 
-=== Dependencies
+### Dependencies
 
 * Prototype 1.6 or later (http://prototypejs.org/)
 
-== Documentation
+## Documentation
 
 Code is documented inline with PDoc (http://pdoc.org/).
 
-The generated HTML documentation can be found on the <tt>gh-pages</tt> branch or viewed online at (http://josh.github.com/wysihat/).
+The generated HTML documentation can be found on the `gh-pages` branch or viewed online at (http://josh.github.com/wysihat/).
 
-=== Examples
+### Examples
 
-Several examples can be found under <tt>examples/</tt> to get you started.
+Several examples can be found under `examples/` to get you started.
 
-=== Downloading
+### Downloading
 
 Tagged releases will be posted on the GitHub downloads section (http://github.com/josh/wysihat/downloads).
 
-=== Building from source
+### Building from source
 
 You can build the latest version of WysiHat from source by running
-<tt>rake</tt> the root directory. The generated file will be saved to
-<tt>dist/wysihat.js</tt>. Ruby and the Rake gem are only required to build
+`rake` the root directory. The generated file will be saved to
+`dist/wysihat.js`. Ruby and the Rake gem are only required to build
 the project from source. It is not required to run the code.
 
-== Contributing
+## Contributing
 
 Check out the WysiHat source with
-  $ git clone git://github.com/josh/wysihat.git
-  $ cd wysihat
-  $ git submodule init
-  $ git submodule update
+
+    $ git clone git://github.com/josh/wysihat.git
+    $ cd wysihat
+    $ git submodule init
+    $ git submodule update
 
 GitHub pull requests are welcome.
 
-== License
+## License
 
 WysiHat is released under the MIT license.
