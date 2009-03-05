@@ -277,5 +277,28 @@ new Test.Unit.Runner({
       expected = "<span id=\"wrapper\">Lorem ipsum</span>";
 
     runner.assertEqual(expected, $('lorem').innerHTML, "innerHTML");
+  },
+
+  testGetNode: function() {
+    var runner = this;
+
+    if (!this.range.getNode) {
+      runner.flunk("getNode is not implemented");
+      return false;
+    }
+
+    this.range.selectNodeContents($('lorem'));
+    runner.assertEqual($('lorem'), this.range.getNode(), "getNode");
+
+    this.range.selectNode($('lorem'));
+    runner.assertEqual($('lorem'), this.range.getNode(), "getNode");
+
+    this.range.setStart($('lorem'), 0);
+    this.range.setEnd($('lorem'), 1);
+    runner.assertEqual($('lorem'), this.range.getNode(), "getNode");
+
+    this.range.selectNodeContents($('content'));
+    this.range.collapse(true);
+    runner.assertEqual($('lorem'), this.range.getNode(), "getNode");
   }
 });
