@@ -1,12 +1,12 @@
 /** section: dom
  *  class Range
  *
- * This document is work in progress. It implements W3C Range for browsers
- * that do not support it natively like Internet Explorer. The implementation
- * is cross-browser compatible but only gets binded if no W3C Range
- * implementation exists.
+ *  This document is work in progress. It implements W3C Range for browsers
+ *  that do not support it natively like Internet Explorer. The implementation
+ *  is cross-browser compatible but only gets binded if no W3C Range
+ *  implementation exists.
  *
- * Originally created by Jorgen Horstink <mail@jorgenhorstink.nl>
+ *  Originally created by Jorgen Horstink <mail@jorgenhorstink.nl>
 **/
 
 if (typeof Range == 'undefined') {
@@ -41,18 +41,20 @@ if (typeof Range == 'undefined') {
 
   Object.extend(Range.prototype, (function() {
     /**
-     * Range#cloneContents() -> DocumentFragment
+     *  Range#cloneContents() -> DocumentFragment
+     *
      *  Duplicates the contents of a Range
-     **/
+    **/
     function cloneContents() {
       return _processContents(this, Range.CLONE_CONTENTS);
     }
 
     /**
-     * Range#cloneRange() -> Range
+     *  Range#cloneRange() -> Range
+     *
      *  Produces a new Range whose boundary-points are equal to the
      *  boundary-points of the Range.
-     **/
+    **/
     function cloneRange() {
       try {
         var clone = new Range(this.ownerDocument);
@@ -73,11 +75,12 @@ if (typeof Range == 'undefined') {
     }
 
     /**
-     * Range#collapse(toStart) -> undefined
+     *  Range#collapse(toStart) -> undefined
      *  - toStart (Boolean): If TRUE, collapses the Range onto its start;
-     *      if FALSE, collapses it onto its end.
+     *    if FALSE, collapses it onto its end.
+     *
      *  Collapse a Range onto one of its boundary-points
-     **/
+    **/
     function collapse(toStart) {
       if (toStart) {
         this.endContainer = this.startContainer;
@@ -91,12 +94,13 @@ if (typeof Range == 'undefined') {
     }
 
     /**
-     * Range#compareBoundaryPoints(how, sourceRange) -> Integer
+     *  Range#compareBoundaryPoints(how, sourceRange) -> Integer
      *  - how (Integer): A code representing the type of comparison
      *  - sourceRange (Range): The Range on which this current Range is
-     *      compared to.
+     *    compared to.
+     *
      *  Compare the boundary-points of two Ranges in a document.
-     **/
+    **/
     function compareBoundaryPoints(compareHow, sourceRange) {
       try {
         var cmnSelf, cmnSource, rootSelf, rootSource;
@@ -135,11 +139,12 @@ if (typeof Range == 'undefined') {
     }
 
     /**
-     * Range#deleteContents() -> undefined
+     *  Range#deleteContents() -> undefined
+     *
      *  Removes the contents of a Range from the containing document or
      *  document fragment without returning a reference to the
      *  removed content.
-     **/
+    **/
     function deleteContents() {
       try {
         _processContents(this, Range.DELETE_CONTENTS);
@@ -147,20 +152,22 @@ if (typeof Range == 'undefined') {
     }
 
     /**
-     * Range#detach() -> undefined
+     *  Range#detach() -> undefined
+     *
      *  Called to indicate that the Range is no longer in use and that the
      *  implementation may relinquish any resources associated with
      *  this Range.
-     **/
+    **/
     function detach() {
       this.detached = true;
     }
 
     /**
-     * Range#extractContents() -> DocumentFragment
+     *  Range#extractContents() -> DocumentFragment
+     *
      *  Moves the contents of a Range from the containing document or
      *  document fragment to a new DocumentFragment.
-     **/
+    **/
     function extractContents() {
       try {
         return _processContents(this, Range.EXTRACT_CONTENTS);
@@ -170,8 +177,9 @@ if (typeof Range == 'undefined') {
     }
 
     /**
-     * Range#insertNode(newNode) -> undefined
+     *  Range#insertNode(newNode) -> undefined
      *  - newNode (Node): The node to insert at the start of the Range
+     *
      *  Inserts a node into the Document or DocumentFragment at the start
      *  of the Range. If the container is a Text node, this will be split at
      *  the start of the Range (as if the Text node's splitText method was
@@ -180,7 +188,7 @@ if (typeof Range == 'undefined') {
      *  be automatically merged. If the node to be inserted is a
      *  DocumentFragment node, the children will be inserted rather than the
      *  DocumentFragment node itself.
-     **/
+    **/
     function insertNode(newNode) {
       try {
         var n, newText, offset;
@@ -203,32 +211,35 @@ if (typeof Range == 'undefined') {
     }
 
     /**
-     * Range#selectNode(refNode) -> undefined
+     *  Range#selectNode(refNode) -> undefined
      *  - refNode (Node): The node to select.
+     *
      *  Select a node and its contents
-     **/
+    **/
     function selectNode(refNode) {
       this.setStartBefore(refNode);
       this.setEndAfter(refNode);
     }
 
     /**
-     * Range#selectNodeContents(refNode) -> undefined
+     *  Range#selectNodeContents(refNode) -> undefined
      *  - refNode (Node): Node to select from
+     *
      *  Select the contents within a node
-     **/
+    **/
     function selectNodeContents(refNode) {
       this.setStart(refNode, 0);
       this.setEnd(refNode, refNode.childNodes.length);
     }
 
     /**
-     * Range#setStart(refNode, offset) -> undefined
+     *  Range#setStart(refNode, offset) -> undefined
      *  - refNode (Node): The refNode value. This parameter must be different
      *      from null.
      *  - offset (Integer): The endOffset value.
+     *
      *  Sets the attributes describing the end of a Range.
-     **/
+    **/
     function setStart(refNode, offset) {
       try {
         var endRootContainer, startRootContainer;
@@ -267,30 +278,33 @@ if (typeof Range == 'undefined') {
     }
 
     /**
-     * Range#setStartAfter(refNode) -> undefined
+     *  Range#setStartAfter(refNode) -> undefined
      *  - refNode (Node): Range ends after refNode.
+     *
      *  Sets the end of a Range to be after a node
-     **/
+    **/
     function setStartAfter(refNode) {
       this.setStart(refNode.parentNode, _nodeIndex(refNode) + 1);
     }
 
     /**
-     * Range#setStartBefore(refNode) -> undefined
+     *  Range#setStartBefore(refNode) -> undefined
      *  - refNode (Node): Range ends before refNode
+     *
      *  Sets the end position to be before a node.
-     **/
+    **/
     function setStartBefore(refNode) {
       this.setStart(refNode.parentNode, _nodeIndex(refNode));
     }
 
     /**
-     * Range#setEnd(refNode, offset) -> undefined
+     *  Range#setEnd(refNode, offset) -> undefined
      *  - refNode (Node): The refNode value. This parameter must be different
-     *      from null.
+     *  from null.
      *  - offset (Integer): The startOffset value.
+     *
      *  Sets the attributes describing the start of the Range.
-     **/
+    **/
     function setEnd(refNode, offset) {
       try {
         this.endContainer = refNode;
@@ -326,29 +340,32 @@ if (typeof Range == 'undefined') {
     }
 
     /**
-     * Range#setEndAfter(refNode) -> undefined
+     *  Range#setEndAfter(refNode) -> undefined
      *  - refNode (Node): Range starts after refNode
+     *
      *  Sets the start position to be after a node
-     **/
+    **/
     function setEndAfter(refNode) {
       this.setEnd(refNode.parentNode, _nodeIndex(refNode) + 1);
     }
 
     /**
-     * Range#setEndBefore(refNode) -> undefined
+     *  Range#setEndBefore(refNode) -> undefined
      *  - refNode (Node): Range starts before refNode
+     *
      *  Sets the start position to be before a node
-     **/
+    **/
     function setEndBefore(refNode) {
       this.setEnd(refNode.parentNode, _nodeIndex(refNode));
     }
 
     /**
-     * Range#surroundContents(newParent) -> undefined
+     *  Range#surroundContents(newParent) -> undefined
      *  - newParent (Node): The node to surround the contents with.
+     *
      *  Reparents the contents of the Range to the given node and inserts the
      *  node at the position of the start of the Range.
-     **/
+    **/
     function surroundContents(newParent) {
       try {
         var n, fragment;
@@ -365,7 +382,6 @@ if (typeof Range == 'undefined') {
       } catch (e) {}
     }
 
-
     function _compareBoundaryPoints(range, containerA, offsetA, containerB, offsetB) {
       var c, offsetC, n, cmnRoot, childA;
       // In the first case the boundary-points have the same container. A is before B
@@ -381,7 +397,6 @@ if (typeof Range == 'undefined') {
           return 1; // after
         }
       }
-
 
       // In the second case a child node C of the container of A is an ancestor
       // container of B. In this case, A is before B if the offset of A is less than or
