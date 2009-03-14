@@ -179,7 +179,7 @@ WysiHat.Toolbar = Class.create((function() {
   **/
   function observeStateChanges(element, name, handler) {
     var toolbar = this;
-    var previousState = handler(toolbar.editor);
+    var previousState = false;
     toolbar.editor.observe("wysihat:cursormove", function(event) {
       var state = handler(toolbar.editor);
       if (state != previousState) {
