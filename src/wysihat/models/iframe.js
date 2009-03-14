@@ -6,8 +6,8 @@ WysiHat.iFrame = {
   create: function(textarea, callback) {
     var editArea = new Element('iframe', { 'id': textarea.id + '_editor', 'class': 'editor' });
 
-    WysiHat.Editor.extend(editArea);
     Object.extend(editArea, WysiHat.iFrame.Methods);
+    WysiHat.Editor.extend(editArea);
 
     editArea.attach(textarea, callback);
     textarea.insert({before: editArea});
