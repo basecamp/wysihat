@@ -1,0 +1,33 @@
+*0.2*
+
+* Requirements for the Toolbar#addButton have changed. The old options will
+  continue to work, but you no longer have to supply a name or handler if the
+  names are similar. So the label "Bold" will set the name to "bold" by
+  convention and invoke the buttonSelection handler on click.
+
+* The toolbar class has also been refactored to make it easier to subclass.
+  Subclassing the Toolbar class will be the recommended way to customize the
+  default behavior. So the options hash from the Toolbar#initialize method has
+  been deprecated in favor of subclassing.
+
+* The event system has been revamp so they behave more like their DOM counter
+  parts. In 0.1, 'wysihat:change' was fired anytime the contents was modified
+  or the cursor moved. Now the change event is fired only if the contents is
+  altered. This is emulates normal browser input field's onchange event. If you
+  still want to track any cursor movements, you can observe
+  "wysihat:cursormove". This is an extension to the standard set of DOM events.
+  It is fired anytime the cursor position is changed via mouse clicks or
+  keyboard navigation. Since typing in the editor causes the cursor to advance
+  it consequently fires anytime the contents of the editor are modified.
+
+* To complement the built in commands, selection query helpers have been added.
+  Example, to check if the selected text is bold, use editor.boldSelected().
+
+* A simple command and query registration API has been added to extend or
+  override built-in commands executed via "execCommand" or "queryCommandState".
+  You can register commands or query handlers by setting a key/value on
+  editor.commands or editor.queryCommands.
+
+*0.1* (October 20, 2008)
+
+* First public release
