@@ -103,7 +103,11 @@ WysiHat.iFrame.Methods = {
 
   rawContent: function() {
     var document = this.getDocument();
-    return document.body.innerHTML;
+
+    if (document.body)
+      return document.body.innerHTML;
+    else
+      return "";
   },
 
   setRawContent: function(text) {
