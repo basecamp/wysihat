@@ -12,11 +12,11 @@ new Test.Unit.Runner({
 
       runner.assert($$('div.editor_toolbar').first());
       runner.assert($$('div.editor_toolbar a.bold').first());
-      runner.assertEqual("Bold", $$('div.editor_toolbar a.bold').first().text);
+      runner.assertEqual("<span>bold</span>", $$('div.editor_toolbar a.bold').first().innerHTML.toLowerCase());
       runner.assert($$('div.editor_toolbar a.underline').first());
-      runner.assertEqual("Underline", $$('div.editor_toolbar a.underline').first().text);
+      runner.assertEqual("<span>underline</span>", $$('div.editor_toolbar a.underline').first().innerHTML.toLowerCase());
       runner.assert($$('div.editor_toolbar a.italic').first());
-      runner.assertEqual("Italic", $$('div.editor_toolbar a.italic').first().text);
+      runner.assertEqual("<span>italic</span>", $$('div.editor_toolbar a.italic').first().innerHTML.toLowerCase());
     });
 
     runner.wait(1000, function() {});
