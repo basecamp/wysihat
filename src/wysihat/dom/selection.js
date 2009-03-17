@@ -156,12 +156,17 @@ WysiHat.Selection = Class.create((function() {
     bookmark.id = 'bookmark';
     bookmark.innerHTML = '&nbsp;';
 
-    var range;
-    if (Prototype.Browser.IE)
-      range = new Range(this.document);
-    else
-      range = this.getRange();
-    range.insertNode(bookmark);
+    if (Prototype.Browser.IE) {
+      var range = this.document.selection.createRange();
+      var parent = this.document.createElement('div');
+      parent.appendChild(bookmark);
+      range.collapse();
+      range.pasteHTML(parent.innerHTML);
+    }
+    else {
+      var range = this.getRange();
+      range.insertNode(bookmark);
+    }
   }
 
   function moveToBookmark() {
