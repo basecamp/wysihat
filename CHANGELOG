@@ -1,5 +1,9 @@
 *0.2*
 
+* For performance reasons, automatic textarea saving is now disabled by
+  default. You can still reenable it, but it is recommended to bind the save
+  to the form's submit button.
+
 * Requirements for the Toolbar#addButton have changed. The old options will
   continue to work, but you no longer have to supply a name or handler if the
   names are similar. So the label "Bold" will set the name to "bold" by
