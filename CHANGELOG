@@ -1,4 +1,4 @@
-*0.2*
+*0.2* (March 29, 2009)
 
 * For performance reasons, automatic textarea saving is now disabled by
   default. You can still reenable it, but it is recommended to bind the save
