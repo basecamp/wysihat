@@ -45,6 +45,15 @@ WysiHat.iFrame.Methods = {
   },
 
   /**
+   *  WysiHat.iFrame#unattach() -> undefined
+   *
+   *  Remove the iframe
+  **/
+  unattach: function() {
+    this.remove();
+  },
+
+  /**
    *  WysiHat.iFrame#whenReady(callback) -> Element
    *  - callback (Function): a function that is called if or when the editor is
    *    'ready'.
@@ -99,6 +108,17 @@ WysiHat.iFrame.Methods = {
     }
 
     return this;
+  },
+
+  /**
+   *  WysiHat.iFrame.Methods#getStyle(style) -> string
+   *  - style specificication (i.e. backgroundColor)
+   *
+   *  Returns the style from the element based on the given style
+   */
+  getStyle: function(style) {
+    var document = this.getDocument();
+    return Element.getStyle(document.body, style);
   },
 
   rawContent: function() {
