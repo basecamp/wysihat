@@ -149,9 +149,15 @@ WysiHat.Commands = (function() {
    *  WysiHat.Commands#backgroundColorSelection(color) -> undefined
    *  - color (string) - a color or hexadecimal value
    *  
+   * Sets the background color.  Firefox will fill in the background
+   * color of the entire iframe unless hilitecolor is used.
   **/
   function backgroundColorSelection(color) {
-    this.execCommand('backcolor', false, color);
+    if(Prototype.Browser.Gecko) {
+      this.execCommand('hilitecolor', false, color);
+    } else {
+      this.execCommand('backcolor', false, color);
+    }
   }
 
   /**
