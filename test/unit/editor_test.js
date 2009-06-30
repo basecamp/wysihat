@@ -34,18 +34,28 @@ new Test.Unit.Runner({
   }},
 
   testBold: function() { with(this) {
-    testFontFormat('bold', 'b');
+    testFontFormat('bold');
+    testNestedFontFormat('bold', 'b');
   }},
 
   testItalic: function() { with(this) {
-    testFontFormat('italic', 'i');
+    testFontFormat('italic');
+    testNestedFontFormat('italic', 'i');
   }},
   
   testUnderline: function() { with(this) {
-    testFontFormat('underline', 'u');
+    testFontFormat('underline');
+    testNestedFontFormat('underline', 'u');
   }},
 
   testFonts: function() { with(this) {
+    editor.setContent("Times");
+    selectFirstNode();
+    editor.fontSelection('times');
+    assertEqual('times', editor.fontSelected());
+  }},
+
+  testNestedFonts: function() { with(this) {
     editor.setContent("<font face='times'>Times</font>");
     selectFirstNode();
     assertEqual('times', editor.fontSelected());
@@ -54,19 +64,47 @@ new Test.Unit.Runner({
   testFontSizes: function() { with(this) {
     editor.setContent("<font size='7'>Font Size</font>");
     selectFirstNode();
+    editor.fontSizeSelection(5);
+    assertEqual(5, editor.fontSizeSelected());
+  }},
+
+  testNestedFontSizes: function() { with(this) {
+    editor.setContent("<font size='7'>Font Size</font>");
+    selectFirstNode();
     assertEqual(7, editor.fontSizeSelected());
   }},
 
-  testColor: function() { with(this) {
-    editor.setContent("<font color='#555555'>color</font>");
+  testColor: function() { with (this) {
+    editor.setContent('color');
     selectFirstNode();
-    assertEqual('rgb(85, 85, 85)', editor.colorSelected());
+    editor.colorSelection("#555555");
+    assertEqual('#555555', editor.colorSelected());
   }},
 
+  testNestedColor: function() { with(this) {
+    editor.setContent("<font color='#555555'>color</font>");
+    selectFirstNode();
+    assertEqual('#555555', editor.colorSelected());
+  }},
+  
   testBackgroundColor: function() { with(this) {
+    editor.setContent("background color");
+    selectFirstNode();
+    editor.backgroundColorSelection("#555555");
+    assertEqual('#555555', editor.backgroundColorSelected());
+  }},
+
+  testNestedBackgroundColor: function() { with(this) {
     editor.setContent("<font style='background-color:#555555'>background-color</font>");
     selectFirstNode();
-    assertEqual('rgb(85, 85, 85)', editor.backgroundColorSelected());
+    assertEqual('#555555', editor.backgroundColorSelected());
+  }},
+
+  testAlignment: function() { with(this) {
+    editor.setContent("align me");
+    selectFirstNode();
+    editor.alignSelection('right');
+    assertEqual('right', editor.alignSelected());
   }},
 
   testNestedAlignment: function() { with(this) {
@@ -84,6 +122,29 @@ new Test.Unit.Runner({
     assertEqual('13px', editor.getStyle('fontSize'));
   }},
 
+  testLink: function() { with (this) {
+    link = 'http://github.com/';
+    editor.setContent('linky link');
+    selectFirstNode();
+
+    wait(500, function() {
+      var textarea = $('link').down('textarea');
+      textarea.focus(); // simulate real world case of IE losing focus
+      textarea.value = link;
+      editor.linkSelection(link);
+      assert(editor.linkSelected());
+      assertEqual(link, editor.selection.getNode().href);
+    });
+  }},
+  
+  testNestedLink: function(){ with (this) {
+    link = 'http://github.com/';
+    editor.setContent('<a href="' + link + '">linky link</a>');
+    selectFirstNode();
+    assert(editor.linkSelected());
+    assertEqual(link, editor.selection.getNode().href);
+  }},
+
   testUnattach: function() { with(this) {
     editor.setContent("<font face='times'>Unattached</font>");
     editor.unattach();
@@ -99,7 +160,14 @@ new Test.Unit.Runner({
       editor.selection.selectNode(node);
     };
 
-    this.testFontFormat = function(styleType, styleTag) {
+    this.testFontFormat = function(styleType) {
+      editor.setContent('Boldly going where no man has gone before');
+      this.selectFirstNode();
+      editor[styleType + 'Selection']();
+      this.assert(editor[styleType + 'Selected']());
+    };
+
+    this.testNestedFontFormat = function(styleType, styleTag) {
       editor.setContent('<' + styleTag + '>Boldly going where no man has gone before</' + styleTag + '>');
       this.selectFirstNode();
       this.assert(editor[styleType + 'Selected']());

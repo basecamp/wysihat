@@ -142,7 +142,7 @@ WysiHat.Commands = (function() {
   **/
    function colorSelected() {
      var node = this.selection.getNode();
-     return Element.getStyle(node, 'color');
+     return standardizeColor(Element.getStyle(node, 'color'));
    }
 
   /**
@@ -167,7 +167,7 @@ WysiHat.Commands = (function() {
   **/
   function backgroundColorSelected() {
     var node = this.selection.getNode();
-    return Element.getStyle(node, 'backgroundColor');
+    return standardizeColor(Element.getStyle(node, 'backgroundColor'));
   }
 
   /**
@@ -281,6 +281,8 @@ WysiHat.Commands = (function() {
   function execCommand(command, ui, value) {
     var document = this.getDocument();
 
+    if (Prototype.Browser.IE) this.selection.restore();
+
     var handler = this.commands.get(command)
     if (handler)
       handler.bind(this)(value);
@@ -334,6 +336,55 @@ WysiHat.Commands = (function() {
     if (newSize >= 0) return newSize;
     return parseInt(fontSize);
   }
+
+  function standardizeColor(color) {
+    if (!color || color.match(/[0-9a-f]{6}/i)) return color;
+    var m = color.toLowerCase().match(/^(rgba?|hsla?)\(([\s\.\-,%0-9]+)\)/);
+    if(m){
+      var c = m[2].split(/\s*,\s*/), l = c.length, t = m[1];
+      if((t == "rgb" && l == 3) || (t == "rgba" && l == 4)){
+        var r = c[0];
+        if(r.charAt(r.length - 1) == "%"){
+          var a = c.map(function(x){
+            return parseFloat(x) * 2.56;
+          });
+          if(l == 4){ a[3] = c[3]; }
+          return _colorFromArray(a);
+        }
+        return _colorFromArray(c);
+      }
+      if((t == "hsl" && l == 3) || (t == "hsla" && l == 4)){
+        var H = ((parseFloat(c[0]) % 360) + 360) % 360 / 360,
+          S = parseFloat(c[1]) / 100,
+          L = parseFloat(c[2]) / 100,
+          m2 = L <= 0.5 ? L * (S + 1) : L + S - L * S,
+          m1 = 2 * L - m2,
+          a = [_hue2rgb(m1, m2, H + 1 / 3) * 256,
+            _hue2rgb(m1, m2, H) * 256, _hue2rgb(m1, m2, H - 1 / 3) * 256, 1];
+        if(l == 4){ a[3] = c[3]; }
+        return _colorFromArray(a);
+      }
+    }
+    return null;  // dojo.Color
+  }
+
+  function _colorFromArray(a) {
+    var arr = a.slice(0, 3).map(function(x){
+      var s = parseInt(x).toString(16);
+      return s.length < 2 ? "0" + s : s;
+    });
+    return "#" + arr.join("");  // String
+  }
+
+  function _hue2rgb(m1, m2, h){
+     if(h < 0){ ++h; }
+     if(h > 1){ --h; }
+     var h6 = 6 * h;
+     if(h6 < 1){ return m1 + (m2 - m1) * h6; }
+     if(2 * h < 1){ return m2; }
+     if(3 * h < 2){ return m1 + (m2 - m1) * (2 / 3 - h) * 6; }
+     return m1;
+   }
 
   return {
      boldSelection:                    boldSelection,

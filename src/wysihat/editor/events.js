@@ -86,7 +86,7 @@ WysiHat.Events = (function() {
       var range = editor.selection.getRange();
       if (previousRange != range) {
         editor.fire("wysihat:cursormove");
-        editor.previousRange = range;
+        previousRange = range;
       }
     };
 

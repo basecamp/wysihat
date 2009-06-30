@@ -9,6 +9,11 @@ WysiHat.Selection = Class.create((function() {
   function initialize(editor) {
     this.window = editor.getWindow();
     this.document = editor.getDocument();
+
+    if (Prototype.Browser.IE) {
+      editor.observe('wysihat:cursormove', saveRange.bind(this));
+      editor.observe('wysihat:focus', restoreRange);
+    }
   }
 
   /**
@@ -24,10 +29,9 @@ WysiHat.Selection = Class.create((function() {
    *  Get range for selected text.
   **/
   function getRange() {
-    var selection = this.getSelection();
+    var range = null, selection = this.getSelection();
 
     try {
-      var range;
       if (selection.getRangeAt)
         range = selection.getRangeAt(0);
       else
@@ -190,6 +194,15 @@ WysiHat.Selection = Class.create((function() {
     bookmark.parentNode.removeChild(bookmark);
   }
 
+  var savedRange = null;
+  function saveRange() {
+    savedRange = this.getRange();
+  }
+
+  function restoreRange() {
+    if (savedRange) savedRange.select();
+  }
+
   return {
     initialize:     initialize,
     getSelection:   getSelection,
@@ -197,6 +210,7 @@ WysiHat.Selection = Class.create((function() {
     getNode:        getNode,
     selectNode:     selectNode,
     setBookmark:    setBookmark,
-    moveToBookmark: moveToBookmark
+    moveToBookmark: moveToBookmark,
+    restore:        restoreRange
   };
 })());
