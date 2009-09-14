@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>WYSIWYG</title>
+
+  <style type="text/css" media="screen">
+    iframe {
+      width: 100%;
+      height: 150px;
+      border: 1px solid #999;
+    }
+
+    .editor_toolbar .button {
+      float: left;
+      margin: 2px 5px;
+    }
+
+    .editor_toolbar .selected {
+      color: red !important;
+    }
+
+    #error {
+      font: 18px helvetica, arial, sans-serif;
+      color: red;
+    }
+  </style>
+
+  <script type="text/javascript" src="../dist/prototype.js"></script>
+  <script type="text/javascript" src="../dist/wysihat.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+    var HTMLHelper = {
+      promptHTML: function() {
+        var value = prompt("Enter some HTML", "<h1>:)</h1>")
+        if(value)
+          this.insertHTML(value);
+      }
+    }
+
+    WysiHat.Editor.include(HTMLHelper);
+
+    Event.observe(window, 'load', function() {
+      var editor = WysiHat.Editor.attach('content');
+      var toolbar = new WysiHat.Toolbar(editor);
+
+      toolbar.addButton({
+        label: "HTML",
+        handler: function(editor) { return editor.promptHTML(); }
+      });
+
+      // Hide our error message if the editor loads fine
+      $('error').hide();
+    });
+  </script>
+</head>
+
+<body>
+  <p id="error">Oops, you need to build the package before running this example. It's easy: just run <code>rake</code> in the project's directory.</p>
+
+  <p>This example shows you how to create a simple UI for adding HTML</p>
+
+<code><pre>
+  var HTMLHelper = {
+    promptHTML: function() {
+      var value = prompt("Enter some HTML", '&lt;h1&gt;:)&lt;/h1&gt;')
+      if(value)
+        this.insertHTML(value);
+    }
+  }
+
+  WysiHat.Editor.include(HTMLHelper);
+
+  Event.observe(window, 'load', function() {
+    var editor = WysiHat.Editor.attach('content');
+    var toolbar = new WysiHat.Toolbar(editor);
+
+    toolbar.addButton({
+      label: "HTML",
+      handler: function(editor) { return editor.promptHTML(); }
+    });
+  });
+</pre></code>
+
+  <form action="#" method="post" style="width: 500px;">
+    <textarea id="content"></textarea>
+  </form>
+</body>
+</html>
