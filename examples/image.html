@@ -58,31 +58,26 @@
 <body>
   <p id="error">Oops, you need to build the package before running this example. It's easy: just run <code>rake</code> in the project's directory.</p>
 
-  <p>This example shows you how to create a simple UI for linking and unlinking selections</p>
+  <p>This example shows you how to create a simple UI for adding images</p>
 
 <code><pre>
-  var LinkSelectionHelper = {
-    promptLinkSelection: function() {
-      if (this.linkSelected()) {
-        if (confirm("Remove link?"))
-          this.unlinkSelection();
-      } else {
-        var value = prompt("Enter a URL", "http://www.google.com/");
-        if (value)
-          this.linkSelection(value);
-      }
+  var ImageHelper = {
+    promptImage: function() {
+      var value = prompt("Enter a URL", "http://www.google.com/intl/en_ALL/images/logo.gif")
+      if(value)
+        this.insertImage(value);
     }
   }
 
-  WysiHat.Editor.include(LinkSelectionHelper);
+  WysiHat.Editor.include(ImageHelper);
 
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
     var toolbar = new WysiHat.Toolbar(editor);
 
     toolbar.addButton({
-      label: "Link",
-      handler: function(editor) { return editor.promptLinkSelection(); }
+      label: "Image",
+      handler: function(editor) { return editor.promptImage(); }
     });
   });
 </pre></code>
