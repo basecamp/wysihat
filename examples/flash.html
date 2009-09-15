@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>WYSIWYG</title>
+
+  <style type="text/css" media="screen">
+    iframe {
+      width: 100%;
+      height: 400px;
+      border: 1px solid #999;
+    }
+
+    .editor_toolbar .button {
+      float: left;
+      margin: 2px 5px;
+    }
+
+    .editor_toolbar .selected {
+      color: red !important;
+    }
+
+    #error {
+      font: 18px helvetica, arial, sans-serif;
+      color: red;
+    }
+  </style>
+
+  <script type="text/javascript" src="../dist/prototype.js"></script>
+  <script type="text/javascript" src="../dist/wysihat.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+    var FlashHelper = {
+      promptFlash: function() {
+        var value = prompt("Enter a Url", "http://wwwimages.adobe.com/www.adobe.com/homepage/en_us/fma_rotation/fma2/maxintro.swf")
+        if(value)
+          this.insertHTML(
+            '<object><param name="movie" value="' + value + '"><embed src="' + value + '"></embed></object>'
+          );
+      }
+    }
+
+    WysiHat.Editor.include(FlashHelper);
+
+    Event.observe(window, 'load', function() {
+      var editor = WysiHat.Editor.attach('content');
+      var toolbar = new WysiHat.Toolbar(editor);
+
+      toolbar.addButton({
+        label: "Flash",
+        handler: function(editor) { return editor.promptFlash(); }
+      });
+
+      // Hide our error message if the editor loads fine
+      $('error').hide();
+    });
+  </script>
+</head>
+
+<body>
+  <p id="error">Oops, you need to build the package before running this example. It's easy: just run <code>rake</code> in the project's directory.</p>
+
+  <p>This example shows you how to create a simple UI for adding Flash movies</p>
+
+<code><pre>
+  var FlashHelper = {
+    promptFlash: function() {
+      var value = prompt("Enter a Url", "http://wwwimages.adobe.com/www.adobe.com/homepage/en_us/fma_rotation/fma2/maxintro.swf")
+      if(value)
+        this.insertHTML(
+          '&lt;object&gt;&lt;param name=&quot;movie&quot; value=&quot;' + value + '&quot;&gt;&lt;embed src=&quot;' + value + '&quot;&gt;&lt;/embed&gt;&lt;/object&gt;'
+        );
+    }
+  }
+
+  WysiHat.Editor.include(FlashHelper);
+
+  Event.observe(window, 'load', function() {
+    var editor = WysiHat.Editor.attach('content');
+    var toolbar = new WysiHat.Toolbar(editor);
+
+    toolbar.addButton({
+      label: "Flash",
+      handler: function(editor) { return editor.promptFlash(); }
+    });
+  });
+</pre></code>
+
+  <form action="#" method="post" style="width: 500px;">
+    <textarea id="content"></textarea>
+  </form>
+</body>
+</html>
