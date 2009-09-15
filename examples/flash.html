@@ -30,20 +30,23 @@
   <script type="text/javascript" src="../dist/wysihat.js"></script>
 
   <script type="text/javascript" charset="utf-8">
+    var ImageHelper = {
+      promptImage: function() {
+        var value = prompt("Enter a URL", "http://www.google.com/intl/en_ALL/images/logo.gif")
+        if(value)
+          this.insertHTML(value);
+      }
+    }
+
+    WysiHat.Editor.include(ImageHelper);
+
     Event.observe(window, 'load', function() {
       var editor = WysiHat.Editor.attach('content');
       var toolbar = new WysiHat.Toolbar(editor);
 
       toolbar.addButton({
-        label: "JustifyLaft"
-      });
-
-      toolbar.addButton({
-        label: "JustifyCenter"
-      });
-
-      toolbar.addButton({
-        label: "JustifyRight"
+        label: "Image",
+        handler: function(editor) { return editor.promptImage(); }
       });
 
       // Hide our error message if the editor loads fine
@@ -55,38 +58,31 @@
 <body>
   <p id="error">Oops, you need to build the package before running this example. It's easy: just run <code>rake</code> in the project's directory.</p>
 
-  <p>This example shows you how to create a simple UI for aligning text.</p>
+  <p>This example shows you how to create a simple UI for adding images</p>
 
 <code><pre>
+  var ImageHelper = {
+    promptImage: function() {
+      var value = prompt("Enter a URL", "http://www.google.com/intl/en_ALL/images/logo.gif")
+      if(value)
+        this.insertImage(value);
+    }
+  }
+
+  WysiHat.Editor.include(ImageHelper);
+
   Event.observe(window, 'load', function() {
     var editor = WysiHat.Editor.attach('content');
     var toolbar = new WysiHat.Toolbar(editor);
 
     toolbar.addButton({
-      label: "Align left",
-      handler: function(editor) { return editor.alignSelection('left'); }
-    });
-
-    toolbar.addButton({
-      label: "Align center",
-      handler: function(editor) { return editor.alignSelection('center'); }
-    });
-
-    toolbar.addButton({
-      label: "Align right",
-      handler: function(editor) { return editor.alignSelection('right'); }
+      label: "Image",
+      handler: function(editor) { return editor.promptImage(); }
     });
   });
 </pre></code>
 
   <form action="#" method="post" style="width: 500px;">
-    <!-- This HTML will be automatically generated for you by the toolbar class
-    <div class="editor_toolbar">
-      <a class="button align left" href="#"><span>Align left</span></a>
-      <a class="button align center" href="#"><span>Align center</span></a>
-      <a class="button align right" href="#"><span>Align right</span></a>
-    </div>
-    <iframe id="content_editor" style="display: none;"> -->
     <textarea id="content"></textarea>
   </form>
 </body>
