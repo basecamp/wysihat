@@ -103,7 +103,7 @@ WysiHat.Toolbar = Class.create((function() {
    *  inserted.
   **/
   function createButtonElement(toolbar, options) {
-    var button = Element('a', {
+    var button = new Element('a', {
       'class': 'button', 'href': '#'
     });
     button.update('<span>' + options.get('label') + '</span>');

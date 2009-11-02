@@ -22,7 +22,7 @@ WysiHat.Window = (function() {
    *  You should not need to access this directly, and this API is not final.
   **/
   function getWindow() {
-    if (this.contentDocument)
+    if (this.contentDocument && this.contentDocument.defaultView)
       return this.contentDocument.defaultView;
     else if (this.contentWindow.document)
       return this.contentWindow;
