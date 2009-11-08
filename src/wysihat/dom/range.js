@@ -27,7 +27,7 @@ if (typeof Range == 'undefined') {
     this.START_TO_END   = 1;
     this.END_TO_END     = 2;
     this.END_TO_START   = 3;
-  }
+  };
 
   Range.CLONE_CONTENTS   = 0;
   Range.DELETE_CONTENTS  = 1;
@@ -835,7 +835,7 @@ if (!window.getSelection) {
     this.isCollapsed = true;
     this.rangeCount = 0;
     this.ranges = [];
-  }
+  };
 
   Object.extend(SelectionImpl.prototype, (function() {
     function addRange(r) {

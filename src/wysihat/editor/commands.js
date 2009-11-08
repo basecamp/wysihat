@@ -283,7 +283,7 @@ WysiHat.Commands = (function() {
 
     if (Prototype.Browser.IE) this.selection.restore();
 
-    var handler = this.commands.get(command)
+    var handler = this.commands.get(command);
     if (handler)
       handler.bind(this)(value);
     else
@@ -305,7 +305,7 @@ WysiHat.Commands = (function() {
   function queryCommandState(state) {
     var document = this.getDocument();
 
-    var handler = this.queryCommands.get(state)
+    var handler = this.queryCommands.get(state);
     if (handler)
       return handler.bind(this)();
     else
@@ -334,7 +334,7 @@ WysiHat.Commands = (function() {
 
     newSize = fontSizePixels.indexOf(fontSize);
     if (newSize >= 0) return newSize;
-    return parseInt(fontSize);
+    return parseInt(fontSize, 10);
   }
 
   function standardizeColor(color) {
@@ -370,7 +370,7 @@ WysiHat.Commands = (function() {
 
   function _colorFromArray(a) {
     var arr = a.slice(0, 3).map(function(x){
-      var s = parseInt(x).toString(16);
+      var s = parseInt(x, 10).toString(16);
       return s.length < 2 ? "0" + s : s;
     });
     return "#" + arr.join("");  // String

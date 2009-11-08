@@ -87,7 +87,7 @@ WysiHat.Toolbar = Class.create((function() {
     this.observeButtonClick(button, handler);
 
     var handler = this.buttonStateHandler(name, options);
-    this.observeStateChanges(button, name, handler)
+    this.observeStateChanges(button, name, handler);
   }
 
   /**
