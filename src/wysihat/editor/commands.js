@@ -310,7 +310,21 @@ WysiHat.Commands = (function() {
       return handler.bind(this)();
     else
       return document.queryCommandState(state);
+  }     
+
+  /**
+   *  WysiHat.Commands#queryValueCommandState(state) -> String
+   *  - state (String): fontname, fontsize, forecolor, hilitecolor or 
+   *  backcolor
+   *
+   *  A delegation method to one of the ...Selected methods (fontSelected,
+   *  fontSizeSelected, etc.)
+  **/
+  function queryValueCommandState(state) { 
+    var handler = this.queryValueCommands.get(state);
+    return handler.bind(this)();
   }
+	
   /**
    *  fontSizes for Safari, Gecko, and IE are all a different.
   **/
@@ -414,11 +428,20 @@ WysiHat.Commands = (function() {
      insertHTML:                       insertHTML,
      execCommand:                      execCommand,
      queryCommandState:                queryCommandState,
+     queryValueCommandState:           queryValueCommandState,
 
     commands: $H({}),
 
     queryCommands: $H({
       link: linkSelected
+    }),
+
+    queryValueCommands: $H({
+      fontname:     fontSelected,
+      fontsize:     fontSizeSelected,
+      forecolor:    colorSelected,
+      hilitecolor:  backgroundColorSelected,
+      backcolor:    backgroundColorSelected
     })
   };
 })();
