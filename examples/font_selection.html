@@ -46,7 +46,7 @@
       
       var georgiaButton = $$('.editor_toolbar .georgia').first();
       editor.observe('wysihat:cursormove', function(event) {
-        if (editor.fontSelected() == 'Georgia')
+        if (editor.getSelectedStyles().get('fontname') == 'Georgia')
           georgiaButton.addClassName('selected')
         else
           georgiaButton.removeClassName('selected');
@@ -54,7 +54,7 @@
       
       var arialButton = $$('.editor_toolbar .arial').first();
       editor.observe('wysihat:cursormove', function(event) {
-        if (editor.fontSelected() == 'Arial')
+        if (editor.getSelectedStyles().get('fontname') == 'Arial')
           arialButton.addClassName('selected')
         else
           arialButton.removeClassName('selected');

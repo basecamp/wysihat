@@ -94,17 +94,7 @@ WysiHat.Commands = (function() {
   function fontSelection(font) {
     this.execCommand('fontname', false, font);
   }
-
-  /**
-   * WysiHat.Commands#fontSelected() -> style string
-   *
-   * Gets the font for the current selection
-  **/
-  function fontSelected() {
-    var node = this.selection.getNode();
-    return Element.getStyle(node, 'fontFamily');
-  }
-  
+    
   /**
    * WysiHat.Commands#fontSizeSelection(fontSize) -> undefined
    * - font size (int) : font size for selection
@@ -116,16 +106,6 @@ WysiHat.Commands = (function() {
   }
 
   /**
-   * WysiHat.Commands#fontSizeSelected() -> Returns a fontsize, standardized for modern browsers
-   *
-   * Gets the font size for the current selection
-  **/
-  function fontSizeSelected() {
-    var node = this.selection.getNode();
-    return standardizeFontSize(Element.getStyle(node, 'fontSize'));
-  }
-
-  /**
    *  WysiHat.Commands#colorSelection(color) -> undefined
    *  - color (String): a color name or hexadecimal value
    *
@@ -134,16 +114,6 @@ WysiHat.Commands = (function() {
   function colorSelection(color) {
     this.execCommand('forecolor', false, color);
   }
-
-  /**
-   * WysiHat.Commands#colorSelected() -> string (color)
-   * 
-   * Returns the color of the selected portion
-  **/
-   function colorSelected() {
-     var node = this.selection.getNode();
-     return standardizeColor(Element.getStyle(node, 'color'));
-   }
 
   /**
    *  WysiHat.Commands#backgroundColorSelection(color) -> undefined
@@ -159,17 +129,7 @@ WysiHat.Commands = (function() {
       this.execCommand('backcolor', false, color);
     }
   }
-
-  /**
-   *  WysiHat.Commands#backgroundColorSelected() -> color
-   *
-   *  Returns the background color of the selected text area
-  **/
-  function backgroundColorSelected() {
-    var node = this.selection.getNode();
-    return standardizeColor(Element.getStyle(node, 'backgroundColor'));
-  }
-
+  
   /**
    *  WysiHat.Commands#alignSelection(color) -> undefined
    *  - alignment (string) - how the text should be aligned (left, center, right)
@@ -328,81 +288,6 @@ WysiHat.Commands = (function() {
 	  return styles;
 	}
 	
-  /**
-   *  fontSizes for Safari, Gecko, and IE are all a different.
-  **/
-  var fontSizeNames = $w('xxx-small xx-small x-small small medium large x-large xx-large');
-  var fontSizePixels = $w('9px 10px 13px 16px 18px 24px 32px 48px');
-
-  if (Prototype.Browser.WebKit) {
-    fontSizeNames.shift();
-    fontSizeNames.push('-webkit-xxx-large');
-  }
-
-  /**
-   *  WysiHat.Commands#standardizeFontSize(fontSize) -> int
-   *
-   *  Returns a standard font size from the three modern browsers.
-   *
-  **/
-  function standardizeFontSize(fontSize) {
-    var newSize = fontSizeNames.indexOf(fontSize);
-    if (newSize >= 0) return newSize;
-
-    newSize = fontSizePixels.indexOf(fontSize);
-    if (newSize >= 0) return newSize;
-    return parseInt(fontSize, 10);
-  }
-
-  function standardizeColor(color) {
-    if (!color || color.match(/[0-9a-f]{6}/i)) return color;
-    var m = color.toLowerCase().match(/^(rgba?|hsla?)\(([\s\.\-,%0-9]+)\)/);
-    if(m){
-      var c = m[2].split(/\s*,\s*/), l = c.length, t = m[1];
-      if((t == "rgb" && l == 3) || (t == "rgba" && l == 4)){
-        var r = c[0];
-        if(r.charAt(r.length - 1) == "%"){
-          var a = c.map(function(x){
-            return parseFloat(x) * 2.56;
-          });
-          if(l == 4){ a[3] = c[3]; }
-          return _colorFromArray(a);
-        }
-        return _colorFromArray(c);
-      }
-      if((t == "hsl" && l == 3) || (t == "hsla" && l == 4)){
-        var H = ((parseFloat(c[0]) % 360) + 360) % 360 / 360,
-          S = parseFloat(c[1]) / 100,
-          L = parseFloat(c[2]) / 100,
-          m2 = L <= 0.5 ? L * (S + 1) : L + S - L * S,
-          m1 = 2 * L - m2,
-          a = [_hue2rgb(m1, m2, H + 1 / 3) * 256,
-            _hue2rgb(m1, m2, H) * 256, _hue2rgb(m1, m2, H - 1 / 3) * 256, 1];
-        if(l == 4){ a[3] = c[3]; }
-        return _colorFromArray(a);
-      }
-    }
-    return null;  // dojo.Color
-  }
-
-  function _colorFromArray(a) {
-    var arr = a.slice(0, 3).map(function(x){
-      var s = parseInt(x, 10).toString(16);
-      return s.length < 2 ? "0" + s : s;
-    });
-    return "#" + arr.join("");  // String
-  }
-
-  function _hue2rgb(m1, m2, h){
-     if(h < 0){ ++h; }
-     if(h > 1){ --h; }
-     var h6 = 6 * h;
-     if(h6 < 1){ return m1 + (m2 - m1) * h6; }
-     if(2 * h < 1){ return m2; }
-     if(3 * h < 2){ return m1 + (m2 - m1) * (2 / 3 - h) * 6; }
-     return m1;
-   }
-
   return {
      boldSelection:                    boldSelection,
      boldSelected:                     boldSelected,
