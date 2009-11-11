@@ -313,17 +313,20 @@ WysiHat.Commands = (function() {
   }     
 
   /**
-   *  WysiHat.Commands#queryValueCommandState(state) -> String
-   *  - state (String): fontname, fontsize, forecolor, hilitecolor or 
-   *  backcolor
-   *
-   *  A delegation method to one of the ...Selected methods (fontSelected,
-   *  fontSizeSelected, etc.)
+   *  WysiHat.Commands#getSelectedStyles() -> Hash
+   * 
+   *  Fetches the styles (from the styleSelectors hash) from the current 
+   *  selection and returns it as a hash
   **/
-  function queryValueCommandState(state) { 
-    var handler = this.queryValueCommands.get(state);
-    return handler.bind(this)();
-  }
+	function getSelectedStyles() {
+	  var styles = $H({});
+	  var editor = this;
+	  editor.styleSelectors.each(function(style){
+	    var node = editor.selection.getNode();
+      styles.set(style.first(), Element.getStyle(node, style.last()));
+	  });
+	  return styles;
+	}
 	
   /**
    *  fontSizes for Safari, Gecko, and IE are all a different.
@@ -428,20 +431,20 @@ WysiHat.Commands = (function() {
      insertHTML:                       insertHTML,
      execCommand:                      execCommand,
      queryCommandState:                queryCommandState,
-     queryValueCommandState:           queryValueCommandState,
-
+     getSelectedStyles:                getSelectedStyles,
+     
     commands: $H({}),
 
     queryCommands: $H({
       link: linkSelected
     }),
-
-    queryValueCommands: $H({
-      fontname:     fontSelected,
-      fontsize:     fontSizeSelected,
-      forecolor:    colorSelected,
-      hilitecolor:  backgroundColorSelected,
-      backcolor:    backgroundColorSelected
+    
+    styleSelectors: $H({
+      fontname:     'fontFamily',
+      fontsize:     'fontSize',
+      forecolor:    'color',
+      hilitecolor:  'backgroundColor',
+      backcolor:    'backgroundColor'
     })
   };
 })();
