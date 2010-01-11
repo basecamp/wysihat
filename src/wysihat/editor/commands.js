@@ -94,7 +94,7 @@ WysiHat.Commands = (function() {
   function fontSelection(font) {
     this.execCommand('fontname', false, font);
   }
-    
+
   /**
    * WysiHat.Commands#fontSizeSelection(fontSize) -> undefined
    * - font size (int) : font size for selection
@@ -118,7 +118,7 @@ WysiHat.Commands = (function() {
   /**
    *  WysiHat.Commands#backgroundColorSelection(color) -> undefined
    *  - color (string) - a color or hexadecimal value
-   *  
+   *
    * Sets the background color.  Firefox will fill in the background
    * color of the entire iframe unless hilitecolor is used.
   **/
@@ -129,11 +129,11 @@ WysiHat.Commands = (function() {
       this.execCommand('backcolor', false, color);
     }
   }
-  
+
   /**
    *  WysiHat.Commands#alignSelection(color) -> undefined
    *  - alignment (string) - how the text should be aligned (left, center, right)
-   *  
+   *
   **/
   function alignSelection(alignment) {
     this.execCommand('justify' + alignment);
@@ -180,6 +180,17 @@ WysiHat.Commands = (function() {
   function linkSelected() {
     var node = this.selection.getNode();
     return node ? node.tagName.toUpperCase() == 'A' : false;
+  }
+
+  /**
+   *  WysiHat.Commands#formatblockSelection(element) -> undefined
+   *  - element (String): the type of element you want to wrap your selection
+   *    with (like 'h1' or 'p').
+   *
+   *  Wraps the current selection in a header or paragraph.
+  **/
+  function formatblockSelection(element){
+    this.execCommand('formatblock', false, element);
   }
 
   /**
@@ -270,12 +281,12 @@ WysiHat.Commands = (function() {
       return handler.bind(this)();
     else
       return document.queryCommandState(state);
-  }     
+  }
 
   /**
    *  WysiHat.Commands#getSelectedStyles() -> Hash
-   * 
-   *  Fetches the styles (from the styleSelectors hash) from the current 
+   *
+   *  Fetches the styles (from the styleSelectors hash) from the current
    *  selection and returns it as a hash
   **/
 	function getSelectedStyles() {
@@ -287,7 +298,7 @@ WysiHat.Commands = (function() {
 	  });
 	  return styles;
 	}
-	
+
   return {
      boldSelection:                    boldSelection,
      boldSelected:                     boldSelected,
@@ -306,6 +317,7 @@ WysiHat.Commands = (function() {
      linkSelection:                    linkSelection,
      unlinkSelection:                  unlinkSelection,
      linkSelected:                     linkSelected,
+     formatblockSelection:             formatblockSelection,
      insertOrderedList:                insertOrderedList,
      insertUnorderedList:              insertUnorderedList,
      insertImage:                      insertImage,
@@ -313,13 +325,13 @@ WysiHat.Commands = (function() {
      execCommand:                      execCommand,
      queryCommandState:                queryCommandState,
      getSelectedStyles:                getSelectedStyles,
-     
+
     commands: $H({}),
 
     queryCommands: $H({
       link: linkSelected
     }),
-    
+
     styleSelectors: $H({
       fontname:     'fontFamily',
       fontsize:     'fontSize',
