@@ -41,7 +41,7 @@ WysiHat.Events = (function() {
   }
 
   function observeSelections(editor) {
-    Event.observe(document, 'mouseup', function(event) {
+    Event.observe(editor, 'mouseup', function(event) {
       var range = editor.selection.getRange();
       if (!range.collapsed)
         editor.fire("wysihat:select");
@@ -50,10 +50,11 @@ WysiHat.Events = (function() {
 
   function observeChanges(editor) {
     var previousContents = editor.rawContent();
-    Event.observe(document, 'keyup', function(event) {
+    Event.observe(editor, 'keyup', function(event) {
       var contents = editor.rawContent();
       if (previousContents != contents) {
-        editor.fire("wysihat:change");
+        // FIXME: firing an event here breaks Undo/Redo
+        // editor.fire("wysihat:change");
         previousContents = contents;
       }
     });
@@ -78,10 +79,10 @@ WysiHat.Events = (function() {
       return;
 
     observePasteEvent(this);
-    // observeFocus(this);
-    // observeSelections(this);
-    // observeChanges(this);
-    // observeCursorMovements(this);
+    observeFocus(this);
+    observeSelections(this);
+    observeChanges(this);
+    observeCursorMovements(this);
 
     this._observers_setup = true;
   }
