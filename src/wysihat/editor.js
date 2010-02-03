@@ -29,12 +29,6 @@ WysiHat.Editor = {
 
     editArea._observeEvents();
 
-    // Firefox starts "locked"
-    // Insert a character bogus character and undo
-    if (Prototype.Browser.Gecko) {
-      editArea.execCommand('undo', false, null);
-    }
-
     if (block) block(editArea);
 
     textarea.insert({before: editArea});
