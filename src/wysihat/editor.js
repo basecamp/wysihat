@@ -17,7 +17,7 @@ WysiHat.Editor = {
     var editArea = new Element('div', {
       'id': textarea.id + '_editor',
       'class': 'editor',
-      'contenteditable': 'true'
+      'contentEditable': 'true'
     });
     editArea.textarea = textarea;
 
