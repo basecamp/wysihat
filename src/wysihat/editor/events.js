@@ -19,27 +19,6 @@
  *  still advancing.
 **/
 WysiHat.Events = (function() {
-  var eventsToFoward = [
-    'click',
-    'dblclick',
-    'mousedown',
-    'mouseup',
-    'mouseover',
-    'mousemove',
-    'mouseout',
-    'keypress',
-    'keydown',
-    'keyup'
-  ];
-
-  function forwardEvents(editor) {
-    eventsToFoward.each(function(event) {
-      Event.observe(editor, event, function(e) {
-        editor.fire('wysihat:' + event);
-      });
-    });
-  }
-
   function observePasteEvent(editor) {
     Event.observe(editor, 'keydown', function(event) {
       if (event.keyCode == 86)
@@ -98,12 +77,11 @@ WysiHat.Events = (function() {
     if (this._observers_setup)
       return;
 
-    forwardEvents(this);
     observePasteEvent(this);
-    observeFocus(this);
-    observeSelections(this);
-    observeChanges(this);
-    observeCursorMovements(this);
+    // observeFocus(this);
+    // observeSelections(this);
+    // observeChanges(this);
+    // observeCursorMovements(this);
 
     this._observers_setup = true;
   }
