@@ -231,7 +231,7 @@ WysiHat.Commands = (function() {
   **/
   function insertHTML(html) {
     if (Prototype.Browser.IE) {
-      var range = this._selection.getRange();
+      var range = document.selection.createRange();
       range.pasteHTML(html);
       range.collapse(false);
       range.select();
