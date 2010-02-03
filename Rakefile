@@ -6,7 +6,6 @@ WYSIHAT_ROOT          = File.expand_path(File.dirname(__FILE__))
 WYSIHAT_SRC_DIR       = File.join(WYSIHAT_ROOT, 'src')
 WYSIHAT_DIST_DIR      = File.join(WYSIHAT_ROOT, 'dist')
 WYSIHAT_DOC_DIR       = File.join(WYSIHAT_ROOT, 'doc')
-WYSIHAT_WEBSITE_DIR   = File.join(WYSIHAT_ROOT, 'website')
 WYSIHAT_TEST_DIR      = File.join(WYSIHAT_ROOT, 'test')
 WYSIHAT_TEST_UNIT_DIR = File.join(WYSIHAT_TEST_DIR, 'unit')
 WYSIHAT_TMP_DIR       = File.join(WYSIHAT_TEST_UNIT_DIR, 'tmp')
@@ -85,20 +84,8 @@ namespace :doc do
 
       secretary.concatenation.save_to(temp.path)
       PDoc::Runner.new(temp.path,
-        :output => WYSIHAT_DOC_DIR,
-        :templates => WYSIHAT_WEBSITE_DIR
+        :output => WYSIHAT_DOC_DIR
       ).run
-    end
-  end
-
-  task :publish => :build do
-    Dir.chdir(WYSIHAT_DOC_DIR) do
-      system "git init"
-      system "git add ."
-      system "git commit -m \"import docs\""
-      system "git remote add origin git@github.com:josh/wysihat.git"
-      system "git checkout -b gh-pages"
-      system "git push -f origin gh-pages"
     end
   end
 
