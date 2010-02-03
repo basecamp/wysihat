@@ -52,10 +52,17 @@ new Test.Unit.Runner({
       "<a href=\"http://www.google.com/\" title=\"Google\">Google</a>".sanitize({tags: ["a"], attributes: ["href"]})
     );
 
-    runner.assertEqual(
-      "Hello<span id=\"bookmark\"> </span>",
-      "Hello<span id=\"bookmark\"> </span>".sanitize({tags: ["span"], attributes: ["id"]})
-    );
+    if (Prototype.Browser.IE) {
+      runner.assertEqual(
+        "Hello<span id=bookmark> </span>",
+        "Hello<span id=bookmark> </span>".sanitize({tags: ["span"], attributes: ["id"]})
+      );
+    } else {
+      runner.assertEqual(
+        "Hello<span id=\"bookmark\"> </span>",
+        "Hello<span id=\"bookmark\"> </span>".sanitize({tags: ["span"], attributes: ["id"]})
+      );
+    }
 
     runner.assertEqual(
       "<img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\">",
