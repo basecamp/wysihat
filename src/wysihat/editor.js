@@ -10,12 +10,18 @@ WysiHat.Editor = {
    *  Creates a new editor for the textarea.
   **/
   attach: function(textarea, options, block) {
+    var editArea;
+
     options = $H(options);
     textarea = $(textarea);
     textarea.hide();
 
-    var editArea = new Element('div', {
-      'id': textarea.id + '_editor',
+    var id = textarea.id + '_editor';
+    if (editArea = $(id))
+      return editArea;
+
+    editArea = new Element('div', {
+      'id': id,
       'class': 'editor',
       'contentEditable': 'true'
     });
