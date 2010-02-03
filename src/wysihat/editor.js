@@ -14,31 +14,32 @@ WysiHat.Editor = {
     textarea = $(textarea);
     textarea.hide();
 
-    var model = options.get('model') || WysiHat.iFrame;
-    var initializer = block;
-
-    return model.create(textarea, function(editArea) {
-      var document = editArea.getDocument();
-      var window = editArea.getWindow();
-
-      editArea.load();
-
-      Event.observe(window, 'focus', function(event) { editArea.focus(); });
-      Event.observe(window, 'blur', function(event) { editArea.blur(); });
-
-      editArea._observeEvents();
-
-      // Firefox starts "locked"
-      // Insert a character bogus character and undo
-      if (Prototype.Browser.Gecko) {
-        editArea.execCommand('undo', false, null);
-      }
-
-      if (initializer)
-        initializer(editArea);
-
-      editArea.focus();
+    var editArea = new Element('div', {
+      'id': textarea.id + '_editor',
+      'class': 'editor',
+      'contenteditable': 'true'
     });
+    editArea.textarea = textarea;
+
+    WysiHat.Editor.extend(editArea);
+
+    editArea.selection = new WysiHat.Selection(editArea);
+
+    editArea.load();
+
+    editArea._observeEvents();
+
+    // Firefox starts "locked"
+    // Insert a character bogus character and undo
+    if (Prototype.Browser.Gecko) {
+      editArea.execCommand('undo', false, null);
+    }
+
+    if (block) block(editArea);
+
+    textarea.insert({before: editArea});
+
+    return editArea;
   },
 
   /** section: wysihat
@@ -79,4 +80,3 @@ WysiHat.Editor = {
 //= require "editor/commands"
 //= require "editor/events"
 //= require "editor/persistence"
-//= require "editor/window"

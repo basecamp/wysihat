@@ -7,9 +7,6 @@ WysiHat.Selection = Class.create((function() {
    *  - editor (WysiHat.Editor): the editor object that you want to bind to
   **/
   function initialize(editor) {
-    this.window = editor.getWindow();
-    this.document = editor.getDocument();
-
     if (Prototype.Browser.IE) {
       editor.observe('wysihat:cursormove', saveRange.bind(this));
       editor.observe('wysihat:focus', restoreRange);
@@ -21,7 +18,7 @@ WysiHat.Selection = Class.create((function() {
    *  Get selected text.
   **/
   function getSelection() {
-    return this.window.getSelection ? this.window.getSelection() : this.document.selection;
+    return window.getSelection ? window.getSelection() : document.selection;
   }
 
   /**
@@ -54,17 +51,17 @@ WysiHat.Selection = Class.create((function() {
     var selection = this.getSelection();
 
     if (Prototype.Browser.IE) {
-      var range = createRangeFromElement(this.document, node);
+      var range = createRangeFromElement(document, node);
       range.select();
     } else if (Prototype.Browser.WebKit) {
       selection.setBaseAndExtent(node, 0, node, node.innerText.length);
     } else if (Prototype.Browser.Opera) {
-      range = this.document.createRange();
+      range = document.createRange();
       range.selectNode(node);
       selection.removeAllRanges();
       selection.addRange(range);
     } else {
-      var range = createRangeFromElement(this.document, node);
+      var range = createRangeFromElement(document, node);
       selection.removeAllRanges();
       selection.addRange(range);
     }
@@ -101,7 +98,7 @@ WysiHat.Selection = Class.create((function() {
         candidates[candidates.length] = children[j];
       nodes = [parent];
       for (var ii = 0, r2; ii < candidates.length; ii++) {
-        r2 = createRangeFromElement(this.document, candidates[ii]);
+        r2 = createRangeFromElement(document, candidates[ii]);
         if (r2 && compareRanges(range, r2))
           nodes[nodes.length] = candidates[ii];
       }
@@ -152,17 +149,17 @@ WysiHat.Selection = Class.create((function() {
   };
 
   function setBookmark() {
-    var bookmark = this.document.getElementById('bookmark');
+    var bookmark = document.getElementById('bookmark');
     if (bookmark)
       bookmark.parentNode.removeChild(bookmark);
 
-    bookmark = this.document.createElement('span');
+    bookmark = document.createElement('span');
     bookmark.id = 'bookmark';
     bookmark.innerHTML = '&nbsp;';
 
     if (Prototype.Browser.IE) {
-      var range = this.document.selection.createRange();
-      var parent = this.document.createElement('div');
+      var range = document.selection.createRange();
+      var parent = document.createElement('div');
       parent.appendChild(bookmark);
       range.collapse();
       range.pasteHTML(parent.innerHTML);
@@ -174,7 +171,7 @@ WysiHat.Selection = Class.create((function() {
   }
 
   function moveToBookmark() {
-    var bookmark = this.document.getElementById('bookmark');
+    var bookmark = document.getElementById('bookmark');
     if (!bookmark)
       return;
 

@@ -14,7 +14,6 @@
 var WysiHat = {};
 
 //= require "wysihat/editor"
-//= require "wysihat/models"
 //= require "wysihat/lang"
 //= require "wysihat/dom"
 //= require "wysihat/toolbar"

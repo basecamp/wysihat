@@ -5,6 +5,14 @@
  *  extracting and filtering content going in and out of the editor.
 **/
 WysiHat.Persistence = (function() {
+  function rawContent() {
+    return this.innerHTML;
+  }
+
+  function setRawContent(text) {
+    this.innerHTML = text;
+  }
+
   /**
    *  WysiHat.Persistence#outputFilter(text) -> String
    *  - text (String): HTML string
@@ -95,13 +103,15 @@ WysiHat.Persistence = (function() {
   }
 
   return {
-    outputFilter: outputFilter,
-    inputFilter:  inputFilter,
-    content:      content,
-    setContent:   setContent,
-    save:         save,
-    load:         load,
-    reload:       reload
+    rawContent:    rawContent,
+    setRawContent: setRawContent,
+    outputFilter:  outputFilter,
+    inputFilter:   inputFilter,
+    content:       content,
+    setContent:    setContent,
+    save:          save,
+    load:          load,
+    reload:        reload
   };
 })();
 

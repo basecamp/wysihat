@@ -32,36 +32,36 @@ WysiHat.Events = (function() {
     'keyup'
   ];
 
-  function forwardEvents(document, editor) {
+  function forwardEvents(editor) {
     eventsToFoward.each(function(event) {
-      Event.observe(document, event, function(e) {
+      Event.observe(editor, event, function(e) {
         editor.fire('wysihat:' + event);
       });
     });
   }
 
-  function observePasteEvent(window, document, editor) {
-    Event.observe(document, 'keydown', function(event) {
+  function observePasteEvent(editor) {
+    Event.observe(editor, 'keydown', function(event) {
       if (event.keyCode == 86)
         editor.fire("wysihat:paste");
     });
 
-    Event.observe(window, 'paste', function(event) {
+    Event.observe(editor, 'paste', function(event) {
       editor.fire("wysihat:paste");
     });
   }
 
-  function observeFocus(window, editor) {
-    Event.observe(window, 'focus', function(event) {
+  function observeFocus(editor) {
+    Event.observe(editor, 'focus', function(event) {
       editor.fire("wysihat:focus");
     });
 
-    Event.observe(window, 'blur', function(event) {
+    Event.observe(editor, 'blur', function(event) {
       editor.fire("wysihat:blur");
     });
   }
 
-  function observeSelections(document, editor) {
+  function observeSelections(editor) {
     Event.observe(document, 'mouseup', function(event) {
       var range = editor.selection.getRange();
       if (!range.collapsed)
@@ -69,7 +69,7 @@ WysiHat.Events = (function() {
     });
   }
 
-  function observeChanges(document, editor) {
+  function observeChanges(editor) {
     var previousContents = editor.rawContent();
     Event.observe(document, 'keyup', function(event) {
       var contents = editor.rawContent();
@@ -80,7 +80,7 @@ WysiHat.Events = (function() {
     });
   }
 
-  function observeCursorMovements(document, editor) {
+  function observeCursorMovements(editor) {
     var previousRange = editor.selection.getRange();
     var handler = function(event) {
       var range = editor.selection.getRange();
@@ -90,23 +90,20 @@ WysiHat.Events = (function() {
       }
     };
 
-    Event.observe(document, 'keyup', handler);
-    Event.observe(document, 'mouseup', handler);
+    Event.observe(editor, 'keyup', handler);
+    Event.observe(editor, 'mouseup', handler);
   }
 
   function observeEvents() {
     if (this._observers_setup)
       return;
 
-    var document = this.getDocument();
-    var window = this.getWindow();
-
-    forwardEvents(document, this);
-    observePasteEvent(window, document, this);
-    observeFocus(window, this);
-    observeSelections(document, this);
-    observeChanges(document, this);
-    observeCursorMovements(document, this);
+    forwardEvents(this);
+    observePasteEvent(this);
+    observeFocus(this);
+    observeSelections(this);
+    observeChanges(this);
+    observeCursorMovements(this);
 
     this._observers_setup = true;
   }
