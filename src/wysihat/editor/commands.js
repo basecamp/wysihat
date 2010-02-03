@@ -289,15 +289,15 @@ WysiHat.Commands = (function() {
    *  Fetches the styles (from the styleSelectors hash) from the current
    *  selection and returns it as a hash
   **/
-	function getSelectedStyles() {
-	  var styles = $H({});
-	  var editor = this;
-	  editor.styleSelectors.each(function(style){
-	    var node = editor.selection.getNode();
+  function getSelectedStyles() {
+    var styles = $H({});
+    var editor = this;
+    editor.styleSelectors.each(function(style){
+      var node = editor.selection.getNode();
       styles.set(style.first(), Element.getStyle(node, style.last()));
-	  });
-	  return styles;
-	}
+    });
+    return styles;
+  }
 
   return {
      boldSelection:                    boldSelection,
