@@ -11,11 +11,10 @@ way and leaves the UI design to you.
 
 WysiHat currently supports:
 
-* Microsoft Internet Explorer for Windows, version 6.0 and higher
-* Mozilla Firefox 2.0 and higher
-* Apple Safari 3.0 and higher
-* Opera 9.52 and higher
-* Google Chrome
+* Microsoft Internet Explorer for Windows, version 7.0
+* Mozilla Firefox 3.0
+* Apple Safari 4.0
+* Google Chrome 4.0
 
 ### Dependencies
 
