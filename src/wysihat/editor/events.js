@@ -43,8 +43,9 @@ WysiHat.Events = (function() {
   function observeSelections(editor) {
     Event.observe(editor, 'mouseup', function(event) {
       var range = editor.selection.getRange();
-      if (!range.collapsed)
-        editor.fire("wysihat:select");
+      // FIXME: firing an event here breaks double clicking to select word in IE
+      // if (!range.collapsed)
+      //   editor.fire("wysihat:select");
     });
   }
 
