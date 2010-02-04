@@ -9,10 +9,9 @@ WysiHat.Editor = {
    *
    *  Creates a new editor for the textarea.
   **/
-  attach: function(textarea, options) {
+  attach: function(textarea) {
     var editArea;
 
-    options = $H(options);
     textarea = $(textarea);
     textarea.hide();
 
@@ -28,11 +27,9 @@ WysiHat.Editor = {
     editArea.textarea = textarea;
 
     WysiHat.Editor.extend(editArea);
-
     editArea.selection = new WysiHat.Selection(editArea);
 
     editArea.load();
-
     textarea.insert({before: editArea});
 
     return editArea;

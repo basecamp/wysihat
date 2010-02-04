@@ -63,8 +63,7 @@
     Event.observe(window, 'load', function() {
       new WysiHat.Observer(document.body);
 
-      textarea = $('note_body');
-      editor = WysiHat.Editor.attach(textarea);
+      editor = WysiHat.Editor.attach('note_body');
       var toolbar = new WysiHat.Toolbar(editor);
       toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
 
@@ -82,33 +81,27 @@
 
       editor.observe("wysihat:change", function(event) {
         editor.save();
+        $('note_body_raw').setValue(event.element().rawContent());
       });
 
       editor.observe("wysihat:paste", function(event) {
-        setTimeout(function() {
-          editor.reload();
-        }, 1);
+        (function() { editor.reload(); }).defer();
       });
 
-      textarea.show();
-      textarea.disable();
-
-      editor.observe("wysihat:change", function(event) {
-        $('note_body_raw').value = event.element().rawContent()
-      });
+      $('note_body').show();
     });
   </script>
 </head>
 
 <body>
   <form id="edit_note" action="#" method="post" style="width: 500px;">
-    <textarea class="editable" id="note_body">&lt;p&gt;Here is some basic text...&lt;br /&gt;
+    <textarea class="editable" id="note_body" disabled>&lt;p&gt;Here is some basic text...&lt;br /&gt;
 ...with a line break.&lt;/p&gt;
 
 &lt;p&gt;We want to put a paragraph...&lt;/p&gt;
 
 &lt;p&gt;...right there.&lt;/p&gt;</textarea>
-    <textarea id="note_body_raw" disabled="true"></textarea>
+    <textarea id="note_body_raw" disabled></textarea>
   </form>
 </body>
 </html>
