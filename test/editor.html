@@ -61,6 +61,8 @@
     var textarea, editor;
 
     Event.observe(window, 'load', function() {
+      new WysiHat.Observer(document.body);
+
       textarea = $('note_body');
       editor = WysiHat.Editor.attach(textarea);
       var toolbar = new WysiHat.Toolbar(editor);
