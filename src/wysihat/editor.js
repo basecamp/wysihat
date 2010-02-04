@@ -9,7 +9,7 @@ WysiHat.Editor = {
    *
    *  Creates a new editor for the textarea.
   **/
-  attach: function(textarea, options, block) {
+  attach: function(textarea, options) {
     var editArea;
 
     options = $H(options);
@@ -32,8 +32,6 @@ WysiHat.Editor = {
     editArea.selection = new WysiHat.Selection(editArea);
 
     editArea.load();
-
-    if (block) block(editArea);
 
     textarea.insert({before: editArea});
 
