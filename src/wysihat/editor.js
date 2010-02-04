@@ -33,8 +33,6 @@ WysiHat.Editor = {
 
     editArea.load();
 
-    editArea._observeEvents();
-
     if (block) block(editArea);
 
     textarea.insert({before: editArea});

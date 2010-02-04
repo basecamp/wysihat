@@ -208,6 +208,7 @@ WysiHat.Selection = Class.create((function() {
     selectNode:     selectNode,
     setBookmark:    setBookmark,
     moveToBookmark: moveToBookmark,
-    restore:        restoreRange
+    restore:        restoreRange,
+    previousRange:  null
   };
 })());

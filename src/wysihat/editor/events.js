@@ -1,8 +1,4 @@
 /** section: wysihat
- *  mixin WysiHat.Events
- *
- *  Forwards common DOM events to the editor element. All events are
- *  prefixed with 'wysihat:'.
  *
  *  To observe any double clicks in the editor:
  *
@@ -18,79 +14,67 @@
  *  press. Is also fired when something is typed because the cursor is
  *  still advancing.
 **/
-WysiHat.Events = (function() {
-  function observePasteEvent(editor) {
-    Event.observe(editor, 'keydown', function(event) {
-      if (event.keyCode == 86)
-        editor.fire("wysihat:paste");
-    });
+document.observe("dom:loaded", function() {
+  $(document.body).observe("keydown", function(event) {
+    var editor = event.findElement("div.editor");
+    if (editor && event.keyCode == 86) editor.fire("wysihat:paste");
+  });
 
-    Event.observe(editor, 'paste', function(event) {
-      editor.fire("wysihat:paste");
-    });
+  $(document.body).observe("paste", function(event) {
+    var editor = event.findElement("div.editor");
+    if (editor) editor.fire("wysihat:paste");
+  });
+
+
+  var observeCursorMovementsHandler = function(editor) {
+    var range = editor.selection.getRange();
+    if (editor.selection.previousRange != range) {
+      editor.fire("wysihat:cursormove");
+      editor.selection.previousRange = range;
+    }
   }
 
-  function observeFocus(editor) {
-    Event.observe(editor, 'focus', function(event) {
-      editor.fire("wysihat:focus");
-    });
+  $(document.body).observe("keyup", function(event) {
+    var editor = event.findElement("div.editor");
+    if (editor) {
+      observeCursorMovementsHandler(editor);
 
-    Event.observe(editor, 'blur', function(event) {
-      editor.fire("wysihat:blur");
-    });
-  }
+      var contents = editor.rawContent();
+      if (editor.previousContents != contents) {
+        editor.fire("wysihat:change");
+        editor.previousContents = contents;
+      }
+    }
+  });
 
-  function observeSelections(editor) {
-    Event.observe(editor, 'mouseup', function(event) {
+  $(document.body).observe("mouseup", function(event) {
+    var editor = event.findElement("div.editor");
+    if (editor) {
+      observeCursorMovementsHandler(editor);
+
       var range = editor.selection.getRange();
       // FIXME: firing an event here breaks double clicking to select word in IE
       // if (!range.collapsed)
       //   editor.fire("wysihat:select");
-    });
-  }
+    }
+  });
 
-  function observeChanges(editor) {
-    var previousContents = editor.rawContent();
-    Event.observe(editor, 'keyup', function(event) {
-      var contents = editor.rawContent();
-      if (previousContents != contents) {
-        // FIXME: firing an event here breaks Undo/Redo
-        // editor.fire("wysihat:change");
-        previousContents = contents;
-      }
-    });
-  }
 
-  function observeCursorMovements(editor) {
-    var previousRange = editor.selection.getRange();
-    var handler = function(event) {
-      var range = editor.selection.getRange();
-      if (previousRange != range) {
-        editor.fire("wysihat:cursormove");
-        previousRange = range;
-      }
-    };
-
-    Event.observe(editor, 'keyup', handler);
-    Event.observe(editor, 'mouseup', handler);
-  }
-
-  function observeEvents() {
-    if (this._observers_setup)
-      return;
-
-    observePasteEvent(this);
-    observeFocus(this);
-    observeSelections(this);
-    observeChanges(this);
-    observeCursorMovements(this);
-
-    this._observers_setup = true;
-  }
-
-  return {
-    _observeEvents: observeEvents
+  var focusInHandler = function(event) {
+    var editor = event.findElement("div.editor");
+    if (editor) editor.fire("wysihat:focus")
   };
-})();
 
-WysiHat.Editor.include(WysiHat.Events);
+  var focusOutHandler = function(event) {
+    var editor = event.findElement("div.editor");
+    if (editor) editor.fire("wysihat:blur")
+  };
+
+  if (document.addEventListener) {
+    document.addEventListener("focus", focusInHandler, true);
+    document.addEventListener("blur", focusOutHandler, true);
+  } else {
+    document.observe("focusin", focusInHandler);
+    document.observe("focusout", focusOutHandler);
+  }
+});

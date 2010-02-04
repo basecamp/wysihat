@@ -92,7 +92,7 @@
       textarea.disable();
 
       editor.observe("wysihat:change", function(event) {
-        $('note_body_raw').value = event.target.rawContent();
+        $('note_body_raw').value = event.element().rawContent()
       });
     });
   </script>
