@@ -18,7 +18,7 @@ WysiHat.Selection = Class.create((function() {
    *  Get selected text.
   **/
   function getSelection() {
-    return window.getSelection ? window.getSelection() : document.selection;
+    return Prototype.Browser.IE ? document.selection : window.getSelection();
   }
 
   /**
@@ -72,39 +72,13 @@ WysiHat.Selection = Class.create((function() {
    *  Returns selected node.
   **/
   function getNode() {
-    var nodes = null, candidates = [], children, el;
-    var range = this.getRange();
-
-    if (!range)
-      return null;
-
-    var parent;
-    if (range.parentElement)
-      parent = range.parentElement();
-    else
-      parent = range.commonAncestorContainer;
-
-    if (parent) {
-      while (parent.nodeType != 1) parent = parent.parentNode;
-      if (parent.nodeName.toLowerCase() != "body") {
-        el = parent;
-        do {
-          el = el.parentNode;
-          candidates[candidates.length] = el;
-        } while (el.nodeName.toLowerCase() != "body");
-      }
-      children = parent.all || parent.getElementsByTagName("*");
-      for (var j = 0; j < children.length; j++)
-        candidates[candidates.length] = children[j];
-      nodes = [parent];
-      for (var ii = 0, r2; ii < candidates.length; ii++) {
-        r2 = createRangeFromElement(document, candidates[ii]);
-        if (r2 && compareRanges(range, r2))
-          nodes[nodes.length] = candidates[ii];
-      }
+    if (Prototype.Browser.IE) {
+      var range = this.getRange();
+      return range.parentElement();
+    } else {
+      var selection = window.getSelection();
+      return selection.getRangeAt(0).getNode();
     }
-
-    return nodes.first();
   }
 
   function createRangeFromElement(document, node) {

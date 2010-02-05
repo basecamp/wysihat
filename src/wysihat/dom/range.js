@@ -1099,9 +1099,8 @@ Object.extend(Range.prototype, (function() {
   function getNode() {
     var node = this.commonAncestorContainer;
 
-    if (this.startContainer == this.endContainer)
-      if (this.startOffset - this.endOffset < 2)
-        node = this.startContainer.childNodes[this.startOffset];
+    if (this.startContainer.length == this.startOffset && this.startContainer.nextSibling)
+      return this.startContainer.nextSibling;
 
     while (node.nodeType == Node.TEXT_NODE)
       node = node.parentNode;
