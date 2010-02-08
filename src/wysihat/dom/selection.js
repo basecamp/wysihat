@@ -168,13 +168,6 @@ if (!window.getSelection) {
 **/
 WysiHat.Selection = Class.create((function() {
   /**
-   *  new WysiHat.Selection(editor)
-   *  - editor (WysiHat.Editor): the editor object that you want to bind to
-  **/
-  function initialize(editor) {
-  }
-
-  /**
    *  WysiHat.Selection#getSelection() -> Selection
    *  Get selected text.
   **/
@@ -187,7 +180,7 @@ WysiHat.Selection = Class.create((function() {
    *  Get range for selected text.
   **/
   function getRange() {
-    var range = null, selection = this.getSelection();
+    var range = null, selection = getSelection();
 
     try {
       if (selection.getRangeAt)
@@ -209,7 +202,7 @@ WysiHat.Selection = Class.create((function() {
    *  - node (Element): Element or node to select
   **/
   function selectNode(node) {
-    var selection = this.getSelection();
+    var selection = getSelection();
 
     if (Prototype.Browser.IE) {
       var range = createRangeFromElement(document, node);
@@ -234,7 +227,7 @@ WysiHat.Selection = Class.create((function() {
   **/
   function getNode() {
     if (Prototype.Browser.IE) {
-      var range = this.getRange();
+      var range = getRange();
       return range.parentElement();
     } else {
       var selection = window.getSelection();
@@ -300,7 +293,7 @@ WysiHat.Selection = Class.create((function() {
       range.pasteHTML(parent.innerHTML);
     }
     else {
-      var range = this.getRange();
+      var range = getRange();
       range.insertNode(bookmark);
     }
   }
@@ -311,15 +304,15 @@ WysiHat.Selection = Class.create((function() {
       return;
 
     if (Prototype.Browser.IE) {
-      var range = this.getRange();
+      var range = getRange();
       range.moveToElementText(bookmark);
       range.collapse();
       range.select();
     } else if (Prototype.Browser.WebKit) {
-      var selection = this.getSelection();
+      var selection = getSelection();
       selection.setBaseAndExtent(bookmark, 0, bookmark, 0);
     } else {
-      var range = this.getRange();
+      var range = getRange();
       range.setStartBefore(bookmark);
     }
 
@@ -327,13 +320,9 @@ WysiHat.Selection = Class.create((function() {
   }
 
   return {
-    initialize:     initialize,
-    getSelection:   getSelection,
-    getRange:       getRange,
-    getNode:        getNode,
     selectNode:     selectNode,
+    getNode:        getNode,
     setBookmark:    setBookmark,
-    moveToBookmark: moveToBookmark,
-    previousRange:  null
+    moveToBookmark: moveToBookmark
   };
 })());
