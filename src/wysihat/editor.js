@@ -71,5 +71,4 @@ WysiHat.Editor = {
 };
 
 //= require "editor/commands"
-//= require "editor/observer"
 //= require "editor/persistence"

@@ -17,4 +17,6 @@ var WysiHat = {};
 //= require "wysihat/lang"
 //= require "wysihat/dom"
 //= require "wysihat/toolbar"
+
+//= require "wysihat/events/field_change"
 //= require "wysihat/events/selection_change"

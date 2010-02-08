@@ -143,7 +143,6 @@ WysiHat.Toolbar = Class.create((function() {
     var toolbar = this;
     element.observe('click', function(event) {
       handler(toolbar.editor);
-      toolbar.editor.fire("wysihat:change");
       Event.stop(event);
     });
   }
