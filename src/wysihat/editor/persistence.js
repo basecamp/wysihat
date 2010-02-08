@@ -111,8 +111,7 @@ WysiHat.Persistence = (function() {
     setContent:    setContent,
     save:          save,
     load:          load,
-    reload:        reload,
-    previousContents: null
+    reload:        reload
   };
 })();
 
