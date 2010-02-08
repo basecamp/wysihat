@@ -215,6 +215,16 @@ WysiHat.Commands = (function() {
   }
 
   /**
+   *  WysiHat.Commands#orderedListSelected() -> boolean
+   *
+   *  Check if current selection is within an ordered list.
+  **/
+  function orderedListSelected() {
+    var element = $(this.selection.getNode());
+    return element.match("[contenteditable=true] ol, [contenteditable=true] ol *");
+  }
+
+  /**
    *  WysiHat.Commands#toggleUnorderedList() -> undefined
    *
    *  Formats current selection as an unordered list. If the selection is empty
@@ -231,6 +241,16 @@ WysiHat.Commands = (function() {
   **/
   function insertUnorderedList() {
     this.toggleUnorderedList();
+  }
+
+  /**
+   *  WysiHat.Commands#unorderedListSelected() -> boolean
+   *
+   *  Check if current selection is within an unordered list.
+  **/
+  function unorderedListSelected() {
+    var element = $(this.selection.getNode());
+    return element.match("[contenteditable=true] ul, [contenteditable=true] ul *");
   }
 
   /**
@@ -334,8 +354,10 @@ WysiHat.Commands = (function() {
      formatblockSelection:             formatblockSelection,
      toggleOrderedList:                toggleOrderedList,
      insertOrderedList:                insertOrderedList,
+     orderedListSelected:              orderedListSelected,
      toggleUnorderedList:              toggleUnorderedList,
      insertUnorderedList:              insertUnorderedList,
+     unorderedListSelected:            unorderedListSelected,
      insertImage:                      insertImage,
      insertHTML:                       insertHTML,
      execCommand:                      execCommand,
@@ -345,7 +367,9 @@ WysiHat.Commands = (function() {
     commands: $H({}),
 
     queryCommands: $H({
-      link: linkSelected
+      link: linkSelected,
+      orderedlist: orderedListSelected,
+      unorderedlist: unorderedListSelected
     }),
 
     styleSelectors: $H({
