@@ -7,10 +7,6 @@ WysiHat.Selection = Class.create((function() {
    *  - editor (WysiHat.Editor): the editor object that you want to bind to
   **/
   function initialize(editor) {
-    if (Prototype.Browser.IE) {
-      editor.observe('wysihat:cursormove', saveRange.bind(this));
-      editor.observe('wysihat:focus', restoreRange);
-    }
   }
 
   /**
@@ -165,15 +161,6 @@ WysiHat.Selection = Class.create((function() {
     bookmark.parentNode.removeChild(bookmark);
   }
 
-  var savedRange = null;
-  function saveRange() {
-    savedRange = this.getRange();
-  }
-
-  function restoreRange() {
-    if (savedRange) savedRange.select();
-  }
-
   return {
     initialize:     initialize,
     getSelection:   getSelection,
@@ -182,7 +169,6 @@ WysiHat.Selection = Class.create((function() {
     selectNode:     selectNode,
     setBookmark:    setBookmark,
     moveToBookmark: moveToBookmark,
-    restore:        restoreRange,
     previousRange:  null
   };
 })());

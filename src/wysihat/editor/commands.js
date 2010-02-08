@@ -250,8 +250,6 @@ WysiHat.Commands = (function() {
    *  A simple delegation method to the documents execCommand method.
   **/
   function execCommand(command, ui, value) {
-    if (Prototype.Browser.IE) this.selection.restore();
-
     var handler = this.commands.get(command);
     if (handler)
       handler.bind(this)(value);
