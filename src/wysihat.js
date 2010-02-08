@@ -14,11 +14,14 @@
 var WysiHat = {};
 
 //= require "wysihat/editor"
-//= require "wysihat/lang"
-//= require "wysihat/toolbar"
 
 //= require "wysihat/dom/range"
 //= require "wysihat/dom/selection"
 
 //= require "wysihat/events/field_change"
 //= require "wysihat/events/selection_change"
+
+//= require "wysihat/lang/formatter"
+//= require "wysihat/lang/sanitizer"
+
+//= require "wysihat/toolbar"
