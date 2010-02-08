@@ -5,21 +5,8 @@ new Test.Unit.Runner({
       "<em id=\"consectetuer\">consectetuer</em> adipiscing elit."
     );
 
-    var range = document.createRange();
-    range.selectNode($('content'));
-
-    var selection = window.getSelection();
-    selection.removeAllRanges();
-
-    if (Prototype.Browser.IE)
-      selection._addRange(range); // IE
-    else
-      selection.addRange(range); // W3C
-
-    if (selection.getRangeAt)
-      this.range = selection.getRangeAt(0); // W3C
-    else
-      this.range = new Range(document); // IE
+    this.range = document.createRange();
+    this.range.selectNode($('content'));
   },
 
   testSetStart: function() {
