@@ -196,23 +196,41 @@ WysiHat.Commands = (function() {
   }
 
   /**
-   *  WysiHat.Commands#insertOrderedList() -> undefined
+   *  WysiHat.Commands#toggleOrderedList() -> undefined
    *
    *  Formats current selection as an ordered list. If the selection is empty
    *  a new list is inserted.
   **/
-  function insertOrderedList() {
+  function toggleOrderedList() {
     this.execCommand('insertorderedlist', false, null);
+  }
+
+  /**
+   *  WysiHat.Commands#insertOrderedList() -> undefined
+   *
+   *  Alias for WysiHat.Commands#toggleOrderedList
+  **/
+  function insertOrderedList() {
+    this.toggleOrderedList();
+  }
+
+  /**
+   *  WysiHat.Commands#toggleUnorderedList() -> undefined
+   *
+   *  Formats current selection as an unordered list. If the selection is empty
+   *  a new list is inserted.
+  **/
+  function toggleUnorderedList() {
+    this.execCommand('insertunorderedlist', false, null);
   }
 
   /**
    *  WysiHat.Commands#insertUnorderedList() -> undefined
    *
-   *  Formats current selection as an unordered list. If the selection is empty
-   *  a new list is inserted.
+   *  Alias for WysiHat.Commands#toggleUnorderedList()
   **/
   function insertUnorderedList() {
-    this.execCommand('insertunorderedlist', false, null);
+    this.toggleUnorderedList();
   }
 
   /**
@@ -314,7 +332,9 @@ WysiHat.Commands = (function() {
      unlinkSelection:                  unlinkSelection,
      linkSelected:                     linkSelected,
      formatblockSelection:             formatblockSelection,
+     toggleOrderedList:                toggleOrderedList,
      insertOrderedList:                insertOrderedList,
+     toggleUnorderedList:              toggleUnorderedList,
      insertUnorderedList:              insertUnorderedList,
      insertImage:                      insertImage,
      insertHTML:                       insertHTML,
