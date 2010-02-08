@@ -373,19 +373,37 @@ if (typeof Range == 'undefined') {
 }
 
 Object.extend(Range.prototype, (function() {
+  function compareRange(other) {
+    return !(
+        this.compareBoundaryPoints(0, other) == 1 &&
+        this.compareBoundaryPoints(2, other) == 1 &&
+        this.compareBoundaryPoints(1, other) == 1 &&
+        this.compareBoundaryPoints(3, other) == 1
+      ||
+        this.compareBoundaryPoints(0, other) == -1 &&
+        this.compareBoundaryPoints(2, other) == -1 &&
+        this.compareBoundaryPoints(1, other) == -1 &&
+        this.compareBoundaryPoints(3, other) == -1
+      );
+  }
+  
   function getNode() {
-    var node = this.commonAncestorContainer;
+    var parent = this.commonAncestorContainer;
 
-    if (this.startContainer.length == this.startOffset && this.startContainer.nextSibling)
-      return this.startContainer.nextSibling;
+    while (parent.nodeType == Node.TEXT_NODE)
+      parent = parent.parentNode;
 
-    while (node.nodeType == Node.TEXT_NODE)
-      node = node.parentNode;
+    var child = parent.childElements().detect(function(child) {
+      var range = document.createRange();
+      range.selectNodeContents(child);
+      return this.compareRange(range);
+    }.bind(this));
 
-    return node;
+    return child || parent;
   }
 
   return {
-    getNode: getNode
+    compareRange: compareRange,
+    getNode:      getNode
   };
 })());
