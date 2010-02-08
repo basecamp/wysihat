@@ -144,7 +144,6 @@ WysiHat.Toolbar = Class.create((function() {
     element.observe('click', function(event) {
       handler(toolbar.editor);
       toolbar.editor.fire("wysihat:change");
-      toolbar.editor.fire("wysihat:cursormove");
       Event.stop(event);
     });
   }
@@ -180,7 +179,7 @@ WysiHat.Toolbar = Class.create((function() {
   function observeStateChanges(element, name, handler) {
     var toolbar = this;
     var previousState = false;
-    toolbar.editor.observe("wysihat:cursormove", function(event) {
+    toolbar.editor.observe("selection:change", function(event) {
       var state = handler(toolbar.editor);
       if (state != previousState) {
         previousState = state;

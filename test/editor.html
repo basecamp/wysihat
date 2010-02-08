@@ -59,7 +59,7 @@
 
     var textarea, editor;
 
-    Event.observe(window, 'load', function() {
+    document.observe("dom:loaded", function() {
       new WysiHat.Observer(document.body);
 
       editor = WysiHat.Editor.attach('note_body');
@@ -83,7 +83,7 @@
         $('note_body_raw').setValue(event.element().rawContent());
       });
 
-      editor.observe("wysihat:paste", function(event) {
+      editor.observe("paste", function(event) {
         (function() { editor.reload(); }).defer();
       });
 
