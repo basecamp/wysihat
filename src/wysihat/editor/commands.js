@@ -291,10 +291,13 @@ WysiHat.Commands = (function() {
   **/
   function execCommand(command, ui, value) {
     var handler = this.commands.get(command);
-    if (handler)
+    if (handler) {
       handler.bind(this)(value);
-    else
-      document.execCommand(command, ui, value);
+    } else {
+      try {
+        document.execCommand(command, ui, value);
+      } catch(e) { return null; }
+    }
   }
 
   /**
@@ -311,10 +314,13 @@ WysiHat.Commands = (function() {
   **/
   function queryCommandState(state) {
     var handler = this.queryCommands.get(state);
-    if (handler)
+    if (handler) {
       return handler.bind(this)();
-    else
-      return document.queryCommandState(state);
+    } else {
+      try {
+        return document.queryCommandState(state);
+      } catch(e) { return null; }
+    }
   }
 
   /**
