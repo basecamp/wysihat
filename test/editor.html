@@ -78,7 +78,7 @@
 
       editor.observe("field:change", function(event) {
         editor.save();
-        $('note_body_raw').setValue(event.element().rawContent());
+        $('note_body_raw').setValue(event.element().innerHTML);
       });
 
       editor.observe("paste", function(event) {
