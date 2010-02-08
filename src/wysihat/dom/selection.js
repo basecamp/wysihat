@@ -1,3 +1,5 @@
+//= require "range"
+
 /** section: dom
  *  class WysiHat.Selection
 **/
