@@ -10,14 +10,6 @@ WysiHat.Observer = Class.create({
     this.region.observe("keyup", this.onRegionKeyUp.bind(this));
     this.region.observe("paste", this.onRegionPaste.bind(this));
     this.region.observe("mouseup", this.onRegionMouseUp.bind(this));
-
-    if (this.region.addEventListener) {
-      this.region.addEventListener("focus", this.onRegionFocusIn.bind(this), true);
-      this.region.addEventListener("blur", this.onRegionFocusOut.bind(this), true);
-    } else {
-      this.region.observe("focusin", this.onRegionFocusIn.bind(this));
-      this.region.observe("focusout", this.onRegionFocusOut.bind(this));
-    }
   },
 
   start: function() {
@@ -58,18 +50,6 @@ WysiHat.Observer = Class.create({
       this.observeCursorMovements(element);
       this.observeSelections(element);
     }
-  },
-
-  onRegionFocusIn: function(event) {
-    if (!this.started) return;
-    var element = event.findElement("div.editor");
-    if (element) element.fire("wysihat:focus");
-  },
-
-  onRegionFocusOut: function(event) {
-    if (!this.started) return;
-    var element = event.findElement("div.editor");
-    if (element) element.fire("wysihat:blur");
   },
 
   observeChanges: function(editor) {
