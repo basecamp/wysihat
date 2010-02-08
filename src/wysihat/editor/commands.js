@@ -1,3 +1,5 @@
+//= require "../dom/selection"
+
 /** section: wysihat
  *  mixin WysiHat.Commands
  *
