@@ -110,7 +110,6 @@ if (typeof Range == 'undefined') {
       this._document = document;
 
       // initialize range
-    //[TODO] this should be located at document[0], document[0]
       this.startContainer = this.endContainer = document.body;
       this.endOffset = DOMUtils.getNodeLength(document.body);
     }
@@ -235,7 +234,6 @@ if (typeof Range == 'undefined') {
         // extract and surround contents
         var content = this.extractContents();
         this.insertNode(newNode);
-      console.log(this);
         newNode.appendChild(content);
         this.selectNode(newNode);
       },
@@ -282,7 +280,6 @@ if (typeof Range == 'undefined') {
         return range;
       },
       detach: function() {
-    //[TODO] Releases Range from use to improve performance.
       },
       toString: function() {
         return TextRangeUtils.convertFromDOMRange(this).text;
@@ -303,7 +300,6 @@ if (typeof Range == 'undefined') {
       if (range.collapsed)
         return;
 
-    //[TODO] ensure this works
       // get anchors
       var root = range.commonAncestorContainer;
       this._next = range.startContainer == root && !DOMUtils.isDataNode(range.startContainer) ?
