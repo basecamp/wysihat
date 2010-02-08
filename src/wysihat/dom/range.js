@@ -386,7 +386,7 @@ Object.extend(Range.prototype, (function() {
         this.compareBoundaryPoints(3, other) == -1
       );
   }
-  
+
   function getNode() {
     var parent = this.commonAncestorContainer;
 
