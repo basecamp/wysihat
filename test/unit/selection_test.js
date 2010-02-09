@@ -12,9 +12,7 @@ new Test.Unit.Runner({
   testSelectNode: function() {
     var runner = this;
 
-    range = document.createRange();
-    range.selectNodeContents($('lorem'));
-    this.selection.addRange(range);
+    this.selection.selectNode($('lorem'));
 
     runner.assertEqual("Lorem ipsum", this.selection.anchorNode.textContent, "anchorNode.textContent");
     runner.assertEqual(0, this.selection.anchorOffset, "anchorOffset");

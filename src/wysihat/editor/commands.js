@@ -169,7 +169,7 @@ WysiHat.Commands = (function() {
   function unlinkSelection() {
     var node = this.selection.getNode();
     if (this.linkSelected())
-      this.selection.selectNode(node);
+      window.getSelection().selectNode(node);
 
     this.execCommand('unlink', false, null);
   }

@@ -21,12 +21,12 @@ new Test.Unit.Runner({
     var runner = this;
 
     // this.editor.insertHTML("<p>Hello.</p>");
-    this.editor.setContent("<p>Hello.</p>");
+    this.editor.setContent('<p id="hello">Hello.</p>');
 
-    this.editor.selection.selectNode(this.editor.down(0));
+    window.getSelection().selectNode(this.editor.down('#hello'));
     this.editor.boldSelection();
 
     runner.assert(this.editor.boldSelected());
-    runner.assertEqual("<p><strong>Hello.</strong></p>", this.editor.content());
+    runner.assertEqual('<p id="hello"><strong>Hello.</strong></p>', this.editor.content());
   }
 });

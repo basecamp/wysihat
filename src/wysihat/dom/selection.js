@@ -155,6 +155,14 @@ if (!window.getSelection) {
       },
       toString: function() {
         return this._document.selection.createRange().text;
+      },
+      
+      // Extension
+      // TODO: IE selectNode should work with range.selectNode
+      selectNode: function(element) {
+        var range = this._document.body.createTextRange();
+        range.moveToElementText(element);
+        range.select();
       }
     };
 
@@ -162,6 +170,29 @@ if (!window.getSelection) {
     return function() { return selection; };
   })();
 }
+
+(function() {
+  var prototype;
+  if (Prototype.Browser.WebKit)
+    prototype = window.getSelection();
+  else if (Prototype.Browser.Gecko)
+    prototype = Selection.prototype;
+
+  if (prototype) {
+    Object.extend(prototype, (function() {
+      function selectNode(element) {
+        var range = document.createRange();
+        range.selectNode(element);
+        this.removeAllRanges();
+        this.addRange(range);
+      }
+
+      return {
+        selectNode: selectNode
+      }
+    })());
+  }
+})();
 
 /** section: dom
  *  class WysiHat.Selection
@@ -195,25 +226,6 @@ WysiHat.Selection = Class.create((function() {
     }
 
     return range;
-  }
-
-  /**
-   *  WysiHat.Selection#selectNode(node) -> undefined
-   *  - node (Element): Element or node to select
-  **/
-  function selectNode(node) {
-    var selection = getSelection();
-
-    if (Prototype.Browser.IE) {
-      var range = document.body.createTextRange();
-      range.moveToElementText(node);
-      range.select();
-    } else {
-      var range = document.createRange();
-      range.selectNodeContents(node);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
   }
 
   /**
@@ -274,7 +286,6 @@ WysiHat.Selection = Class.create((function() {
   }
 
   return {
-    selectNode:     selectNode,
     getNode:        getNode,
     setBookmark:    setBookmark,
     moveToBookmark: moveToBookmark
