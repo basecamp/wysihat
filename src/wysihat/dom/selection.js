@@ -205,17 +205,14 @@ WysiHat.Selection = Class.create((function() {
     var selection = getSelection();
 
     if (Prototype.Browser.IE) {
-      var range = createRangeFromElement(document, node);
+      var range = document.body.createTextRange();
+      range.moveToElementText(node);
       range.select();
     } else if (Prototype.Browser.WebKit) {
       selection.setBaseAndExtent(node, 0, node, node.innerText.length);
-    } else if (Prototype.Browser.Opera) {
-      range = document.createRange();
-      range.selectNode(node);
-      selection.removeAllRanges();
-      selection.addRange(range);
     } else {
-      var range = createRangeFromElement(document, node);
+      var range = document.createRange();
+      range.selectNodeContents(node);
       selection.removeAllRanges();
       selection.addRange(range);
     }
@@ -233,17 +230,6 @@ WysiHat.Selection = Class.create((function() {
       var selection = window.getSelection();
       return selection.getRangeAt(0).getNode();
     }
-  }
-
-  function createRangeFromElement(document, node) {
-    if (document.body.createTextRange) {
-      var range = document.body.createTextRange();
-      range.moveToElementText(node);
-    } else if (document.createRange) {
-      var range = document.createRange();
-      range.selectNodeContents(node);
-    }
-    return range;
   }
 
   function setBookmark() {
