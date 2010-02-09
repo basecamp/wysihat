@@ -149,28 +149,5 @@ new Test.Unit.Runner({
     runner.assertEqual(11, this.selection.focusOffset, "focusOffset");
     runner.assertEqual(false, this.selection.isCollapsed, "isCollapsed");
     runner.assertEqual(1, this.selection.rangeCount, "rangeCount");
-  },
-
-  // Webkit only
-  testSetBaseAndExtent: function() {
-    var runner = this;
-
-    if (this.selection.setBaseAndExtent) {
-      var element = $('lorem');
-      this.selection.setBaseAndExtent(element, 0, element, element.innerText.length);
-
-      runner.assertEqual("Lorem ipsum", this.selection.anchorNode.textContent, "anchorNode.textContent");
-      runner.assertEqual(0, this.selection.anchorOffset, "anchorOffset");
-      runner.assertEqual("Lorem ipsum", this.selection.focusNode.textContent, "focusNode.textContent");
-      runner.assertEqual(11, this.selection.focusOffset, "focusOffset");
-      runner.assertEqual(false, this.selection.isCollapsed, "isCollapsed");
-      runner.assertEqual(1, this.selection.rangeCount, "rangeCount");
-
-      // Webkit extensions
-      runner.assertEqual("Lorem ipsum", this.selection.baseNode.textContent, "baseNode.textContent");
-      runner.assertEqual(0, this.selection.baseOffset, "baseOffset");
-      runner.assertEqual("Lorem ipsum", this.selection.extentNode.textContent, "extentNode.textContent");
-      runner.assertEqual(11, this.selection.extentOffset, "extentOffset");
-    }
   }
 });
