@@ -246,36 +246,6 @@ WysiHat.Selection = Class.create((function() {
     return range;
   }
 
-  function compareRanges(r1, r2) {
-    if (r1.compareEndPoints) {
-      return !(
-        r2.compareEndPoints('StartToStart', r1) == 1 &&
-        r2.compareEndPoints('EndToEnd', r1) == 1 &&
-        r2.compareEndPoints('StartToEnd', r1) == 1 &&
-        r2.compareEndPoints('EndToStart', r1) == 1
-        ||
-        r2.compareEndPoints('StartToStart', r1) == -1 &&
-        r2.compareEndPoints('EndToEnd', r1) == -1 &&
-        r2.compareEndPoints('StartToEnd', r1) == -1 &&
-        r2.compareEndPoints('EndToStart', r1) == -1
-      );
-    } else if (r1.compareBoundaryPoints) {
-      return !(
-        r2.compareBoundaryPoints(0, r1) == 1 &&
-        r2.compareBoundaryPoints(2, r1) == 1 &&
-        r2.compareBoundaryPoints(1, r1) == 1 &&
-        r2.compareBoundaryPoints(3, r1) == 1
-        ||
-        r2.compareBoundaryPoints(0, r1) == -1 &&
-        r2.compareBoundaryPoints(2, r1) == -1 &&
-        r2.compareBoundaryPoints(1, r1) == -1 &&
-        r2.compareBoundaryPoints(3, r1) == -1
-      );
-    }
-
-    return null;
-  };
-
   function setBookmark() {
     var bookmark = document.getElementById('bookmark');
     if (bookmark)
