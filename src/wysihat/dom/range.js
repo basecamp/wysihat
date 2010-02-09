@@ -403,7 +403,7 @@ Object.extend(Range.prototype, (function() {
       return betweenRange.bind(this)(range);
     }.bind(this));
 
-    return child || parent;
+    return $(child || parent);
   }
 
   return {

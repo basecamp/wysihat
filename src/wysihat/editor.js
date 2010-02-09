@@ -27,7 +27,6 @@ WysiHat.Editor = {
     editArea.textarea = textarea;
 
     WysiHat.Editor.extend(editArea);
-    editArea.selection = new WysiHat.Selection();
 
     editArea.load();
     textarea.insert({before: editArea});

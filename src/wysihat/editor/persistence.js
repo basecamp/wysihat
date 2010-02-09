@@ -88,10 +88,10 @@ WysiHat.Persistence = (function() {
    *  Saves current contents and loads contents into editor.
   **/
   function reload() {
-    this.selection.setBookmark();
+    window.getSelection().setBookmark();
     this.save();
     this.load();
-    this.selection.moveToBookmark();
+    window.getSelection().moveToBookmark();
   }
 
   return {

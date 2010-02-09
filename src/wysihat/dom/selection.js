@@ -156,13 +156,41 @@ if (!window.getSelection) {
       toString: function() {
         return this._document.selection.createRange().text;
       },
-      
+
       // Extension
+      // TODO: More robust getNode
+      getNode: function() {
+        var range = this._document.selection.createRange();
+        return $(range.parentElement());
+      },
       // TODO: IE selectNode should work with range.selectNode
       selectNode: function(element) {
         var range = this._document.body.createTextRange();
         range.moveToElementText(element);
         range.select();
+      },
+      setBookmark: function() {
+        var bookmark = $('bookmark');
+        if (bookmark) bookmark.remove();
+
+        bookmark = new Element('span', { 'id': 'bookmark' }).update("&nbsp;");
+        var parent = new Element('div');
+        parent.appendChild(bookmark);
+
+        var range = this._document.selection.createRange();
+        range.collapse();
+        range.pasteHTML(parent.innerHTML);
+      },
+      moveToBookmark: function() {
+        var bookmark = $('bookmark');
+        if (!bookmark) return;
+
+        var range = this._document.selection.createRange();
+        range.moveToElementText(bookmark);
+        range.collapse();
+        range.select();
+
+        bookmark.remove();
       }
     };
 
@@ -180,6 +208,13 @@ if (!window.getSelection) {
 
   if (prototype) {
     Object.extend(prototype, (function() {
+      function getNode() {
+        if (this.rangeCount > 0)
+          return this.getRangeAt(0).getNode();
+        else
+          return null;
+      }
+
       function selectNode(element) {
         var range = document.createRange();
         range.selectNode(element);
@@ -187,107 +222,32 @@ if (!window.getSelection) {
         this.addRange(range);
       }
 
+      function setBookmark() {
+        var bookmark = $('bookmark');
+        if (bookmark) bookmark.remove();
+
+        bookmark = new Element('span', { 'id': 'bookmark' }).update("&nbsp;");
+        this.getRangeAt(0).insertNode(bookmark);
+      }
+
+      function moveToBookmark() {
+        var bookmark = $('bookmark');
+        if (!bookmark) return;
+
+        var range = document.createRange();
+        range.setStartBefore(bookmark);
+        this.removeAllRanges();
+        this.addRange(range);
+
+        bookmark.remove();
+      }
+
       return {
-        selectNode: selectNode
+        getNode:        getNode,
+        selectNode:     selectNode,
+        setBookmark:    setBookmark,
+        moveToBookmark: moveToBookmark
       }
     })());
   }
 })();
-
-/** section: dom
- *  class WysiHat.Selection
-**/
-WysiHat.Selection = Class.create((function() {
-  /**
-   *  WysiHat.Selection#getSelection() -> Selection
-   *  Get selected text.
-  **/
-  function getSelection() {
-    return Prototype.Browser.IE ? document.selection : window.getSelection();
-  }
-
-  /**
-   *  WysiHat.Selection#getRange() -> Range
-   *  Get range for selected text.
-  **/
-  function getRange() {
-    var range = null, selection = getSelection();
-
-    try {
-      if (selection.getRangeAt)
-        range = selection.getRangeAt(0);
-      else
-        range = selection.createRange();
-    } catch(e) { return null; }
-
-    if (Prototype.Browser.WebKit) {
-      range.setStart(selection.baseNode, selection.baseOffset);
-      range.setEnd(selection.extentNode, selection.extentOffset);
-    }
-
-    return range;
-  }
-
-  /**
-   *  WysiHat.Selection#getNode() -> Element
-   *  Returns selected node.
-  **/
-  function getNode() {
-    if (Prototype.Browser.IE) {
-      var range = getRange();
-      return range.parentElement();
-    } else {
-      var selection = window.getSelection();
-      return selection.getRangeAt(0).getNode();
-    }
-  }
-
-  function setBookmark() {
-    var bookmark = document.getElementById('bookmark');
-    if (bookmark)
-      bookmark.parentNode.removeChild(bookmark);
-
-    bookmark = document.createElement('span');
-    bookmark.id = 'bookmark';
-    bookmark.innerHTML = '&nbsp;';
-
-    if (Prototype.Browser.IE) {
-      var range = document.selection.createRange();
-      var parent = document.createElement('div');
-      parent.appendChild(bookmark);
-      range.collapse();
-      range.pasteHTML(parent.innerHTML);
-    }
-    else {
-      var range = getRange();
-      range.insertNode(bookmark);
-    }
-  }
-
-  function moveToBookmark() {
-    var bookmark = document.getElementById('bookmark');
-    if (!bookmark)
-      return;
-
-    if (Prototype.Browser.IE) {
-      var range = getRange();
-      range.moveToElementText(bookmark);
-      range.collapse();
-      range.select();
-    } else if (Prototype.Browser.WebKit) {
-      var selection = getSelection();
-      selection.setBaseAndExtent(bookmark, 0, bookmark, 0);
-    } else {
-      var range = getRange();
-      range.setStartBefore(bookmark);
-    }
-
-    bookmark.parentNode.removeChild(bookmark);
-  }
-
-  return {
-    getNode:        getNode,
-    setBookmark:    setBookmark,
-    moveToBookmark: moveToBookmark
-  };
-})());

@@ -147,7 +147,7 @@ WysiHat.Commands = (function() {
    *  Returns the alignment of the selected text area
   **/
   function alignSelected() {
-    var node = this.selection.getNode();
+    var node = window.getSelection().getNode();
     return Element.getStyle(node, 'textAlign');
   }
 
@@ -167,7 +167,7 @@ WysiHat.Commands = (function() {
    *  Selects the entire link at the cursor and removes it
   **/
   function unlinkSelection() {
-    var node = this.selection.getNode();
+    var node = window.getSelection().getNode();
     if (this.linkSelected())
       window.getSelection().selectNode(node);
 
@@ -180,7 +180,7 @@ WysiHat.Commands = (function() {
    *  Check if current selection is link.
   **/
   function linkSelected() {
-    var node = this.selection.getNode();
+    var node = window.getSelection().getNode();
     return node ? node.tagName.toUpperCase() == 'A' : false;
   }
 
@@ -220,7 +220,7 @@ WysiHat.Commands = (function() {
    *  Check if current selection is within an ordered list.
   **/
   function orderedListSelected() {
-    var element = $(this.selection.getNode());
+    var element = window.getSelection().getNode();
     return element.match("[contenteditable=true] ol, [contenteditable=true] ol *");
   }
 
@@ -249,7 +249,7 @@ WysiHat.Commands = (function() {
    *  Check if current selection is within an unordered list.
   **/
   function unorderedListSelected() {
-    var element = $(this.selection.getNode());
+    var element = window.getSelection().getNode();
     return element.match("[contenteditable=true] ul, [contenteditable=true] ul *");
   }
 
