@@ -208,8 +208,6 @@ WysiHat.Selection = Class.create((function() {
       var range = document.body.createTextRange();
       range.moveToElementText(node);
       range.select();
-    } else if (Prototype.Browser.WebKit) {
-      selection.setBaseAndExtent(node, 0, node, node.innerText.length);
     } else {
       var range = document.createRange();
       range.selectNodeContents(node);
