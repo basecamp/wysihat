@@ -373,18 +373,22 @@ if (typeof Range == 'undefined') {
 }
 
 Object.extend(Range.prototype, (function() {
-  function compareRange(other) {
-    return !(
-        this.compareBoundaryPoints(0, other) == 1 &&
-        this.compareBoundaryPoints(2, other) == 1 &&
-        this.compareBoundaryPoints(1, other) == 1 &&
-        this.compareBoundaryPoints(3, other) == 1
-      ||
-        this.compareBoundaryPoints(0, other) == -1 &&
-        this.compareBoundaryPoints(2, other) == -1 &&
-        this.compareBoundaryPoints(1, other) == -1 &&
-        this.compareBoundaryPoints(3, other) == -1
-      );
+  function beforeRange(range) {
+    return (this.compareBoundaryPoints(this.START_TO_START, range) == -1 &&
+      this.compareBoundaryPoints(this.START_TO_END, range) == -1 &&
+      this.compareBoundaryPoints(this.END_TO_END, range) == -1 &&
+      this.compareBoundaryPoints(this.END_TO_START, range) == -1);
+  }
+
+  function afterRange(range) {
+    return (this.compareBoundaryPoints(this.START_TO_START, range) == 1 &&
+      this.compareBoundaryPoints(this.START_TO_END, range) == 1 &&
+      this.compareBoundaryPoints(this.END_TO_END, range) == 1 &&
+      this.compareBoundaryPoints(this.END_TO_START, range) == 1);
+  }
+
+  function betweenRange(range) {
+    return !(beforeRange.bind(this)(range) || afterRange.bind(this)(range));
   }
 
   function getNode() {
@@ -396,14 +400,13 @@ Object.extend(Range.prototype, (function() {
     var child = parent.childElements().detect(function(child) {
       var range = document.createRange();
       range.selectNodeContents(child);
-      return this.compareRange(range);
+      return betweenRange.bind(this)(range);
     }.bind(this));
 
     return child || parent;
   }
 
   return {
-    compareRange: compareRange,
-    getNode:      getNode
+    getNode: getNode
   };
 })());
