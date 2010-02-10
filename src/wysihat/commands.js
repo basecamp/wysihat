@@ -1,4 +1,4 @@
-//= require "../dom/selection"
+//= require "dom/selection"
 
 /** section: wysihat
  *  mixin WysiHat.Commands
@@ -15,7 +15,7 @@
  *  In this example, it is important to stop the click event so you don't
  *  lose your current selection.
 **/
-WysiHat.Commands = (function() {
+var $E = WysiHat.Commands = (function(window) {
   /**
    *  WysiHat.Commands#boldSelection() -> undefined
    *
@@ -271,7 +271,7 @@ WysiHat.Commands = (function() {
   **/
   function insertHTML(html) {
     if (Prototype.Browser.IE) {
-      var range = document.selection.createRange();
+      var range = window.document.selection.createRange();
       range.pasteHTML(html);
       range.collapse(false);
       range.select();
@@ -295,7 +295,7 @@ WysiHat.Commands = (function() {
       handler.bind(this)(value);
     } else {
       try {
-        document.execCommand(command, ui, value);
+        window.document.execCommand(command, ui, value);
       } catch(e) { return null; }
     }
   }
@@ -318,7 +318,7 @@ WysiHat.Commands = (function() {
       return handler.bind(this)();
     } else {
       try {
-        return document.queryCommandState(state);
+        return window.document.queryCommandState(state);
       } catch(e) { return null; }
     }
   }
@@ -340,52 +340,50 @@ WysiHat.Commands = (function() {
   }
 
   return {
-     boldSelection:                    boldSelection,
-     boldSelected:                     boldSelected,
-     underlineSelection:               underlineSelection,
-     underlineSelected:                underlineSelected,
-     italicSelection:                  italicSelection,
-     italicSelected:                   italicSelected,
-     strikethroughSelection:           strikethroughSelection,
-     blockquoteSelection:              blockquoteSelection,
-     fontSelection:                    fontSelection,
-     fontSizeSelection:                fontSizeSelection,
-     colorSelection:                   colorSelection,
-     backgroundColorSelection:         backgroundColorSelection,
-     alignSelection:                   alignSelection,
-     alignSelected:                    alignSelected,
-     linkSelection:                    linkSelection,
-     unlinkSelection:                  unlinkSelection,
-     linkSelected:                     linkSelected,
-     formatblockSelection:             formatblockSelection,
-     toggleOrderedList:                toggleOrderedList,
-     insertOrderedList:                insertOrderedList,
-     orderedListSelected:              orderedListSelected,
-     toggleUnorderedList:              toggleUnorderedList,
-     insertUnorderedList:              insertUnorderedList,
-     unorderedListSelected:            unorderedListSelected,
-     insertImage:                      insertImage,
-     insertHTML:                       insertHTML,
-     execCommand:                      execCommand,
-     queryCommandState:                queryCommandState,
-     getSelectedStyles:                getSelectedStyles,
+     boldSelection:            boldSelection,
+     boldSelected:             boldSelected,
+     underlineSelection:       underlineSelection,
+     underlineSelected:        underlineSelected,
+     italicSelection:          italicSelection,
+     italicSelected:           italicSelected,
+     strikethroughSelection:   strikethroughSelection,
+     blockquoteSelection:      blockquoteSelection,
+     fontSelection:            fontSelection,
+     fontSizeSelection:        fontSizeSelection,
+     colorSelection:           colorSelection,
+     backgroundColorSelection: backgroundColorSelection,
+     alignSelection:           alignSelection,
+     alignSelected:            alignSelected,
+     linkSelection:            linkSelection,
+     unlinkSelection:          unlinkSelection,
+     linkSelected:             linkSelected,
+     formatblockSelection:     formatblockSelection,
+     toggleOrderedList:        toggleOrderedList,
+     insertOrderedList:        insertOrderedList,
+     orderedListSelected:      orderedListSelected,
+     toggleUnorderedList:      toggleUnorderedList,
+     insertUnorderedList:      insertUnorderedList,
+     unorderedListSelected:    unorderedListSelected,
+     insertImage:              insertImage,
+     insertHTML:               insertHTML,
+     execCommand:              execCommand,
+     queryCommandState:        queryCommandState,
+     getSelectedStyles:        getSelectedStyles,
 
     commands: $H({}),
 
     queryCommands: $H({
-      link: linkSelected,
-      orderedlist: orderedListSelected,
+      link:          linkSelected,
+      orderedlist:   orderedListSelected,
       unorderedlist: unorderedListSelected
     }),
 
     styleSelectors: $H({
-      fontname:     'fontFamily',
-      fontsize:     'fontSize',
-      forecolor:    'color',
-      hilitecolor:  'backgroundColor',
-      backcolor:    'backgroundColor'
+      fontname:    'fontFamily',
+      fontsize:    'fontSize',
+      forecolor:   'color',
+      hilitecolor: 'backgroundColor',
+      backcolor:   'backgroundColor'
     })
   };
-})();
-
-WysiHat.Editor.include(WysiHat.Commands);
+})(window);

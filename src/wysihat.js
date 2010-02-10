@@ -14,6 +14,7 @@
 var WysiHat = {};
 
 //= require "wysihat/editor"
+//= require "wysihat/commands"
 
 //= require "wysihat/dom/range"
 //= require "wysihat/dom/selection"

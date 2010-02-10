@@ -13,11 +13,9 @@ WysiHat.Editor = {
     var editArea;
 
     textarea = $(textarea);
-    textarea.hide();
 
     var id = textarea.id + '_editor';
-    if (editArea = $(id))
-      return editArea;
+    if (editArea = $(id)) return editArea;
 
     editArea = new Element('div', {
       'id': id,
@@ -25,48 +23,12 @@ WysiHat.Editor = {
       'contentEditable': 'true'
     });
     editArea.update(textarea.value.formatHTMLInput());
-    editArea.textarea = textarea;
 
-    WysiHat.Editor.extend(editArea);
+    Object.extend(editArea, WysiHat.Commands);
 
     textarea.insert({before: editArea});
+    textarea.hide();
 
     return editArea;
-  },
-
-  /** section: wysihat
-   *  WysiHat.Editor.include(module) -> Array
-   *  - module (Object): an object that will extend each editor element.
-   *
-   *  Provides extensibility for the editor. Register a module via this method,
-   *  and its function properties will be available on any editor instance.
-   *
-   *  eg:
-   *    WysiHat.Editor.include({echo: function(val) { alert(val) }})
-   *
-   *  This makes the 'echo' function defined in that module available directly
-   *  on the editor instance. Consequently (if 'editor' is the result of
-   *  a prior call to WysiHat.Editor.attach)...
-   *
-   *    editor.echo('Hello world!')
-   *
-   *  ... will show an alert box.
-   *
-   *  You must register the module via this method *before* the editor
-   *  instance is created -- this is not retrospective, and extant editor
-   *  instances will be unaffected.
-  **/
-  include: function(module) {
-    this.includedModules = this.includedModules || $A([]);
-    this.includedModules.push(module);
-  },
-
-  extend: function(object) {
-    var modules = this.includedModules || $A([]);
-    modules.each(function(module) {
-      Object.extend(object, module);
-    });
   }
 };
-
-//= require "editor/commands"

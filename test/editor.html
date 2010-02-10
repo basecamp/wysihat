@@ -41,22 +41,18 @@
   <script type="text/javascript" src="../dist/wysihat.js"></script>
 
   <script type="text/javascript" charset="utf-8">
-    var LinkSelectionHelper = {
-      promptLinkSelection: function() {
-        if (this.linkSelected()) {
-          if (confirm("Remove link?"))
-            this.unlinkSelection();
-        } else {
-          var value = prompt("Enter a URL", "http://www.google.com/");
-          if (value)
-            this.linkSelection(value);
-        }
+    var textarea, editor;
+
+    $E.promptLinkSelection = function() {
+      if (this.linkSelected()) {
+        if (confirm("Remove link?"))
+          this.unlinkSelection();
+      } else {
+        var value = prompt("Enter a URL", "http://www.google.com/");
+        if (value)
+          this.linkSelection(value);
       }
     }
-
-    WysiHat.Editor.include(LinkSelectionHelper);
-
-    var textarea, editor;
 
     document.observe("dom:loaded", function() {
       editor = WysiHat.Editor.attach('note_body');
