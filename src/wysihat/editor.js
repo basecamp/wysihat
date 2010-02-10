@@ -24,11 +24,11 @@ WysiHat.Editor = {
       'class': 'editor',
       'contentEditable': 'true'
     });
+    editArea.update(textarea.value.formatHTMLInput());
     editArea.textarea = textarea;
 
     WysiHat.Editor.extend(editArea);
 
-    editArea.load();
     textarea.insert({before: editArea});
 
     return editArea;
@@ -70,4 +70,3 @@ WysiHat.Editor = {
 };
 
 //= require "editor/commands"
-//= require "editor/persistence"

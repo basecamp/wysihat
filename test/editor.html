@@ -68,20 +68,24 @@
         handler: function(editor) { return editor.promptLinkSelection(); }
       });
 
-      editor.outputFilter = function(text) {
-        return text.formatHTMLOutput().sanitize({
+      function sanitize(text) {
+        return text.sanitize({
           tags: ['span', 'p', 'br', 'strong', 'em', 'u', 'a'],
           attributes: ['id', 'href']
         });
-      };
+      }
 
       editor.observe("field:change", function(event) {
-        editor.save();
+        $('note_body').setValue(sanitize(editor.innerHTML.formatHTMLOutput()));
         $('note_body_raw').setValue(event.element().innerHTML);
       });
 
       editor.observe("paste", function(event) {
-        (function() { editor.reload(); }).defer();
+        (function() {
+          window.getSelection().setBookmark();
+          editor.innerHTML = sanitize(editor.innerHTML.formatHTMLOutput()).formatHTMLInput();
+          window.getSelection().moveToBookmark();
+        }).defer();
       });
 
       $('note_body').show();

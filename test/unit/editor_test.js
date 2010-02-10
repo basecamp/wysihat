@@ -6,7 +6,7 @@ new Test.Unit.Runner({
   },
 
   teardown: function() {
-    this.editor.setContent("");
+    this.editor.innerHTML = "";
     this.textarea.value = "";
   },
 
@@ -14,19 +14,19 @@ new Test.Unit.Runner({
     var runner = this;
 
     this.editor.insertHTML("<p>Hello.</p>");
-    runner.assertEqual("<p>Hello.</p>", this.editor.content());
+    runner.assertEqual("<p>Hello.</p>", this.editor.innerHTML.formatHTMLOutput());
   },
 
   testBoldSelection: function() {
     var runner = this;
 
     // this.editor.insertHTML("<p>Hello.</p>");
-    this.editor.setContent('<p id="hello">Hello.</p>');
+    this.editor.innerHTML = '<p id="hello">Hello.</p>'.formatHTMLInput();
 
     window.getSelection().selectNode(this.editor.down('#hello'));
     this.editor.boldSelection();
 
     runner.assert(this.editor.boldSelected());
-    runner.assertEqual('<p id="hello"><strong>Hello.</strong></p>', this.editor.content());
+    runner.assertEqual('<p id="hello"><strong>Hello.</strong></p>', this.editor.innerHTML.formatHTMLOutput());
   }
 });
