@@ -47,10 +47,9 @@ WysiHat.Toolbar = Class.create((function() {
    *  Adds a button set to the toolbar.
   **/
   function addButtonSet(set) {
-    var toolbar = this;
     $A(set).each(function(button){
-      toolbar.addButton(button);
-    });
+      this.addButton(button);
+    }.bind(this));
   }
 
   /**
@@ -142,11 +141,10 @@ WysiHat.Toolbar = Class.create((function() {
    *  Bind handler to elements onclick event.
   **/
   function observeButtonClick(element, handler) {
-    var toolbar = this;
     element.observe('click', function(event) {
-      handler(toolbar.editor);
-      Event.stop(event);
-    });
+      handler(this.editor);
+      event.stop();
+    }.bind(this));
   }
 
   /**
@@ -178,15 +176,14 @@ WysiHat.Toolbar = Class.create((function() {
    *  calls updateButtonState.
   **/
   function observeStateChanges(element, name, handler) {
-    var toolbar = this;
-    var previousState = false;
-    toolbar.editor.observe("selection:change", function(event) {
-      var state = handler(toolbar.editor);
+    var previousState;
+    this.editor.observe("selection:change", function(event) {
+      var state = handler(this.editor);
       if (state != previousState) {
         previousState = state;
-        toolbar.updateButtonState(element, name, state);
+        this.updateButtonState(element, name, state);
       }
-    });
+    }.bind(this));
   }
 
   /**
