@@ -374,6 +374,7 @@ if (typeof Range == 'undefined') {
 
 Object.extend(Range.prototype, (function() {
   function beforeRange(range) {
+    if (!range || !range.compareBoundaryPoints) return false;
     return (this.compareBoundaryPoints(this.START_TO_START, range) == -1 &&
       this.compareBoundaryPoints(this.START_TO_END, range) == -1 &&
       this.compareBoundaryPoints(this.END_TO_END, range) == -1 &&
@@ -381,6 +382,7 @@ Object.extend(Range.prototype, (function() {
   }
 
   function afterRange(range) {
+    if (!range || !range.compareBoundaryPoints) return false;
     return (this.compareBoundaryPoints(this.START_TO_START, range) == 1 &&
       this.compareBoundaryPoints(this.START_TO_END, range) == 1 &&
       this.compareBoundaryPoints(this.END_TO_END, range) == 1 &&
@@ -388,7 +390,16 @@ Object.extend(Range.prototype, (function() {
   }
 
   function betweenRange(range) {
-    return !(beforeRange.bind(this)(range) || afterRange.bind(this)(range));
+    if (!range || !range.compareBoundaryPoints) return false;
+    return !(this.beforeRange(range) || this.afterRange(range));
+  }
+
+  function equalRange(range) {
+    if (!range || !range.compareBoundaryPoints) return false;
+    return (this.compareBoundaryPoints(this.START_TO_START, range) == 0 &&
+      this.compareBoundaryPoints(this.START_TO_END, range) == 0 &&
+      this.compareBoundaryPoints(this.END_TO_END, range) == 0 &&
+      this.compareBoundaryPoints(this.END_TO_START, range) == 0);
   }
 
   function getNode() {
@@ -400,13 +411,17 @@ Object.extend(Range.prototype, (function() {
     var child = parent.childElements().detect(function(child) {
       var range = document.createRange();
       range.selectNodeContents(child);
-      return betweenRange.bind(this)(range);
+      return this.betweenRange(range);
     }.bind(this));
 
     return $(child || parent);
   }
 
   return {
-    getNode: getNode
+    beforeRange:  beforeRange,
+    afterRange:   afterRange,
+    betweenRange: betweenRange,
+    equalRange:   equalRange,
+    getNode:      getNode
   };
 })());

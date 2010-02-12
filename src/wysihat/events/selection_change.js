@@ -22,7 +22,7 @@
         if (selection.rangeCount < 1) return;
 
         var range = selection.getRangeAt(0);
-        if (previousRange == range) return;
+        if (range && range.equalRange(previousRange)) return;
         previousRange = range;
 
         element = range.commonAncestorContainer;
