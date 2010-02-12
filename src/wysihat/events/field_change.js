@@ -1,5 +1,5 @@
 document.observe("dom:loaded", function() {
-  $(document.body).observe("keyup", function(event) {
+  function fieldChangeHandler(event) {
     var element = event.findElement("input,textarea,[contenteditable=true]");
     if (element) {
       var value;
@@ -14,5 +14,7 @@ document.observe("dom:loaded", function() {
         element.previousValue = value;
       }
     }
-  });
+  }
+
+  $(document.body).observe("keyup", fieldChangeHandler);
 });
