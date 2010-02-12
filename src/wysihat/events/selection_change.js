@@ -1,6 +1,6 @@
 document.observe("dom:loaded", function() {
   if ('onselectionchange' in document) {
-    function selectionChangeHandler() {
+    var selectionChangeHandler = function() {
       var range   = document.selection.createRange();
       var element = range.parentElement();
       $(element).fire("selection:change");
@@ -10,7 +10,7 @@ document.observe("dom:loaded", function() {
   } else {
     var previousRange;
 
-    function selectionChangeHandler() {
+    var selectionChangeHandler = function() {
       var element        = document.activeElement;
       var elementTagName = element.tagName.toLowerCase();
 
