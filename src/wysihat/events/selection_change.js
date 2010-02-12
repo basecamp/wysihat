@@ -1,5 +1,5 @@
 (function() {
-  if (document.attachEvent) {
+  if ('onselectionchange' in document) {
     document.attachEvent("onselectionchange", function() {
       var range   = document.selection.createRange();
       var element = range.parentElement();
