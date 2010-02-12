@@ -1,4 +1,4 @@
-(function() {
+document.observe("dom:loaded", function() {
   if ('onselectionchange' in document) {
     function selectionChangeHandler() {
       var range   = document.selection.createRange();
@@ -36,4 +36,4 @@
     document.observe("mouseup", selectionChangeHandler);
     document.observe("keyup", selectionChangeHandler);
   }
-})();
+});
