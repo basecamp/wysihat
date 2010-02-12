@@ -1,30 +1,34 @@
 (function() {
   if ('onselectionchange' in document) {
-    document.attachEvent("onselectionchange", function() {
+    function selectionChangeHandler() {
       var range   = document.selection.createRange();
       var element = range.parentElement();
       $(element).fire("selection:change");
-    });
+    }
+
+    document.observe("selectionchange", selectionChangeHandler);
   } else {
     var previousRange;
 
-    var selectionChangeHandler = function() {
-      var activeElement = document.activeElement;
-      if (activeElement &&
-          (activeElement.tagName.toLowerCase() == "textarea" ||
-          activeElement.tagName.toLowerCase() == "input")) {
+    function selectionChangeHandler() {
+      var element        = document.activeElement;
+      var elementTagName = element.tagName.toLowerCase();
+
+      if (elementTagName == "textarea" || elementTagName == "input") {
         previousRange = null;
-        $(activeElement).fire("selection:change");
+        $(element).fire("selection:change");
       } else {
         var selection = window.getSelection();
         if (selection.rangeCount < 1) return;
 
         var range = selection.getRangeAt(0);
         if (previousRange == range) return;
+        previousRange = range;
 
-        var element = range.commonAncestorContainer;
+        element = range.commonAncestorContainer;
         while (element.nodeType == Node.TEXT_NODE)
           element = element.parentNode;
+
         $(element).fire("selection:change");
       }
     };
