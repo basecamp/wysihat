@@ -21,6 +21,8 @@
       padding: 5px;
       border: 1px solid #acacac;
       outline: none;
+      font-family: helvetica;
+      font-size: 12px;
     }
 
     .editor p {
@@ -32,8 +34,19 @@
       margin: 2px 5px;
     }
 
+    .editor_toolbar a {
+      text-decoration: none;
+    }
+
     .editor_toolbar .selected {
       color: red !important;
+    }
+
+    h3 {
+      font-family: verdana;
+      font-weight: bold;
+      font-size: 10px;
+      color: #333;
     }
   </style>
 
@@ -55,7 +68,9 @@
     }
 
     document.observe("dom:loaded", function() {
-      editor = WysiHat.Editor.attach('note_body');
+      editor = $('note_body_editor');
+      Object.extend(editor, WysiHat.Commands);
+
       var toolbar = new WysiHat.Toolbar(editor);
       toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
 
@@ -91,12 +106,12 @@
 
 <body>
   <form id="edit_note" action="#" method="post" style="width: 500px;">
-    <textarea class="editable" id="note_body" disabled>&lt;p&gt;Here is some basic text...&lt;br /&gt;
-...with a line break.&lt;/p&gt;
+    <div id="note_body_editor" class="editor" contentEditable="true"></div>
 
-&lt;p&gt;We want to put a paragraph...&lt;/p&gt;
+    <h3>Sanitized Contents</h3>
+    <textarea id="note_body" disabled></textarea>
 
-&lt;p&gt;...right there.&lt;/p&gt;</textarea>
+    <h3>Raw Contents</h3>
     <textarea id="note_body_raw" disabled></textarea>
   </form>
 </body>
