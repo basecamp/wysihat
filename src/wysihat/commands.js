@@ -1,4 +1,5 @@
 //= require "dom/selection"
+//= require "events/field_change"
 
 /** section: wysihat
  *  mixin WysiHat.Commands
@@ -298,6 +299,8 @@ var $E = WysiHat.Commands = (function(window) {
         window.document.execCommand(command, ui, value);
       } catch(e) { return null; }
     }
+
+    document.activeElement.fire("field:change");
   }
 
   /**
