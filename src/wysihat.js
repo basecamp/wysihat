@@ -16,8 +16,10 @@ var WysiHat = {};
 //= require "wysihat/editor"
 //= require "wysihat/commands"
 
+//= require "wysihat/dom/ierange"
 //= require "wysihat/dom/range"
 //= require "wysihat/dom/selection"
+//= require "wysihat/dom/bookmark"
 
 //= require "wysihat/events/field_change"
 //= require "wysihat/events/selection_change"
