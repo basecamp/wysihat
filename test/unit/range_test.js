@@ -247,6 +247,15 @@ new Test.Unit.Runner({
     this.range.insertNode(node);
 
     runner.assertEqual("inserted!", $('inserted').innerHTML, "innerHTML");
+
+    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
+    runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual(0, this.range.startOffset, "startOffset");
+    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
+    runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual(2, this.range.endOffset, "endOffset");
+    runner.assertEqual(false, this.range.collapsed, "collapsed");
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
   },
 
   testSurrondContents: function() {
