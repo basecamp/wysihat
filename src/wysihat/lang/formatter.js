@@ -44,6 +44,10 @@ Object.extend(String.prototype, (function() {
       // Treat lines with one space as returns
       text = text.replace(/<p>(&nbsp;|&#160;|\s)<\/p>/g, "<p></p>");
 
+      // Kill line breaks after list elements so they are see as line breaks
+      text = text.gsub(/<(ol|ul)>\n+/, "<#{1}>");
+      text = text.replace(/<\/li>\n+/, "</li>");
+
       // Line break tags are useless
       text = text.replace(/<br \/>/g, "");
 
@@ -74,6 +78,10 @@ Object.extend(String.prototype, (function() {
     text = text.gsub(/<i>/, "<em>");
     // TODO: Removing the following line does not cause any tests to fail
     text = text.gsub(/<\/i>/, "</em>");
+
+    // Add double return after block elements
+    text = text.gsub(/<\/(ol|ul)>/, "</#{1}>\n\n");
+
 
     // Convert double returns into paragraphs
     text = text.replace(/\n\n+/g, "</p>\n\n<p>");
@@ -125,7 +133,6 @@ Object.extend(String.prototype, (function() {
           }
         });
       } while (replaced);
-
     }
 
     // TODO: This should be configurable

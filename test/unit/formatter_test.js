@@ -44,8 +44,10 @@ new Test.Unit.Runner({
         ['<p>Hello<br />\n </p>', '<div>Hello</div><div> <span class="Apple-style-span" style="font-weight: bold;"></span></div>'],
         ['<p>Hello<span id="bookmark"> </span></p>', '<div>Hello<span id="bookmark"> </span></div>'],
 
+        ['<p><img src="http://www.google.com/intl/en_ALL/images/logo.gif"></p>', '<img src="http://www.google.com/intl/en_ALL/images/logo.gif">'],
 
-        ["<p><img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\"></p>", "<img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\">"]
+        ['<ol><li>one</li><li>two</li></ol>\n\n<p>not</p>', '<ol><li>one</li><li>two</li></ol><div>not</div>'],
+        ['<ul><li>one</li><li>two</li></ul>\n\n<p>not</p>', '<ul><li>one</li><li>two</li></ul><div>not</div>']
       ].each(function(assertion) {
         runner.assertEqual(assertion[0], assertion[1].formatHTMLOutput());
       });
@@ -72,7 +74,10 @@ new Test.Unit.Runner({
          ['<p>Some <u><em><strong>bold, underline, and italic</strong></em></u> text</p>',
             'Some <span style="font-weight: bold; text-decoration: underline; font-style: italic;">bold, underline, and italic</span> text'],
 
-        ["<p><img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\"></p>", "<img src=\"http://www.google.com/intl/en_ALL/images/logo.gif\">"]
+        ['<p><img src="http://www.google.com/intl/en_ALL/images/logo.gif"></p>', '<img src="http://www.google.com/intl/en_ALL/images/logo.gif">'],
+
+        ['<ol><li>one</li><li>two</li></ol>\n\n<p>not</p>', '<ol><li>one</li><li>two</li></ol>not<br>'],
+        ['<ul><li>one</li><li>two</li></ul>\n\n<p>not</p>', '<ul><li>one</li><li>two</li></ul>not<br>']
       ].each(function(assertion) {
         runner.assertEqual(assertion[0], assertion[1].formatHTMLOutput());
       });
@@ -98,7 +103,10 @@ new Test.Unit.Runner({
         ['<p>Some <em>italic</em> text</p>',
           'Some <EM>italic</EM> text'],
         ['<p>Some <u>underlined</u> text</p>',
-          'Some <U>underlined</U> text']
+          'Some <U>underlined</U> text'],
+
+        ['<ol>\n<li>one</li>\n<li>two</li></ol>\n<p>not</p>', '<OL>\n<LI>one</LI>\n<LI>two</LI></OL>\n<P>not</P>'],
+        ['<ul>\n<li>one</li>\n<li>two</li></ul>\n<p>not</p>', '<UL>\n<LI>one</LI>\n<LI>two</LI></UL>\n<P>not</P>']
       ].each(function(assertion) {
         runner.assertEqual(assertion[0], assertion[1].formatHTMLOutput());
       });
