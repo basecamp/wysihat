@@ -266,6 +266,37 @@ new Test.Unit.Runner({
     runner.assertEqual(expected, $('lorem').innerHTML, "innerHTML");
   },
 
+  testEqualRange: function() {
+    var runner = this;
+
+    if (!this.range.equalRange) {
+      runner.flunk("equalRange is not implemented");
+      return false;
+    }
+
+    var r1 = document.createRange();
+    r1.selectNodeContents($('lorem'));
+
+    var r2 = document.createRange();
+    r2.selectNodeContents($('lorem'));
+
+    var r3 = document.createRange();
+    r3.selectNodeContents($('consectetuer'));
+
+    runner.assert(r1.equalRange(r1), "r1.equalRange(r1)");
+    runner.assert(r2.equalRange(r2), "r2.equalRange(r2)");
+    runner.assert(r3.equalRange(r3), "r3.equalRange(r3)");
+
+    runner.assert(r1.equalRange(r2), "r1.equalRange(r2)");
+    runner.assert(r2.equalRange(r1), "r2.equalRange(r1)");
+    runner.assert(!r1.equalRange(r3), "r1.equalRange(r3)");
+    runner.assert(!r3.equalRange(r1), "r3.equalRange(r1)");
+
+    runner.assert(!r1.equalRange(null), "r1.equalRange(null)");
+    runner.assert(!r2.equalRange(null), "r2.equalRange(null)");
+    runner.assert(!r3.equalRange(null), "r3.equalRange(null)");
+  },
+
   testGetNode: function() {
     var runner = this;
 

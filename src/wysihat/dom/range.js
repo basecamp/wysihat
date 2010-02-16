@@ -25,9 +25,9 @@ Object.extend(Range.prototype, (function() {
   function equalRange(range) {
     if (!range || !range.compareBoundaryPoints) return false;
     return (this.compareBoundaryPoints(this.START_TO_START, range) == 0 &&
-      this.compareBoundaryPoints(this.START_TO_END, range) == 0 &&
+      this.compareBoundaryPoints(this.START_TO_END, range) == 1 &&
       this.compareBoundaryPoints(this.END_TO_END, range) == 0 &&
-      this.compareBoundaryPoints(this.END_TO_START, range) == 0);
+      this.compareBoundaryPoints(this.END_TO_START, range) == -1);
   }
 
   function getNode() {
