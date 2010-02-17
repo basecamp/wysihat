@@ -76,7 +76,7 @@ new Test.Unit.Runner({
     this.range.setEnd($('content'), 2);
 
     runner.assertEqual($('wrapper'), this.range.startContainer, "startContainer");
-    // runner.assertEqual(1, this.range.startOffset, "startOffset");
+    runner.assertEqual(0, this.range.startOffset, "startOffset");
     runner.assertEqual($('content'), this.range.endContainer, "endContainer");
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
@@ -101,8 +101,8 @@ new Test.Unit.Runner({
 
     // runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     // runner.assertEqual(2, this.range.startOffset, "startOffset");
-    // runner.assertEqual($('content'), this.range.endContainer, "startContainer");
-    // runner.assertEqual(2, this.range.endOffset, "endOffset");
+    runner.assertEqual($('content'), this.range.endContainer, "startContainer");
+    runner.assertEqual(2, this.range.endOffset, "endOffset");
     // runner.assertEqual(true, this.range.collapsed, "collapsed");
     // runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
@@ -124,11 +124,11 @@ new Test.Unit.Runner({
     this.range.setEndBefore($('content'));
 
     // runner.assertEqual($('wrapper'), this.range.startContainer, "startContainer");
-    // runner.assertEqual(1, this.range.startOffset, "startOffset");
-    // runner.assertEqual($('wrapper'), this.range.endContainer, "startContainer");
-    // runner.assertEqual(1, this.range.endOffset, "endOffset");
+    runner.assertEqual(0, this.range.startOffset, "startOffset");
+    runner.assertEqual($('wrapper'), this.range.endContainer, "startContainer");
+    runner.assertEqual(0, this.range.endOffset, "endOffset");
     // runner.assertEqual(true, this.range.collapsed, "collapsed");
-    // runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testSetEndAfter: function() {
@@ -150,7 +150,7 @@ new Test.Unit.Runner({
     runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(0, this.range.startOffset, "startOffset");
     runner.assertEqual($('wrapper'), this.range.endContainer, "startContainer");
-    // runner.assertEqual(2, this.range.endOffset, "endOffset");
+    runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
@@ -187,9 +187,9 @@ new Test.Unit.Runner({
     this.range.selectNode($('content'));
 
     runner.assertEqual($('wrapper'), this.range.startContainer, "startContainer");
-    // runner.assertEqual(1, this.range.startOffset, "startOffset");
+    runner.assertEqual(0, this.range.startOffset, "startOffset");
     runner.assertEqual($('wrapper'), this.range.endContainer, "startContainer");
-    // runner.assertEqual(2, this.range.endOffset, "endOffset");
+    runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
 
