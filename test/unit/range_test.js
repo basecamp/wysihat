@@ -15,26 +15,22 @@ new Test.Unit.Runner({
     this.range.setStart($('content'), 2);
     this.range.setEnd($('content'), 2);
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(2, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('content'), this.range.endContainer, "endContainer");
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
-    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
 
     this.range.setStart($('lorem'), 0);
     this.range.setEnd($('lorem'), 1);
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("STRONG", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('lorem'), this.range.startContainer, "startContainer");
     runner.assertEqual(0, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("STRONG", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('lorem'), this.range.endContainer, "endContainer");
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
-    runner.assertEqual($('lorem'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('lorem'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testSetEnd: function() {
@@ -43,26 +39,22 @@ new Test.Unit.Runner({
     this.range.setStart($('content'), 1);
     this.range.setEnd($('content'), 2);
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(1, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('content'), this.range.endContainer, "startContainer");
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
-    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
 
     this.range.setStart($('consectetuer'), 0);
     this.range.setEnd($('consectetuer'), 1);
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("EM", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('consectetuer'), this.range.startContainer, "startContainer");
     runner.assertEqual(0, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("EM", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('consectetuer'), this.range.endContainer, "startContainer");
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
-    runner.assertEqual($('consectetuer'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('consectetuer'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testSetStartBefore: function() {
@@ -71,14 +63,22 @@ new Test.Unit.Runner({
     this.range.setStartBefore($('lorem'));
     this.range.setEnd($('content'), 2);
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(0, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('content'), this.range.endContainer, "endContainer");
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
-    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+
+    this.range.setStartBefore($('content'));
+    this.range.setEnd($('content'), 2);
+
+    runner.assertEqual($('wrapper'), this.range.startContainer, "startContainer");
+    runner.assertEqual(1, this.range.startOffset, "startOffset");
+    runner.assertEqual($('content'), this.range.endContainer, "endContainer");
+    runner.assertEqual(2, this.range.endOffset, "endOffset");
+    runner.assertEqual(false, this.range.collapsed, "collapsed");
+    runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testSetStartAfter: function() {
@@ -87,14 +87,12 @@ new Test.Unit.Runner({
     this.range.setStartAfter($('lorem'));
     this.range.setEnd($('content'), 2);
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(1, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('content'), this.range.endContainer, "startContainer");
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
-    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testSetEndBefore: function() {
@@ -103,14 +101,12 @@ new Test.Unit.Runner({
     this.range.setStart($('content'), 0);
     this.range.setEndBefore($('lorem'));
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(0, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('content'), this.range.endContainer, "startContainer");
     runner.assertEqual(0, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
-    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testSetEndAfter: function() {
@@ -119,14 +115,22 @@ new Test.Unit.Runner({
     this.range.setStart($('content'), 0);
     this.range.setEndAfter($('lorem'));
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(0, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('content'), this.range.endContainer, "startContainer");
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
-    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+
+    this.range.setStart($('content'), 0);
+    this.range.setEndAfter($('content'));
+
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
+    runner.assertEqual(0, this.range.startOffset, "startOffset");
+    runner.assertEqual($('wrapper'), this.range.endContainer, "startContainer");
+    runner.assertEqual(2, this.range.endOffset, "endOffset");
+    runner.assertEqual(false, this.range.collapsed, "collapsed");
+    runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testCollapse: function() {
@@ -136,57 +140,67 @@ new Test.Unit.Runner({
     this.range.setEnd($('content'), 2);
     this.range.collapse(true);
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(1, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('content'), this.range.endContainer, "startContainer");
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
-    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
 
     this.range.setStart($('content'), 1);
     this.range.setEnd($('content'), 2);
     this.range.collapse(false);
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(2, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('content'), this.range.endContainer, "startContainer");
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
-    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testSelectNode: function() {
     var runner = this;
 
+    this.range.selectNode($('content'));
+
+    runner.assertEqual($('wrapper'), this.range.startContainer, "startContainer");
+    runner.assertEqual(1, this.range.startOffset, "startOffset");
+    runner.assertEqual($('wrapper'), this.range.endContainer, "startContainer");
+    runner.assertEqual(2, this.range.endOffset, "endOffset");
+    runner.assertEqual(false, this.range.collapsed, "collapsed");
+    runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
+
     this.range.selectNode($('lorem'));
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(0, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('content'), this.range.endContainer, "startContainer");
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
-    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testSelectNodeContents: function() {
     var runner = this;
 
+    this.range.selectNodeContents($('content'));
+
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
+    runner.assertEqual(0, this.range.startOffset, "startOffset");
+    runner.assertEqual($('content'), this.range.endContainer, "startContainer");
+    runner.assertEqual(4, this.range.endOffset, "endOffset");
+    runner.assertEqual(false, this.range.collapsed, "collapsed");
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+
     this.range.selectNodeContents($('lorem'));
 
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    runner.assertEqual("STRONG", this.range.startContainer.tagName, "startContainer.tagName");
+    runner.assertEqual($('lorem'), this.range.startContainer, "startContainer");
     runner.assertEqual(0, this.range.startOffset, "startOffset");
-    runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    runner.assertEqual("STRONG", this.range.endContainer.tagName, "endContainer.tagName");
+    runner.assertEqual($('lorem'), this.range.endContainer, "startContainer");
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
-    runner.assertEqual($('lorem'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('lorem'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testDeleteContents: function() {
@@ -248,15 +262,12 @@ new Test.Unit.Runner({
 
     runner.assertEqual("inserted!", $('inserted').innerHTML, "innerHTML");
 
-    // PENDING
-    // runner.assertEqual(Node.ELEMENT_NODE, this.range.startContainer.nodeType, "startContainer.nodeType");
-    // runner.assertEqual("DIV", this.range.startContainer.tagName, "startContainer.tagName");
-    // runner.assertEqual(0, this.range.startOffset, "startOffset");
-    // runner.assertEqual(Node.ELEMENT_NODE, this.range.endContainer.nodeType, "endContainer.nodeType");
-    // runner.assertEqual("DIV", this.range.endContainer.tagName, "endContainer.tagName");
-    // runner.assertEqual(2, this.range.endOffset, "endOffset");
-    // runner.assertEqual(false, this.range.collapsed, "collapsed");
-    // runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer")
+    runner.assertEqual($('content'), this.range.startContainer, "startContainer");
+    runner.assertEqual(0, this.range.startOffset, "startOffset");
+    runner.assertEqual($('content'), this.range.endContainer, "startContainer");
+    runner.assertEqual(2, this.range.endOffset, "endOffset");
+    runner.assertEqual(false, this.range.collapsed, "collapsed");
+    runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
 
   testSurrondContents: function() {
