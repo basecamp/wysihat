@@ -23,6 +23,7 @@ new Test.Unit.Runner({
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual("", this.range.toString(), "toString");
 
     this.range.setStart($('lorem'), 0);
     this.range.setEnd($('lorem'), 1);
@@ -33,6 +34,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('lorem'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    // runner.assertEqual("Lorem ipsum", this.range.toString(), "toString");
   },
 
   testSetEnd: function() {
@@ -47,6 +49,7 @@ new Test.Unit.Runner({
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual(" dolor sit amet, ", this.range.toString(), "toString");
 
     this.range.setStart($('consectetuer'), 0);
     this.range.setEnd($('consectetuer'), 1);
@@ -57,6 +60,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('consectetuer'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    // runner.assertEqual("consectetuer", this.range.toString(), "toString");
   },
 
   testSetStartBefore: function() {
@@ -71,6 +75,7 @@ new Test.Unit.Runner({
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual("Lorem ipsum dolor sit amet, ", this.range.toString(), "toString");
 
     this.range.setStartBefore($('content'));
     this.range.setEnd($('content'), 2);
@@ -81,6 +86,7 @@ new Test.Unit.Runner({
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual("Lorem ipsum dolor sit amet, ", this.range.toString(), "toString");
   },
 
   testSetStartAfter: function() {
@@ -95,6 +101,7 @@ new Test.Unit.Runner({
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual(" dolor sit amet, ", this.range.toString(), "toString");
 
     this.range.setStartAfter($('content'));
     this.range.setEnd($('wrapper'), 1);
@@ -105,6 +112,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
     runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    // runner.assertEqual("", this.range.toString(), "toString");
   },
 
   testSetEndBefore: function() {
@@ -119,6 +127,7 @@ new Test.Unit.Runner({
     runner.assertEqual(0, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual("", this.range.toString(), "toString");
 
     this.range.setStart($('wrapper'), 0);
     this.range.setEndBefore($('content'));
@@ -129,6 +138,7 @@ new Test.Unit.Runner({
     runner.assertEqual(0, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
     runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual("", this.range.toString(), "toString");
   },
 
   testSetEndAfter: function() {
@@ -143,6 +153,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual("Lorem ipsum", this.range.toString(), "toString");
 
     this.range.setStart($('content'), 0);
     this.range.setEndAfter($('content'));
@@ -153,6 +164,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    // runner.assertEqual("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", this.range.toString(), "toString");
   },
 
   testCollapse: function() {
@@ -168,6 +180,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual("", this.range.toString(), "toString");
 
     this.range.setStart($('content'), 1);
     this.range.setEnd($('content'), 2);
@@ -179,6 +192,7 @@ new Test.Unit.Runner({
     runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual("", this.range.toString(), "toString");
   },
 
   testSelectNode: function() {
@@ -192,6 +206,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    // runner.assertEqual("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", this.range.toString(), "toString");
 
     this.range.selectNode($('lorem'));
 
@@ -201,6 +216,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    runner.assertEqual("Lorem ipsum", this.range.toString(), "toString");
   },
 
   testSelectNodeContents: function() {
@@ -214,6 +230,7 @@ new Test.Unit.Runner({
     runner.assertEqual(4, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    // runner.assertEqual("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", this.range.toString(), "toString");
 
     this.range.selectNodeContents($('lorem'));
 
@@ -223,6 +240,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('lorem'), this.range.commonAncestorContainer, "commonAncestorContainer");
+    // runner.assertEqual("Lorem ipsum", this.range.toString(), "toString");
   },
 
   testDeleteContents: function() {
