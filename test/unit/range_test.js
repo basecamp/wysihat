@@ -5,6 +5,8 @@ new Test.Unit.Runner({
       "<em id=\"consectetuer\">consectetuer</em> adipiscing elit."
     );
 
+    $('wrapper').cleanWhitespace();
+
     this.range = document.createRange();
     this.range.selectNode($('content'));
   },
