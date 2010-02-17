@@ -70,34 +70,6 @@ if (!window.getSelection) {
       adoptBoundary(domRange, textRange, true);
       adoptBoundary(domRange, textRange, false);
       return domRange;
-    },
-    convertFromDOMRange: function(domRange) {
-      function adoptEndPoint(textRange, domRange, bStart) {
-        // find anchor node and offset
-        var container = domRange[bStart ? 'startContainer' : 'endContainer'];
-        var offset = domRange[bStart ? 'startOffset' : 'endOffset'], textOffset = 0;
-        var anchorNode = DOMUtils.isDataNode(container) ? container : container.childNodes[offset];
-        var anchorParent = DOMUtils.isDataNode(container) ? container.parentNode : container;
-        // visible data nodes need a text offset
-        if (container.nodeType == 3 || container.nodeType == 4)
-          textOffset = offset;
-
-        // create a cursor element node to position range (since we can't select text nodes)
-        var cursorNode = domRange._document.createElement('a');
-        anchorParent.insertBefore(cursorNode, anchorNode);
-        var cursor = domRange._document.body.createTextRange();
-        cursor.moveToElementText(cursorNode);
-        cursorNode.parentNode.removeChild(cursorNode);
-        // move range
-        textRange.setEndPoint(bStart ? 'StartToStart' : 'EndToStart', cursor);
-        textRange[bStart ? 'moveStart' : 'moveEnd']('character', textOffset);
-      }
-
-      // return an IE text range
-      var textRange = domRange._document.body.createTextRange();
-      adoptEndPoint(textRange, domRange, true);
-      adoptEndPoint(textRange, domRange, false);
-      return textRange;
     }
   };
 
@@ -129,6 +101,40 @@ if (!window.getSelection) {
       commonAncestorContainer: null,
       collapsed: false,
       _document: null,
+
+      _toTextRange: function() {
+        function adoptEndPoint(textRange, domRange, bStart) {
+          // find anchor node and offset
+          var container = domRange[bStart ? 'startContainer' : 'endContainer'];
+          var offset = domRange[bStart ? 'startOffset' : 'endOffset'], textOffset = 0;
+          var anchorNode = DOMUtils.isDataNode(container) ? container : container.childNodes[offset];
+          var anchorParent = DOMUtils.isDataNode(container) ? container.parentNode : container;
+
+          // visible data nodes need a text offset
+          if (container.nodeType == 3 || container.nodeType == 4)
+            textOffset = offset;
+
+          // create a cursor element node to position range (since we can't select text nodes)
+          var cursorNode = domRange._document.createElement('a');
+          if (anchorNode)
+            anchorParent.insertBefore(cursorNode, anchorNode);
+          else
+            anchorParent.appendChild(cursorNode);
+          var cursor = domRange._document.body.createTextRange();
+          cursor.moveToElementText(cursorNode);
+          cursorNode.parentNode.removeChild(cursorNode);
+
+          // move range
+          textRange.setEndPoint(bStart ? 'StartToStart' : 'EndToStart', cursor);
+          textRange[bStart ? 'moveStart' : 'moveEnd']('character', textOffset);
+        }
+
+        // return an IE text range
+        var textRange = this._document.body.createTextRange();
+        adoptEndPoint(textRange, this, true);
+        adoptEndPoint(textRange, this, false);
+        return textRange;
+      },
 
       _refreshProperties: function() {
         // collapsed attribute
@@ -285,7 +291,7 @@ if (!window.getSelection) {
       detach: function() {
       },
       toString: function() {
-        return TextRangeUtils.convertFromDOMRange(this).text;
+        return this._toTextRange().text;
       },
       createContextualFragment: function(tagString) {
         // parse the tag string in a context node
@@ -396,7 +402,7 @@ if (!window.getSelection) {
             textRange.parentElement().isContentEditable;
       },
       addRange: function(range) {
-        var selection = this._document.selection.createRange(), textRange = TextRangeUtils.convertFromDOMRange(range);
+        var selection = this._document.selection.createRange(), textRange = range._toTextRange();
         if (!this._selectionExists(selection)) {
           textRange.select();
         } else {

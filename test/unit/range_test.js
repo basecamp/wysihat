@@ -34,7 +34,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('lorem'), this.range.commonAncestorContainer, "commonAncestorContainer");
-    // runner.assertEqual("Lorem ipsum", this.range.toString(), "toString");
+    runner.assertEqual("Lorem ipsum", this.range.toString(), "toString");
   },
 
   testSetEnd: function() {
@@ -60,7 +60,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('consectetuer'), this.range.commonAncestorContainer, "commonAncestorContainer");
-    // runner.assertEqual("consectetuer", this.range.toString(), "toString");
+    runner.assertEqual("consectetuer", this.range.toString(), "toString");
   },
 
   testSetStartBefore: function() {
@@ -112,7 +112,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(true, this.range.collapsed, "collapsed");
     runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
-    // runner.assertEqual("", this.range.toString(), "toString");
+    runner.assertEqual("", this.range.toString(), "toString");
   },
 
   testSetEndBefore: function() {
@@ -164,7 +164,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
-    // runner.assertEqual("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", this.range.toString(), "toString");
+    runner.assertEqual("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", this.range.toString(), "toString");
   },
 
   testCollapse: function() {
@@ -206,7 +206,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('wrapper'), this.range.commonAncestorContainer, "commonAncestorContainer");
-    // runner.assertEqual("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", this.range.toString(), "toString");
+    runner.assertEqual("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", this.range.toString(), "toString");
 
     this.range.selectNode($('lorem'));
 
@@ -230,7 +230,7 @@ new Test.Unit.Runner({
     runner.assertEqual(4, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
-    // runner.assertEqual("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", this.range.toString(), "toString");
+    runner.assertEqual("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.", this.range.toString(), "toString");
 
     this.range.selectNodeContents($('lorem'));
 
@@ -240,7 +240,7 @@ new Test.Unit.Runner({
     runner.assertEqual(1, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('lorem'), this.range.commonAncestorContainer, "commonAncestorContainer");
-    // runner.assertEqual("Lorem ipsum", this.range.toString(), "toString");
+    runner.assertEqual("Lorem ipsum", this.range.toString(), "toString");
   },
 
   testDeleteContents: function() {
@@ -260,7 +260,7 @@ new Test.Unit.Runner({
 
     runner.assertEqual("", $('lorem').innerHTML, "innerHTML");
 
-    // IE document does not have any useful methods. Everyone else can just
+    //IE document does not have any useful methods. Everyone else can just
     // read textContent, IE needs to append the fragment to another element
     // and read its innerHTML
     if (contents.textContent) {
@@ -305,7 +305,7 @@ new Test.Unit.Runner({
     runner.assertEqual($('content'), this.range.startContainer, "startContainer");
     runner.assertEqual(0, this.range.startOffset, "startOffset");
     runner.assertEqual($('content'), this.range.endContainer, "startContainer");
-    // runner.assertEqual(2, this.range.endOffset, "endOffset");
+    runner.assertEqual(2, this.range.endOffset, "endOffset");
     runner.assertEqual(false, this.range.collapsed, "collapsed");
     runner.assertEqual($('content'), this.range.commonAncestorContainer, "commonAncestorContainer");
   },
