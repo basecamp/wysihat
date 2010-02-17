@@ -261,18 +261,17 @@ new Test.Unit.Runner({
   testSurrondContents: function() {
     var runner = this;
 
-    var node = new Element('span', {id: 'wrapper'});
+    var node;
+
+    node = new Element('span', {id: 'wrapper'});
 
     this.range.selectNodeContents($('lorem'));
     this.range.surroundContents(node);
 
-    var expected;
-    if (Prototype.Browser.IE)
-      expected = "<SPAN id=wrapper>Lorem ipsum</SPAN>";
-    else
-      expected = "<span id=\"wrapper\">Lorem ipsum</span>";
+    expected = new Element('div');
+    expected.appendChild(new Element('span', {id: 'wrapper'}).update("Lorem ipsum"));
 
-    runner.assertEqual(expected, $('lorem').innerHTML, "innerHTML");
+    runner.assertEqual(expected.innerHTML, $('lorem').innerHTML, "innerHTML");
   },
 
   testEqualRange: function() {
