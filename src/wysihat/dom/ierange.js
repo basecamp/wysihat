@@ -10,11 +10,6 @@
 if (!window.getSelection) {
   // TODO: Move this object into a closure
   var DOMUtils = {
-    findChildPosition: function(node) {
-      for (var i = 0; node = node.previousSibling; i++)
-        continue;
-      return i;
-    },
     isDataNode: function(node) {
       return node && node.nodeValue !== null && node.data !== null;
     },
@@ -120,6 +115,12 @@ if (!window.getSelection) {
     Range.END_TO_END = 2;
     Range.END_TO_START = 3;
 
+    function findChildPosition(node) {
+      for (var i = 0; node = node.previousSibling; i++)
+        continue;
+      return i;
+    }
+
     Range.prototype = {
       startContainer: null,
       startOffset: 0,
@@ -151,19 +152,19 @@ if (!window.getSelection) {
       },
       setStartBefore: function(refNode) {
         // set start to beore this node
-        this.setStart(refNode.parentNode, DOMUtils.findChildPosition(refNode));
+        this.setStart(refNode.parentNode, findChildPosition(refNode));
       },
       setStartAfter: function(refNode) {
         // select next sibling
-        this.setStart(refNode.parentNode, DOMUtils.findChildPosition(refNode) + 1);
+        this.setStart(refNode.parentNode, findChildPosition(refNode) + 1);
       },
       setEndBefore: function(refNode) {
         // set end to beore this node
-        this.setEnd(refNode.parentNode, DOMUtils.findChildPosition(refNode));
+        this.setEnd(refNode.parentNode, findChildPosition(refNode));
       },
       setEndAfter: function(refNode) {
         // select next sibling
-        this.setEnd(refNode.parentNode, DOMUtils.findChildPosition(refNode) + 1);
+        this.setEnd(refNode.parentNode, findChildPosition(refNode) + 1);
       },
       selectNode: function(refNode) {
         this.setStartBefore(refNode);
