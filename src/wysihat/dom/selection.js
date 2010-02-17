@@ -25,7 +25,7 @@ if (Prototype.Browser.IE) {
   // WebKit does not have a public Selection prototype
   if (typeof Selection == 'undefined') {
     var Selection = {}
-    Selection.prototype = window.getSelection();
+    Selection.prototype = window.getSelection().__proto__;
   }
 
   Object.extend(Selection.prototype, (function() {
