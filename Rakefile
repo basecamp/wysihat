@@ -2,13 +2,11 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
-WYSIHAT_ROOT          = File.expand_path(File.dirname(__FILE__))
-WYSIHAT_SRC_DIR       = File.join(WYSIHAT_ROOT, 'src')
-WYSIHAT_DIST_DIR      = File.join(WYSIHAT_ROOT, 'dist')
-WYSIHAT_DOC_DIR       = File.join(WYSIHAT_ROOT, 'doc')
-WYSIHAT_TEST_DIR      = File.join(WYSIHAT_ROOT, 'test')
-WYSIHAT_TEST_UNIT_DIR = File.join(WYSIHAT_TEST_DIR, 'unit')
-WYSIHAT_TMP_DIR       = File.join(WYSIHAT_TEST_UNIT_DIR, 'tmp')
+WYSIHAT_ROOT     = File.expand_path(File.dirname(__FILE__))
+WYSIHAT_SRC_DIR  = File.join(WYSIHAT_ROOT, 'src')
+WYSIHAT_DIST_DIR = File.join(WYSIHAT_ROOT, 'dist')
+WYSIHAT_DOC_DIR  = File.join(WYSIHAT_ROOT, 'doc')
+WYSIHAT_TEST_DIR = File.join(WYSIHAT_ROOT, 'test')
 
 desc "Update git submodules"
 task :update_submodules do
@@ -82,26 +80,5 @@ namespace :doc do
   desc "Empties documentation directory"
   task :clean do
     rm_rf WYSIHAT_DOC_DIR
-  end
-end
-
-desc "Builds the distribution, runs the JavaScript unit tests and collects their results."
-task :test => ['test:build']
-
-namespace :test do
-  task :build => [:clean, :dist] do
-    require File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "lib", "unittest_js")
-    builder = UnittestJS::Builder::SuiteBuilder.new({
-      :input_dir  => WYSIHAT_TEST_UNIT_DIR,
-      :assets_dir => WYSIHAT_DIST_DIR
-    })
-    selected_tests = (ENV['TESTS'] || '').split(',')
-    builder.collect(*selected_tests)
-    builder.render
-  end
-
-  task :clean do
-    require File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "lib", "unittest_js")
-    UnittestJS::Builder.empty_dir!(WYSIHAT_TMP_DIR)
   end
 end

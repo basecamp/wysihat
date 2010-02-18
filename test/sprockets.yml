@@ -1,0 +1,6 @@
+:load_path:
+  - src
+  - vendor/*/src
+:source_files:
+  - vendor/prototype/src/prototype.js
+  - src/wysihat.js
