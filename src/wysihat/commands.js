@@ -222,7 +222,8 @@ var $E = WysiHat.Commands = (function(window) {
   **/
   function orderedListSelected() {
     var element = window.getSelection().getNode();
-    return element.match("[contenteditable=true] ol, [contenteditable=true] ol *");
+    if (element) return element.match("[contenteditable=true] ol, [contenteditable=true] ol *");
+    return false;
   }
 
   /**
@@ -251,7 +252,8 @@ var $E = WysiHat.Commands = (function(window) {
   **/
   function unorderedListSelected() {
     var element = window.getSelection().getNode();
-    return element.match("[contenteditable=true] ul, [contenteditable=true] ul *");
+    if (element) return element.match("[contenteditable=true] ul, [contenteditable=true] ul *");
+    return false;
   }
 
   /**
