@@ -40,39 +40,6 @@ if (!window.getSelection) {
     }
   };
 
-  // TODO: Move this object into a closure
-  var TextRangeUtils = {
-    convertToDOMRange: function(textRange, document) {
-      function adoptBoundary(domRange, textRange, bStart) {
-        // iterate backwards through parent element to find anchor location
-        var cursorNode = document.createElement('a'), cursor = textRange.duplicate();
-        cursor.collapse(bStart);
-        var parent = cursor.parentElement();
-        do {
-          parent.insertBefore(cursorNode, cursorNode.previousSibling);
-          cursor.moveToElementText(cursorNode);
-        } while (cursor.compareEndPoints(bStart ? 'StartToStart' : 'StartToEnd', textRange) > 0 && cursorNode.previousSibling);
-
-        // when we exceed or meet the cursor, we've found the node
-        if (cursor.compareEndPoints(bStart ? 'StartToStart' : 'StartToEnd', textRange) == -1 && cursorNode.nextSibling) {
-          // data node
-          cursor.setEndPoint(bStart ? 'EndToStart' : 'EndToEnd', textRange);
-          domRange[bStart ? 'setStart' : 'setEnd'](cursorNode.nextSibling, cursor.text.length);
-        } else {
-          // element
-          domRange[bStart ? 'setStartBefore' : 'setEndBefore'](cursorNode);
-        }
-        cursorNode.parentNode.removeChild(cursorNode);
-      }
-
-      // return a DOM range
-      var domRange = new Range(document);
-      adoptBoundary(domRange, textRange, true);
-      adoptBoundary(domRange, textRange, false);
-      return domRange;
-    }
-  };
-
   window.Range = (function() {
     function Range(document) {
       // save document parameter
@@ -376,6 +343,36 @@ if (!window.getSelection) {
     return Range;
   })();
 
+  window.Range._fromTextRange = function(textRange, document) {
+    function adoptBoundary(domRange, textRange, bStart) {
+      // iterate backwards through parent element to find anchor location
+      var cursorNode = document.createElement('a'), cursor = textRange.duplicate();
+      cursor.collapse(bStart);
+      var parent = cursor.parentElement();
+      do {
+        parent.insertBefore(cursorNode, cursorNode.previousSibling);
+        cursor.moveToElementText(cursorNode);
+      } while (cursor.compareEndPoints(bStart ? 'StartToStart' : 'StartToEnd', textRange) > 0 && cursorNode.previousSibling);
+
+      // when we exceed or meet the cursor, we've found the node
+      if (cursor.compareEndPoints(bStart ? 'StartToStart' : 'StartToEnd', textRange) == -1 && cursorNode.nextSibling) {
+        // data node
+        cursor.setEndPoint(bStart ? 'EndToStart' : 'EndToEnd', textRange);
+        domRange[bStart ? 'setStart' : 'setEnd'](cursorNode.nextSibling, cursor.text.length);
+      } else {
+        // element
+        domRange[bStart ? 'setStartBefore' : 'setEndBefore'](cursorNode);
+      }
+      cursorNode.parentNode.removeChild(cursorNode);
+    }
+
+    // return a DOM range
+    var domRange = new Range(document);
+    adoptBoundary(domRange, textRange, true);
+    adoptBoundary(domRange, textRange, false);
+    return domRange;
+  }
+
   document.createRange = function() {
     return new Range(document);
   };
@@ -424,7 +421,7 @@ if (!window.getSelection) {
       getRangeAt: function(index) {
         var textRange = this._document.selection.createRange();
         if (this._selectionExists(textRange))
-          return TextRangeUtils.convertToDOMRange(textRange, this._document);
+          return Range._fromTextRange(textRange, this._document);
         return null;
       },
       toString: function() {
