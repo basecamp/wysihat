@@ -7,3 +7,6 @@
 [submodule "sprockets"]
 	path = vendor/sprockets
 	url = git://github.com/sstephenson/sprockets.git
+[submodule "unittest_js"]
+	path = vendor/unittest_js
+	url = git://github.com/tobie/unittest_js.git
