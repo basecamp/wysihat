@@ -14,6 +14,7 @@ if (!window.getSelection) {
       return node && node.nodeValue !== null && node.data !== null;
     },
     isAncestorOf: function(parent, node) {
+      if (!parent) return false;
       return !DOMUtils.isDataNode(parent) &&
           (parent.contains(DOMUtils.isDataNode(node) ? node.parentNode : node) ||
           node.parentNode == parent);
@@ -201,7 +202,12 @@ if (!window.getSelection) {
           DOMUtils.splitDataNode(this.startContainer, this.startOffset);
           this.startContainer.parentNode.insertBefore(newNode, this.startContainer.nextSibling);
         } else {
-          this.startContainer.insertBefore(newNode, this.startContainer.childNodes[this.startOffset]);
+          var offsetNode = this.startContainer.childNodes[this.startOffset];
+          if (offsetNode) {
+            this.startContainer.insertBefore(newNode, offsetNode);
+          } else {
+            this.startContainer.appendChild(newNode);
+          }
         }
         // resync start anchor
         this.setStart(this.startContainer, this.startOffset);
