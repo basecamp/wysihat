@@ -11,7 +11,11 @@ if (!window.getSelection) {
   // TODO: Move this object into a closure
   var DOMUtils = {
     isDataNode: function(node) {
-      return node && node.nodeValue !== null && node.data !== null;
+      try {
+        return node && node.nodeValue !== null && node.data !== null;
+      } catch (e) {
+        return false;
+      }
     },
     isAncestorOf: function(parent, node) {
       if (!parent) return false;
