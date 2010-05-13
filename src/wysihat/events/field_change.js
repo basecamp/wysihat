@@ -1,6 +1,6 @@
 document.observe("dom:loaded", function() {
   function fieldChangeHandler(event) {
-    var element = event.findElement("input,textarea,[contenteditable=true]");
+    var element = event.findElement("input,textarea,*[contenteditable=true]");
     if (element) {
       var value;
 
