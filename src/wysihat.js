@@ -21,6 +21,8 @@ var WysiHat = {};
 //= require "wysihat/dom/selection"
 //= require "wysihat/dom/bookmark"
 
+//= require "wysihat/element/sanitize_contents"
+
 //= require "wysihat/events/field_change"
 //= require "wysihat/events/selection_change"
 
