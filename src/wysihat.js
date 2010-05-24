@@ -24,6 +24,8 @@ var WysiHat = {};
 //= require "wysihat/events/field_change"
 //= require "wysihat/events/selection_change"
 
+//= require "wysihat/formatting"
+
 //= require "wysihat/lang/formatter"
 //= require "wysihat/lang/sanitizer"
 
