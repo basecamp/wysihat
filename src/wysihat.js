@@ -29,6 +29,5 @@ var WysiHat = {};
 //= require "wysihat/formatting"
 
 //= require "wysihat/lang/formatter"
-//= require "wysihat/lang/sanitizer"
 
 //= require "wysihat/toolbar"

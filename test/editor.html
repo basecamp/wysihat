@@ -75,22 +75,15 @@
         handler: function(editor) { return editor.promptLinkSelection(); }
       });
 
-      function sanitize(text) {
-        return text.sanitize({
-          tags: ['span', 'p', 'br', 'strong', 'em', 'u', 'a'],
-          attributes: ['id', 'href']
-        });
-      }
-
       editor.observe("field:change", function(event) {
-        $('note_body').setValue(sanitize(editor.innerHTML.formatHTMLOutput()));
+        $('note_body').setValue(editor.innerHTML.formatHTMLOutput());
         $('note_body_raw').setValue(event.element().innerHTML);
       });
 
       editor.observe("paste", function(event) {
         (function() {
           window.getSelection().setBookmark();
-          editor.innerHTML = sanitize(editor.innerHTML.formatHTMLOutput()).formatHTMLInput();
+          editor.innerHTML = editor.innerHTML.formatHTMLOutput().formatHTMLInput();
           window.getSelection().moveToBookmark();
         }).defer();
       });
