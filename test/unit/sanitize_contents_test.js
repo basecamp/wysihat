@@ -72,5 +72,25 @@ new Test.Unit.Runner({
       "<img src=\"http://www.google.com/intl/en_all/images/logo.gif\">",
       sanitize("<img src=\"http://www.google.com/intl/en_all/images/logo.gif\">", {allow: "img[src], a[href]"})
     );
+
+    if (Prototype.Browser.Gecko) {
+      var element;
+
+      element = new Element("div").update('dirty <span _moz_dirty="" style="font-weight: bold;">formatting</span>.<br _moz_dirty="">').sanitizeContents({skip: "[_moz_dirty]"});
+      runner.assertEqual(
+        'dirty <span style="font-weight: bold;">formatting</span>.<br>',
+        element.innerHTML
+      );
+      // _moz_dirty flag doesn't show up in innerHTML
+      runner.assert(element.children[0].hasAttribute('_moz_dirty'));
+
+      element = new Element("div").update('clean and <span _moz_dirty="" style="font-weight: bold;">dirty</span>').sanitizeContents({skip: "[_moz_dirty]"})
+      runner.assertEqual(
+        'clean and <span style="font-weight: bold;">dirty</span>',
+        element.innerHTML
+      );
+      // _moz_dirty flag doesn't show up in innerHTML
+      runner.assert(element.children[0].hasAttribute('_moz_dirty'));
+    }
   }
 });
