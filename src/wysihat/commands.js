@@ -16,7 +16,7 @@
  *  In this example, it is important to stop the click event so you don't
  *  lose your current selection.
 **/
-var WysiHat.Commands = (function(window) {
+WysiHat.Commands = (function(window) {
   /**
    *  WysiHat.Commands#boldSelection() -> undefined
    *
