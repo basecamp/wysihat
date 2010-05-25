@@ -76,15 +76,15 @@
       });
 
       editor.observe("field:change", function(event) {
-        $('note_body').setValue(editor.innerHTML.formatHTMLOutput());
+        $('note_body').setValue(editor.innerHTML);
         $('note_body_raw').setValue(event.element().innerHTML);
       });
 
       editor.observe("paste", function(event) {
         (function() {
-          window.getSelection().setBookmark();
-          editor.innerHTML = editor.innerHTML.formatHTMLOutput().formatHTMLInput();
-          window.getSelection().moveToBookmark();
+          // window.getSelection().setBookmark();
+          // editor.innerHTML = editor.innerHTML;
+          // window.getSelection().moveToBookmark();
         }).defer();
       });
 

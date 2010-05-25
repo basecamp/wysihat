@@ -14,7 +14,7 @@ new Test.Unit.Runner({
     var runner = this;
 
     this.editor.insertHTML("<p>Hello.</p>");
-    runner.assertEqual("<p>Hello.</p>", this.editor.innerHTML.formatHTMLOutput());
+    runner.assertEqual("<p>Hello.</p>", this.editor.innerHTML);
   },
 
   testBoldSelection: function() {
@@ -27,6 +27,6 @@ new Test.Unit.Runner({
     this.editor.boldSelection();
 
     runner.assert(this.editor.boldSelected());
-    runner.assertEqual('<p id="hello"><strong>Hello.</strong></p>', this.editor.innerHTML.formatHTMLOutput());
+    runner.assertEqual('<p id="hello"><strong>Hello.</strong></p>', this.editor.innerHTML);
   }
 });

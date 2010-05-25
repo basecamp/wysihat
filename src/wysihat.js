@@ -28,6 +28,4 @@ var WysiHat = {};
 
 //= require "wysihat/formatting"
 
-//= require "wysihat/lang/formatter"
-
 //= require "wysihat/toolbar"
