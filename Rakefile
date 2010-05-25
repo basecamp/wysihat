@@ -10,8 +10,6 @@ WYSIHAT_TEST_DIR      = File.join(WYSIHAT_ROOT, 'test')
 WYSIHAT_TEST_UNIT_DIR = File.join(WYSIHAT_TEST_DIR, 'unit')
 WYSIHAT_TMP_DIR       = File.join(WYSIHAT_TEST_UNIT_DIR, 'tmp')
 
-require File.join(WYSIHAT_ROOT, 'vendor', 'unittest_js', 'lib', 'unittest_js')
-
 desc "Update git submodules"
 task :update_submodules do
   system("git submodule init")
@@ -88,42 +86,22 @@ namespace :doc do
 end
 
 desc "Builds the distribution, runs the JavaScript unit tests and collects their results."
-task :test => ['test:build', 'test:run']
-namespace :test do  
-  desc 'Runs all the JavaScript unit tests and collects the results'
-  task :run do
-    testcases        = ENV['TESTCASES']
-    browsers_to_test = ENV['BROWSERS'] && ENV['BROWSERS'].split(',')
-    tests_to_run     = ENV['TESTS'] && ENV['TESTS'].split(',')
-    runner           = UnittestJS::WEBrickRunner::Runner.new(:test_dir => WYSIHAT_TMP_DIR)
+task :test => ['test:build']
 
-    Dir[File.join(WYSIHAT_TMP_DIR, '*_test.html')].each do |file|
-      file = File.basename(file)
-      test = file.sub('_test.html', '')
-      unless tests_to_run && !tests_to_run.include?(test)
-        runner.add_test(file, testcases)
-      end
-    end
-    
-    (browsers_to_test || UnittestJS::Browser::SUPPORTED).each do |browser|
-      runner.add_browser(browser.to_sym)
-    end
-    
-    trap('INT') { runner.teardown; exit }
-    runner.run
-  end
-  
-  task :build => [:clean] do
+namespace :test do
+  task :build => [:clean, :dist] do
+    require File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "lib", "unittest_js")
     builder = UnittestJS::Builder::SuiteBuilder.new({
-      :input_dir => WYSIHAT_TEST_UNIT_DIR,
-      :output_dir => WYSIHAT_TMP_DIR
+      :input_dir  => WYSIHAT_TEST_UNIT_DIR,
+      :assets_dir => WYSIHAT_DIST_DIR
     })
     selected_tests = (ENV['TESTS'] || '').split(',')
     builder.collect(*selected_tests)
     builder.render
   end
-  
+
   task :clean do
+    require File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "lib", "unittest_js")
     UnittestJS::Builder.empty_dir!(WYSIHAT_TMP_DIR)
   end
 end
