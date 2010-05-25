@@ -76,7 +76,7 @@
       });
 
       editor.observe("field:change", function(event) {
-        $('note_body').setValue(editor.innerHTML);
+        $('note_body').setValue(WysiHat.Formatting.getApplicationMarkupFrom(editor));
         $('note_body_raw').setValue(event.element().innerHTML);
       });
 
@@ -97,7 +97,7 @@
   <form id="edit_note" action="#" method="post" style="width: 500px;">
     <div id="note_body_editor" class="editor" contentEditable="true"></div>
 
-    <h3>Sanitized Contents</h3>
+    <h3>Formatted Contents</h3>
     <textarea id="note_body" disabled></textarea>
 
     <h3>Raw Contents</h3>
