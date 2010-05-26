@@ -201,8 +201,24 @@ WysiHat.Commands = (function(window) {
    *
    *  Formats current selection as an ordered list. If the selection is empty
    *  a new list is inserted.
+   *
+   *  If the selection is already a ordered list, the entire list
+   *  will be toggled. However, toggling the last item of the list
+   *  will only affect that item, not the entire list.
   **/
   function toggleOrderedList() {
+    var selection, node;
+
+    selection = window.getSelection();
+    node      = selection.getNode();
+
+    if (this.orderedListSelected() && !node.match("ol li:last-child, ol li:last-child *")) {
+      selection.selectNode(node.up("ol"));
+    } else if (this.unorderedListSelected()) {
+      // Toggle list type
+      selection.selectNode(node.up("ul"));
+    }
+
     this.execCommand('insertorderedlist', false, null);
   }
 
@@ -231,8 +247,24 @@ WysiHat.Commands = (function(window) {
    *
    *  Formats current selection as an unordered list. If the selection is empty
    *  a new list is inserted.
+   *
+   *  If the selection is already a unordered list, the entire list
+   *  will be toggled. However, toggling the last item of the list
+   *  will only affect that item, not the entire list.
   **/
   function toggleUnorderedList() {
+    var selection, node;
+
+    selection = window.getSelection();
+    node      = selection.getNode();
+
+    if (this.unorderedListSelected() && !node.match("ul li:last-child, ul li:last-child *")) {
+      selection.selectNode(node.up("ul"));
+    } else if (this.orderedListSelected()) {
+      // Toggle list type
+      selection.selectNode(node.up("ol"));
+    }
+
     this.execCommand('insertunorderedlist', false, null);
   }
 
