@@ -1,51 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <title>WYSIWYG</title>
 
-  <style type="text/css" media="screen">
-    iframe {
-      width: 100%;
-      height: 150px;
-      border: 1px solid #999;
-    }
-
-    .editor_toolbar .button {
-      float: left;
-      margin: 2px 5px;
-    }
-
-    .editor_toolbar .selected {
-      color: red !important;
-    }
-
-    #error {
-      font: 18px helvetica, arial, sans-serif;
-      color: red;
-    }
-  </style>
+  <link rel="stylesheet" href="editor.css" type="text/css" />
 
   <script type="text/javascript" src="../dist/prototype.js"></script>
   <script type="text/javascript" src="../dist/wysihat.js"></script>
 
   <script type="text/javascript" charset="utf-8">
-    var LinkSelectionHelper = {
-      promptLinkSelection: function() {
-        if (this.linkSelected()) {
-          if (confirm("Remove link?"))
-            this.unlinkSelection();
-        } else {
-          var value = prompt("Enter a URL", "http://www.google.com/");
-          if (value)
-            this.linkSelection(value);
-        }
+    WysiHat.Commands.promptLinkSelection = function() {
+      if (this.linkSelected()) {
+        if (confirm("Remove link?"))
+          this.unlinkSelection();
+      } else {
+        var value = prompt("Enter a URL", "http://www.google.com/");
+        if (value)
+          this.linkSelection(value);
       }
     }
 
-    WysiHat.Editor.include(LinkSelectionHelper);
-
-    Event.observe(window, 'load', function() {
+    document.on("dom:loaded", function() {
       var editor = WysiHat.Editor.attach('content');
       var toolbar = new WysiHat.Toolbar(editor);
 
@@ -66,22 +41,18 @@
   <p>This example shows you how to create a simple UI for linking and unlinking selections</p>
 
 <code><pre>
-  var LinkSelectionHelper = {
-    promptLinkSelection: function() {
-      if (this.linkSelected()) {
-        if (confirm("Remove link?"))
-          this.unlinkSelection();
-      } else {
-        var value = prompt("Enter a URL", "http://www.google.com/");
-        if (value)
-          this.linkSelection(value);
-      }
+  WysiHat.Commands.promptLinkSelection = function() {
+    if (this.linkSelected()) {
+      if (confirm("Remove link?"))
+        this.unlinkSelection();
+    } else {
+      var value = prompt("Enter a URL", "http://www.google.com/");
+      if (value)
+        this.linkSelection(value);
     }
   }
 
-  WysiHat.Editor.include(LinkSelectionHelper);
-
-  Event.observe(window, 'load', function() {
+  document.on("dom:loaded", function() {
     var editor = WysiHat.Editor.attach('content');
     var toolbar = new WysiHat.Toolbar(editor);
 

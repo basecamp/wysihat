@@ -1,0 +1,28 @@
+.editor {
+  clear: both;
+  min-height: 100px;
+  margin: 5px 0;
+  padding: 5px;
+  border: 1px solid #acacac;
+  outline: none;
+  font-family: 'Lucida Grande', verdana, arial, sans-serif;
+  font-size: 12px;
+}
+
+.editor p {
+  margin: 0;
+}
+
+.editor_toolbar .button {
+  float: left;
+  margin: 2px 5px;
+}
+
+.editor_toolbar .selected {
+  color: red !important;
+}
+
+#error {
+  font: 18px helvetica, arial, sans-serif;
+  color: red;
+}

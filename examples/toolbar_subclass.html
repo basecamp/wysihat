@@ -1,30 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <title>WYSIWYG</title>
 
-  <style type="text/css" media="screen">
-    iframe {
-      width: 100%;
-      height: 150px;
-      border: 1px solid #999;
-    }
-
-    .toolbar a {
-      float: left;
-      margin: 2px 5px;
-    }
-
-    .toolbar .highlight {
-      color: red !important;
-    }
-
-    #error {
-      font: 18px helvetica, arial, sans-serif;
-      color: red;
-    }
-  </style>
+  <link rel="stylesheet" href="editor.css" type="text/css" />
 
   <script type="text/javascript" src="../dist/prototype.js"></script>
   <script type="text/javascript" src="../dist/wysihat.js"></script>
@@ -54,7 +33,7 @@
       }
     });
 
-    Event.observe(window, 'load', function() {
+    document.on("dom:loaded", function() {
       var editor = WysiHat.Editor.attach('content');
       var toolbar = new Toolbar(editor);
       toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
@@ -95,7 +74,7 @@
     }
   });
 
-  Event.observe(window, 'load', function() {
+  document.on("dom:loaded", function() {
     var editor = WysiHat.Editor.attach('content');
     var toolbar = new Toolbar(editor);
     toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
@@ -109,7 +88,7 @@
       <a class="button_underline" href="#">Underline</a>
       <a class="button_italic" href="#">Italic</a>
     </div>
-    <iframe id="content_editor" style="display: none;"> -->
+    <div id="content_editor" class="editor" contenteditable="true"></div> -->
     <textarea id="content"></textarea>
   </form>
 </body>
