@@ -81,12 +81,36 @@ WysiHat.Commands = (function(window) {
   }
 
   /**
-   *  WysiHat.Commands#blockquoteSelection() -> undefined
+   *  WysiHat.Commands#indentSelection() -> undefined
    *
-   *  Blockquotes the current selection.
+   *  Indents the current selection.
   **/
-  function blockquoteSelection() {
-    this.execCommand('blockquote', false, null);
+  function indentSelection() {
+    this.execCommand('indent', false, null);
+  }
+
+  /**
+   *  WysiHat.Commands#outdentSelection() -> undefined
+   *
+   *  Outdents the current selection.
+  **/
+  function outdentSelection() {
+    this.execCommand('outdent', false, null);
+  }
+
+  /**
+   *  WysiHat.Commands#toggleIndent() -> undefined
+   *
+   *  Toggles indentation the current selection.
+  **/
+  function toggleIndentation() {
+    var node = window.getSelection().getNode();
+
+    if (node.match("blockquote, blockquote *")) {
+      this.outdentSelection();
+    } else {
+      this.indentSelection();
+    }
   }
 
   /**
@@ -384,7 +408,9 @@ WysiHat.Commands = (function(window) {
      italicSelection:          italicSelection,
      italicSelected:           italicSelected,
      strikethroughSelection:   strikethroughSelection,
-     blockquoteSelection:      blockquoteSelection,
+     indentSelection:          indentSelection,
+     outdentSelection:         outdentSelection,
+     toggleIndentation:        toggleIndentation,
      fontSelection:            fontSelection,
      fontSizeSelection:        fontSizeSelection,
      colorSelection:           colorSelection,
