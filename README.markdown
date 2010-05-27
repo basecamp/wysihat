@@ -18,7 +18,7 @@ WysiHat currently supports:
 
 ### Dependencies
 
-* Prototype 1.6 or later (http://prototypejs.org/)
+* Prototype 1.7 or later (http://prototypejs.org/)
 
 ## Documentation
 
