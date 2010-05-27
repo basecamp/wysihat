@@ -99,18 +99,26 @@ WysiHat.Commands = (function(window) {
   }
 
   /**
-   *  WysiHat.Commands#toggleIndent() -> undefined
+   *  WysiHat.Commands#toggleIndentation() -> undefined
    *
    *  Toggles indentation the current selection.
   **/
   function toggleIndentation() {
-    var node = window.getSelection().getNode();
-
-    if (node.match("blockquote, blockquote *")) {
+    if (this.indentSelected()) {
       this.outdentSelection();
     } else {
       this.indentSelection();
     }
+  }
+
+  /**
+   *  WysiHat.Commands#indentSelected() -> boolean
+   *
+   *  Check if current selection is indented.
+  **/
+  function indentSelected() {
+    var node = window.getSelection().getNode();
+    return node.match("blockquote, blockquote *");
   }
 
   /**
@@ -411,6 +419,7 @@ WysiHat.Commands = (function(window) {
      indentSelection:          indentSelection,
      outdentSelection:         outdentSelection,
      toggleIndentation:        toggleIndentation,
+     indentSelected:           indentSelected,
      fontSelection:            fontSelection,
      fontSizeSelection:        fontSizeSelection,
      colorSelection:           colorSelection,
