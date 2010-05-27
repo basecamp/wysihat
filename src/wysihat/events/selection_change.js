@@ -1,4 +1,4 @@
-document.observe("dom:loaded", function() {
+document.on("dom:loaded", function() {
   if ('onselectionchange' in document) {
     var selectionChangeHandler = function() {
       var range   = document.selection.createRange();
@@ -6,7 +6,7 @@ document.observe("dom:loaded", function() {
       $(element).fire("selection:change");
     }
 
-    document.observe("selectionchange", selectionChangeHandler);
+    document.on("selectionchange", selectionChangeHandler);
   } else {
     var previousRange;
 
@@ -33,7 +33,7 @@ document.observe("dom:loaded", function() {
       }
     };
 
-    document.observe("mouseup", selectionChangeHandler);
-    document.observe("keyup", selectionChangeHandler);
+    document.on("mouseup", selectionChangeHandler);
+    document.on("keyup", selectionChangeHandler);
   }
 });

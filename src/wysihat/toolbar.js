@@ -141,7 +141,7 @@ WysiHat.Toolbar = Class.create((function() {
    *  Bind handler to elements onclick event.
   **/
   function observeButtonClick(element, handler) {
-    element.observe('click', function(event) {
+    element.on('click', function(event) {
       handler(this.editor);
       event.stop();
     }.bind(this));
@@ -177,7 +177,7 @@ WysiHat.Toolbar = Class.create((function() {
   **/
   function observeStateChanges(element, name, handler) {
     var previousState;
-    this.editor.observe("selection:change", function(event) {
+    this.editor.on("selection:change", function(event) {
       var state = handler(this.editor);
       if (state != previousState) {
         previousState = state;
