@@ -49,7 +49,6 @@ WysiHat.BrowserFeatures = (function() {
   function detectIndentType(document) {
     document.body.innerHTML = 'tab';
     document.execCommand('indent', false, null);
-    console.log(document.body.innerHTML);
 
     var tagName;
     element = document.body.childNodes[0];
