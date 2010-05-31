@@ -25,6 +25,7 @@ var WysiHat = {};
 //= require "wysihat/element/sanitize_contents"
 
 //= require "wysihat/events/field_change"
+//= require "wysihat/events/frame_loaded"
 //= require "wysihat/events/selection_change"
 
 //= require "wysihat/formatting"
