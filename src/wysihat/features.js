@@ -8,14 +8,18 @@ WysiHat.BrowserFeatures = (function() {
       left: '-1000px'
     });
 
-    frame.on('load', function() {
-      frameDocument = frame.contentWindow || frame.contentDocument;
-      if (frameDocument.document) frameDocument = frameDocument.document;
+    frame.onFrameLoaded(function() {
+      if (typeof frame.contentDocument !== 'undefined') {
+        frameDocument = frame.contentDocument;
+      } else if (typeof frame.contentWindow !== 'undefined' && typeof frame.contentWindow.document !== 'undefined') {
+        frameDocument = frame.contentWindow.document;
+      }
 
-      if (frame.contentDocument && frame.contentDocument.defaultView)
+      if (typeof frame.contentDocument !== 'undefined' && typeof frame.contentDocument.defaultView !== 'undefined') {
         frameWindow = frame.contentDocument.defaultView;
-      else if (frame.contentWindow.document)
+      } else if (typeof frame.contentWindow.document  !== 'undefined') {
         frameWindow = frame.contentWindow;
+      }
 
       frameDocument.designMode = 'on';
 
