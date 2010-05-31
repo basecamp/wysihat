@@ -65,18 +65,19 @@ end
 
 # Tests
 
-file 'test/unit/tmp' => Dir['test/unit/*.js'] + [:unittest_js, :dist] do
+file 'test/unit/tmp/tests' => Dir['test/unit/*.js'] + [:unittest_js, :dist] do
+  FileUtils.mkdir_p File.dirname('test/unit/tmp/tests')
+
   builder = UnittestJS::Builder::SuiteBuilder.new({
     :input_dir  => "#{WYSIHAT_ROOT}/test/unit",
     :assets_dir => "#{WYSIHAT_ROOT}/dist"
   })
-  selected_tests = (ENV['TESTS'] || '').split(',')
-  builder.collect(*selected_tests)
+  builder.collect
   builder.render
 end
 
 desc "Builds the distribution, runs the JavaScript unit tests and collects their results."
-task :test => 'test/unit/tmp'
+task :test => 'test/unit/tmp/tests'
 
 
 # Vendored libs
