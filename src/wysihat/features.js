@@ -1,6 +1,6 @@
 WysiHat.BrowserFeatures = (function() {
   function createTmpIframe(callback) {
-    var frame, frameDocument, frameWindow;
+    var frame, frameDocument;
 
     frame = new Element('iframe');
     frame.setStyle({
@@ -15,15 +15,9 @@ WysiHat.BrowserFeatures = (function() {
         frameDocument = frame.contentWindow.document;
       }
 
-      if (typeof frame.contentDocument !== 'undefined' && typeof frame.contentDocument.defaultView !== 'undefined') {
-        frameWindow = frame.contentDocument.defaultView;
-      } else if (typeof frame.contentWindow.document  !== 'undefined') {
-        frameWindow = frame.contentWindow;
-      }
-
       frameDocument.designMode = 'on';
 
-      callback(frameDocument, frameWindow);
+      callback(frameDocument);
 
       frame.remove();
     });
@@ -64,7 +58,7 @@ WysiHat.BrowserFeatures = (function() {
   features.run = function run() {
     if (features.finished) return;
 
-    createTmpIframe(function(document, window) {
+    createTmpIframe(function(document) {
       detectParagraphType(document);
       detectIndentType(document);
 
