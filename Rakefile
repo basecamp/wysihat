@@ -1,107 +1,114 @@
 require 'rake'
-require 'rake/testtask'
+require 'rake/clean'
 require 'rake/rdoctask'
+require 'rake/testtask'
 
-WYSIHAT_ROOT          = File.expand_path(File.dirname(__FILE__))
-WYSIHAT_SRC_DIR       = File.join(WYSIHAT_ROOT, 'src')
-WYSIHAT_DIST_DIR      = File.join(WYSIHAT_ROOT, 'dist')
-WYSIHAT_DOC_DIR       = File.join(WYSIHAT_ROOT, 'doc')
-WYSIHAT_TEST_DIR      = File.join(WYSIHAT_ROOT, 'test')
-WYSIHAT_TEST_UNIT_DIR = File.join(WYSIHAT_TEST_DIR, 'unit')
-WYSIHAT_TMP_DIR       = File.join(WYSIHAT_TEST_UNIT_DIR, 'tmp')
+CLEAN.include 'test/unit/tmp'
+CLOBBER.include 'dist'
+CLOBBER.include 'doc'
 
-desc "Update git submodules"
-task :update_submodules do
-  system("git submodule init")
-  system("git submodule update")
+WYSIHAT_ROOT    = File.expand_path(File.dirname(__FILE__))
+WYSIHAT_SRC_DIR = File.join(WYSIHAT_ROOT, 'src')
+
+
+# Distribution
+
+file 'dist/prototype.js' => :sprockets do |t|
+  prototype_src_dir = "#{WYSIHAT_ROOT}/vendor/prototype/src"
+
+  secretary = Sprockets::Secretary.new(
+    :root         => prototype_src_dir,
+    :load_path    => [prototype_src_dir],
+    :source_files => ["prototype.js"]
+  )
+
+  FileUtils.mkdir_p File.dirname(t.name)
+  secretary.concatenation.save_to(t.name)
+end
+
+file 'dist/wysihat.js' => Dir['src/**/*'] + [:sprockets] do |t|
+  secretary = Sprockets::Secretary.new(
+    :root         => WYSIHAT_SRC_DIR,
+    :load_path    => [WYSIHAT_SRC_DIR],
+    :source_files => ["wysihat.js"]
+  )
+
+  FileUtils.mkdir_p File.dirname(t.name)
+  secretary.concatenation.save_to(t.name)
 end
 
 task :default => :dist
 
 desc "Builds the distribution."
-task :dist => ["sprocketize:prototype", "sprocketize:wysihat"]
+task :dist => ['dist/prototype.js', 'dist/wysihat.js']
 
-namespace :sprocketize do
-  task :dist_dir do
-    FileUtils.mkdir_p(WYSIHAT_DIST_DIR)
-  end
 
-  task :wysihat => [:update_submodules, :dist_dir] do
-    require File.join(WYSIHAT_ROOT, "vendor", "sprockets", "lib", "sprockets")
+# Documentation
 
+desc "Builds the documentation."
+file 'doc' => Dir['src/**/*'] + [:sprockets, :pdoc] do
+  require 'tempfile'
+
+  Tempfile.open('pdoc') do |temp|
     secretary = Sprockets::Secretary.new(
-      :root         => File.join(WYSIHAT_ROOT, "src"),
+      :root         => WYSIHAT_SRC_DIR,
       :load_path    => [WYSIHAT_SRC_DIR],
-      :source_files => ["wysihat.js"]
+      :source_files => ["wysihat.js"],
+      :strip_comments => false
     )
 
-    secretary.concatenation.save_to(File.join(WYSIHAT_DIST_DIR, "wysihat.js"))
-  end
-
-  task :prototype => [:update_submodules, :dist_dir] do
-    require File.join(WYSIHAT_ROOT, "vendor", "sprockets", "lib", "sprockets")
-
-    prototype_root    = File.join(WYSIHAT_ROOT, "vendor", "prototype")
-    prototype_src_dir = File.join(prototype_root, 'src')
-
-    secretary = Sprockets::Secretary.new(
-      :root         => File.join(prototype_root, "src"),
-      :load_path    => [prototype_src_dir],
-      :source_files => ["prototype.js"]
-    )
-
-    secretary.concatenation.save_to(File.join(WYSIHAT_DIST_DIR, "prototype.js"))
+    secretary.concatenation.save_to(temp.path)
+    PDoc::Runner.new(temp.path, :destination => "#{WYSIHAT_ROOT}/doc").run
   end
 end
 
-desc "Empties the output directory and builds the documentation."
-task :doc => 'doc:build'
 
-namespace :doc do
-  desc "Builds the documentation"
-  task :build => [:update_submodules, :clean] do
-    require File.join(WYSIHAT_ROOT, "vendor", "sprockets", "lib", "sprockets")
-    require File.join(WYSIHAT_ROOT, "vendor", "pdoc", "lib", "pdoc")
-    require 'tempfile'
+# Tests
 
-    Tempfile.open("pdoc") do |temp|
-      secretary = Sprockets::Secretary.new(
-        :root         => File.join(WYSIHAT_ROOT, "src"),
-        :load_path    => [WYSIHAT_SRC_DIR],
-        :source_files => ["wysihat.js"],
-        :strip_comments => false
-      )
-
-      secretary.concatenation.save_to(temp.path)
-      PDoc::Runner.new(temp.path,
-        :output => WYSIHAT_DOC_DIR
-      ).run
-    end
-  end
-
-  desc "Empties documentation directory"
-  task :clean do
-    rm_rf WYSIHAT_DOC_DIR
-  end
+file 'test/unit/tmp' => Dir['test/unit/*.js'] + [:unittest_js, :dist] do
+  builder = UnittestJS::Builder::SuiteBuilder.new({
+    :input_dir  => "#{WYSIHAT_ROOT}/test/unit",
+    :assets_dir => "#{WYSIHAT_ROOT}/dist"
+  })
+  selected_tests = (ENV['TESTS'] || '').split(',')
+  builder.collect(*selected_tests)
+  builder.render
 end
 
 desc "Builds the distribution, runs the JavaScript unit tests and collects their results."
-task :test => ['test:build']
+task :test => 'test/unit/tmp'
 
-namespace :test do
-  task :build => [:clean, :dist] do
-    require File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "lib", "unittest_js")
-    builder = UnittestJS::Builder::SuiteBuilder.new({
-      :input_dir  => WYSIHAT_TEST_UNIT_DIR,
-      :assets_dir => WYSIHAT_DIST_DIR
-    })
-    selected_tests = (ENV['TESTS'] || '').split(',')
-    builder.collect(*selected_tests)
-    builder.render
-  end
 
-  task :clean do
-    require File.join(WYSIHAT_ROOT, "vendor", "unittest_js", "lib", "unittest_js")
-    UnittestJS::Builder.empty_dir!(WYSIHAT_TMP_DIR)
-  end
+# Vendored libs
+
+task :sprockets => 'vendor/sprockets/lib/sprockets.rb' do
+  $:.unshift File.expand_path('vendor/sprockets/lib', WYSIHAT_ROOT)
+  require 'sprockets'
+end
+
+task :pdoc => 'vendor/pdoc/lib/pdoc.rb' do
+  $:.unshift File.expand_path('vendor/pdoc/lib', WYSIHAT_ROOT)
+  require 'pdoc'
+end
+
+task :unittest_js => 'vendor/unittest_js/lib/unittest_js.rb' do
+  $:.unshift File.expand_path('vendor/unittest_js/lib', WYSIHAT_ROOT)
+  require 'unittest_js'
+end
+
+file 'vendor/pdoc/lib/pdoc.rb' do
+  Rake::Task['update_submodules'].invoke
+end
+
+file 'vendor/sprockets/lib/sprockets.rb' do
+  Rake::Task['update_submodules'].invoke
+end
+
+file 'vendor/unittest_js/lib/unittest_js.rb' do
+  Rake::Task['update_submodules'].invoke
+end
+
+task :update_submodules do
+  system "git submodule init"
+  system "git submodule update"
 end
