@@ -1,4 +1,4 @@
-/** IE Selection and Range classes
+/*  IE Selection and Range classes
  *
  *  Original created by Tim Cameron Ryan
  *    http://github.com/timcameronryan/IERange
@@ -6,7 +6,7 @@
  *  Released under the MIT/X License
  *
  *  Modified by Joshua Peek
-**/
+ */
 if (!window.getSelection) {
   // TODO: Move this object into a closure
   var DOMUtils = {
