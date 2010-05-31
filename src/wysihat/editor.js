@@ -30,7 +30,7 @@ WysiHat.Editor = {
     textarea.insert({before: editArea});
     textarea.hide();
 
-    WysiHat.BrowserFeatures.run()
+    // WysiHat.BrowserFeatures.run()
 
     return editArea;
   }
