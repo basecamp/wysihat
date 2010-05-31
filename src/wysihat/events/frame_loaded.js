@@ -40,10 +40,10 @@
     element.on('load', function() {
       var frameDocument;
 
-      if (typeof frame.contentDocument !== 'undefined') {
-        frameDocument = frame.contentDocument;
-      } else if (typeof frame.contentWindow !== 'undefined' && typeof frame.contentWindow.document !== 'undefined') {
-        frameDocument = frame.contentWindow.document;
+      if (typeof element.contentDocument !== 'undefined') {
+        frameDocument = element.contentDocument;
+      } else if (typeof element.contentWindow !== 'undefined' && typeof element.contentWindow.document !== 'undefined') {
+        frameDocument = element.contentWindow.document;
       }
 
       onReadyStateComplete(frameDocument, fireFrameLoaded);
