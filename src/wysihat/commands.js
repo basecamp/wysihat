@@ -86,7 +86,27 @@ WysiHat.Commands = (function(window) {
    *  Indents the current selection.
   **/
   function indentSelection() {
-    this.execCommand('indent', false, null);
+    // TODO: Should use feature detection
+    if (Prototype.Browser.Gecko) {
+      var selection, range, node, blockquote;
+
+      selection = window.getSelection();
+      range     = selection.getRangeAt(0);
+      node      = selection.getNode();
+
+      if (range.collapsed) {
+        range = document.createRange();
+        range.selectNodeContents(node);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+
+      blockquote = new Element('blockquote');
+      range = selection.getRangeAt(0);
+      range.surroundContents(blockquote);
+    } else {
+      this.execCommand('indent', false, null);
+    }
   }
 
   /**
