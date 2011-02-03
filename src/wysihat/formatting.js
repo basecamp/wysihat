@@ -182,10 +182,10 @@ WysiHat.Formatting = (function() {
         var element = node.cloneNode(false);
 
         if (tagName == "span") {
-          if ($(node).getStyle("fontWeight") == "bold") {
+          if (node.style['fontWeight'] == "bold") {
             element = new Element("strong");
 
-          } else if ($(node).getStyle("fontStyle") == "italic") {
+          } else if (node.style['fontStyle'] == "italic") {
             element = new Element("em");
           }
         }
