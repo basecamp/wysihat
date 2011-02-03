@@ -25,8 +25,8 @@ new Test.Unit.Runner({
         '<div>Here is some basic text</div><div>with a line break.</div><div class="paragraph_break"><br></div><div>And maybe another paragraph</div>',
         getBrowserMarkupFrom('<div>Here is some basic text</div><div>with a line break.</div><div class=\"paragraph_break\"><br /></div><div>And maybe another paragraph</div>')
       );
-      runner.assertEqual(
-        '<div>Some <span style="font-weight: bold;" class="Apple-style-span">bold</span> text</div>"',
+      runner.assertMatch(
+        '<div>Some <span style="font-weight: bold;?" class="Apple-style-span">bold</span> text</div>"',
         getBrowserMarkupFrom('<div>Some <strong>bold</strong> text</div>"')
       );
     } else if (Prototype.Browser.IE) {
