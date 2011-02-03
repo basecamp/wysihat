@@ -80,6 +80,11 @@ WysiHat.Formatting = (function() {
               mode = EXPECTING_LIST_ITEM;
             }
 
+            // if it's a header element, set the line so we don't wrap it in a div
+            if (isHeaderElement(tagName)) {
+              line = lineContainer = new Element(tagName);
+            }
+
           } else if (isLineBreak(tagName)) {
             // if it's a br, and the previous accumulation was a br,
             // remove the previous accumulation and flush
@@ -115,7 +120,7 @@ WysiHat.Formatting = (function() {
 
       function close(tagName) {
         if (mode == ACCUMULATING_LINE) {
-          if (isLineElement(tagName)) {
+          if (isLineElement(tagName) || isHeaderElement(tagName)) {
             flush();
           }
 
@@ -142,11 +147,15 @@ WysiHat.Formatting = (function() {
       }
 
       function isBlockElement(tagName) {
-        return isLineElement(tagName) || isListElement(tagName);
+        return isLineElement(tagName) || isListElement(tagName) || isHeaderElement(tagName);
       }
 
       function isLineElement(tagName) {
         return tagName == "p" || tagName == "div";
+      }
+
+      function isHeaderElement(tagName) {
+        return tagName == 'h1' || tagName == 'h2' || tagName == 'h3' || tagName == 'h4' || tagName == 'h5' || tagName == 'h6';
       }
 
       function isListElement(tagName) {

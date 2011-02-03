@@ -121,6 +121,17 @@ new Test.Unit.Runner({
         '<ul><li>one</li><li>two</li></ul><div>not</div>',
         getApplicationMarkupFrom('<ul><li>one</li><li>two</li></ul><div>not</div>')
       );
+
+      runner.assertEqual(
+        '<div>Paragraph</div><h1>Header</h1><div>Paragraph</div>',
+        getApplicationMarkupFrom('<div>Paragraph</div><h1>Header</h1><div>Paragraph</div>')
+      );
+      
+      runner.assertEqual(
+        '<div>Paragraph</div><h1>Header <em>Italic header</em> more header</h1><div>Paragraph</div>',
+        getApplicationMarkupFrom('<div>Paragraph</div><h1>Header <span class="Apple-style-span" style="font-style: italic;">Italic header</span> more header</h1><div>Paragraph</div>')
+      );
+
     } else if (Prototype.Browser.Gecko) {
       runner.assertEqual(
         '<div>Here is some basic text<br></div><div>with a line break.</div><div><br></div><div>And maybe another paragraph<br></div>',
@@ -178,6 +189,14 @@ new Test.Unit.Runner({
         '<ul><li>one</li><li>two</li></ul><div>not<br></div>',
         getApplicationMarkupFrom('<ul><li>one</li><li>two</li></ul>not<br>')
       );
+      runner.assertEqual(
+        '<div>Paragraph</div><h1>Header</h1><div>Paragraph</div>',
+        getApplicationMarkupFrom('<div>Paragraph</div><h1>Header</h1><div>Paragraph</div>')
+      );
+      runner.assertEqual(
+        '<div>Paragraph</div><h1>Header <em>Italic header</em> more header</h1><div>Paragraph</div>',
+        getApplicationMarkupFrom('<div>Paragraph</div><h1>Header <span style="font-style: italic;">Italic header</span> more header</h1><div>Paragraph</div>')
+      );
     } else if (Prototype.Browser.IE) {
       runner.assertEqual(
         '<DIV><BR></DIV>',
@@ -234,6 +253,14 @@ new Test.Unit.Runner({
       runner.assertEqual(
         '<UL>\r\n<LI>one</LI>\r\n<LI>two</LI></UL>\r\n<DIV>not</DIV>',
         getApplicationMarkupFrom('<UL>\n<LI>one</LI>\n<LI>two</LI></UL>\n<P>not</P>')
+      );
+      runner.assertEqual(
+        '<DIV>Paragraph</DIV>\r\n<H1>Header</H1>\r\n<DIV>Paragraph</DIV>',
+        getApplicationMarkupFrom('<DIV>Paragraph</DIV>\n<H1>Header</H1>\n<DIV>Paragraph</DIV>')
+      );
+      runner.assertEqual(
+        '<DIV>Paragraph</DIV>\r\n<H1>Header <EM>italic</EM> more header</H1>\r\n<DIV>Paragraph</DIV>',
+        getApplicationMarkupFrom('<DIV>Paragraph</DIV>\n<H1>Header <EM>italic</EM> more header</H1>\n<DIV>Paragraph</DIV>')
       );
     }
   }
