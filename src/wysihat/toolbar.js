@@ -1,4 +1,4 @@
-//= require "events/selection_change"
+//= require "./events/selection_change"
 
 /** section: wysihat
  *  class WysiHat.Toolbar

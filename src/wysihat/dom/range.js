@@ -1,4 +1,4 @@
-//= require "ierange"
+//= require "./ierange"
 
 Object.extend(Range.prototype, (function() {
   function beforeRange(range) {

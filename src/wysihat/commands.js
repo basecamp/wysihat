@@ -1,5 +1,5 @@
-//= require "dom/selection"
-//= require "events/field_change"
+//= require "./dom/selection"
+//= require "./events/field_change"
 
 /** section: wysihat
  *  mixin WysiHat.Commands

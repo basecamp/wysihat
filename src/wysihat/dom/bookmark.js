@@ -1,4 +1,4 @@
-//= require "selection"
+//= require "./selection"
 
 if (Prototype.Browser.IE) {
   Object.extend(Selection.prototype, (function() {

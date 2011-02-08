@@ -1,5 +1,5 @@
-//= require "ierange"
-//= require "range"
+//= require "./ierange"
+//= require "./range"
 
 if (Prototype.Browser.IE) {
   Object.extend(Selection.prototype, (function() {
