@@ -141,8 +141,12 @@ WysiHat.Toolbar = Class.create((function() {
    *  Bind handler to elements onclick event.
   **/
   function observeButtonClick(element, handler) {
-    element.on('click', function(event) {
+    element.on('mousedown', function(event) {
+      event.stop();
       handler(this.editor);
+    }.bind(this));
+    
+    element.on('click', function(event) {
       event.stop();
     }.bind(this));
   }
