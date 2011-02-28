@@ -387,6 +387,10 @@ WysiHat.Commands = (function(window) {
     }
 
     document.activeElement.fire("field:change");
+
+    if (navigator.userAgent.match( / Gecko\/(\d+)/ )[1] ) {
+      this.focus();
+    }
   }
 
   /**
