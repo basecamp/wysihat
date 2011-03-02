@@ -164,10 +164,10 @@ WysiHat.Commands = (function(window) {
     range.insertNode(cursorStart);
 
     if(!collapsed) {
-        var cursorEnd = document.createElement('span');
-        cursorEnd.id = 'cursorEnd';
-        range.collapse(true);
-        range.insertNode(cursorEnd);
+      var cursorEnd = document.createElement('span');
+      cursorEnd.id = 'cursorEnd';
+      range.collapse(true);
+      range.insertNode(cursorEnd);
     }
   }
   
@@ -183,29 +183,29 @@ WysiHat.Commands = (function(window) {
       var cursorEnd = document.getElementById('cursorEnd');
 
       if(cursorStart) {
-          var range = document.createRange();
+        var range = document.createRange();
 
-          if(cursorEnd) {
-              range.setStartAfter(cursorStart);
-              range.setEndBefore(cursorEnd);
+        if(cursorEnd) {
+          range.setStartAfter(cursorStart);
+          range.setEndBefore(cursorEnd);
 
-              // Delete cursor markers
-              cursorStart.parentNode.removeChild(cursorStart);
-              cursorEnd.parentNode.removeChild(cursorEnd);
+          // Delete cursor markers
+          cursorStart.parentNode.removeChild(cursorStart);
+          cursorEnd.parentNode.removeChild(cursorEnd);
 
-              // Select range
-              selection.removeAllRanges();
-              selection.addRange(range);
-          } else {
-              range.selectNode(cursorStart);
+          // Select range
+          selection.removeAllRanges();
+          selection.addRange(range);
+        } else {
+          range.selectNode(cursorStart);
 
-              // Select range
-              selection.removeAllRanges();
-              selection.addRange(range);
+          // Select range
+          selection.removeAllRanges();
+          selection.addRange(range);
 
-              // Delete cursor marker
-              document.execCommand('delete', false, null);
-          }
+          // Delete cursor marker
+          document.execCommand('delete', false, null);
+        }
       }
     }, 10);
   }
