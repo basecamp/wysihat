@@ -1,7 +1,7 @@
 //= require "./ierange"
 //= require "./range"
 
-if (Prototype.Browser.IE) {
+if (window.getSelection.custom) {
   Object.extend(Selection.prototype, (function() {
     // TODO: More robust getNode
     function getNode() {
