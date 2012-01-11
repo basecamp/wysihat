@@ -446,4 +446,6 @@ if (!window.getSelection) {
     var selection = new Selection(document);
     return function() { return selection; };
   })();
+
+  window.getSelection.custom = true;
 }
