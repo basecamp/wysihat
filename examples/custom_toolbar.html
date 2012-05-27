@@ -1,44 +1,23 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
   <title>WYSIWYG</title>
 
-  <style type="text/css" media="screen">
-    iframe {
-      width: 100%;
-      height: 150px;
-      border: 1px solid #999;
-    }
-
-    .toolbar .button {
-      float: left;
-      margin: 2px 5px;
-    }
-
-    .toolbar .selected {
-      color: red !important;
-    }
-
-    #error {
-      font: 18px helvetica, arial, sans-serif;
-      color: red;
-    }
-  </style>
+  <link rel="stylesheet" href="editor.css" type="text/css" />
 
   <script type="text/javascript" src="../dist/prototype.js"></script>
   <script type="text/javascript" src="../dist/wysihat.js"></script>
 
   <script type="text/javascript" charset="utf-8">
-    Event.observe(window, 'load', function() {
+    document.on("dom:loaded", function() {
       var editor = WysiHat.Editor.attach('content');
 
       var boldButton = $$('.toolbar .bold').first();
-      boldButton.observe('click', function(event) {
+      boldButton.on('click', function(event) {
         editor.boldSelection();
         Event.stop(event);
       });
-      editor.observe('wysihat:cursormove', function(event) {
+      editor.on('wysihat:cursormove', function(event) {
         if (editor.boldSelected())
           boldButton.addClassName('selected')
         else
@@ -46,11 +25,11 @@
       });
 
       var underlineButton = $$('.toolbar .underline').first();
-      underlineButton.observe('click', function(event) {
+      underlineButton.on('click', function(event) {
         editor.underlineSelection();
         Event.stop(event);
       });
-      editor.observe('wysihat:cursormove', function(event) {
+      editor.on('wysihat:cursormove', function(event) {
         if (editor.underlineSelected())
           underlineButton.addClassName('selected')
         else
@@ -58,11 +37,11 @@
       });
 
       var italicButton = $$('.toolbar .italic').first();
-      italicButton.observe('click', function(event) {
+      italicButton.on('click', function(event) {
         editor.italicSelection();
         Event.stop(event);
       });
-      editor.observe('wysihat:cursormove', function(event) {
+      editor.on('wysihat:cursormove', function(event) {
         if (editor.italicSelected())
           italicButton.addClassName('selected')
         else
@@ -81,15 +60,15 @@
   <p>This is a more advanced example that extends the built-in toolbar class. The code is a bit more verbose, however you have full control of the html.</p>
 
 <code><pre>
-  Event.observe(window, 'load', function() {
+  document.on("dom:loaded", function() {
     var editor = WysiHat.Editor.attach('content');
 
     var boldButton = $$('.toolbar .bold').first();
-    boldButton.observe('click', function(event) {
+    boldButton.on('click', function(event) {
       editor.boldSelection();
       Event.stop(event);
     });
-    editor.observe('wysihat:cursormove', function(event) {
+    editor.on('wysihat:cursormove', function(event) {
       if (editor.boldSelected())
         boldButton.addClassName('selected')
       else
@@ -97,11 +76,11 @@
     });
 
     var underlineButton = $$('.toolbar .underline').first();
-    underlineButton.observe('click', function(event) {
+    underlineButton.on('click', function(event) {
       editor.underlineSelection();
       Event.stop(event);
     });
-    editor.observe('wysihat:cursormove', function(event) {
+    editor.on('wysihat:cursormove', function(event) {
       if (editor.underlineSelected())
         underlineButton.addClassName('selected')
       else
@@ -109,11 +88,11 @@
     });
 
     var italicButton = $$('.toolbar .italic').first();
-    italicButton.observe('click', function(event) {
+    italicButton.on('click', function(event) {
       editor.italicSelection();
       Event.stop(event);
     });
-    editor.observe('wysihat:cursormove', function(event) {
+    editor.on('wysihat:cursormove', function(event) {
       if (editor.italicSelected())
         italicButton.addClassName('selected')
       else
@@ -128,7 +107,7 @@
       <a class="button underline" href="#"><span>Underline</span></a>
       <a class="button italic" href="#"><span>Italic</span></a>
     </div>
-    <!-- <iframe id="content_editor" style="display: none;"> -->
+    <!-- <div id="content_editor" class="editor" contenteditable="true"></div> -->
     <textarea id="content"></textarea>
   </form>
 </body>

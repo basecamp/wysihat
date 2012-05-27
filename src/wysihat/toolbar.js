@@ -1,3 +1,5 @@
+//= require "events/selection_change"
+
 /** section: wysihat
  *  class WysiHat.Toolbar
 **/
@@ -45,10 +47,9 @@ WysiHat.Toolbar = Class.create((function() {
    *  Adds a button set to the toolbar.
   **/
   function addButtonSet(set) {
-    var toolbar = this;
     $A(set).each(function(button){
-      toolbar.addButton(button);
-    });
+      this.addButton(button);
+    }.bind(this));
   }
 
   /**
@@ -87,7 +88,7 @@ WysiHat.Toolbar = Class.create((function() {
     this.observeButtonClick(button, handler);
 
     var handler = this.buttonStateHandler(name, options);
-    this.observeStateChanges(button, name, handler)
+    this.observeStateChanges(button, name, handler);
   }
 
   /**
@@ -103,7 +104,7 @@ WysiHat.Toolbar = Class.create((function() {
    *  inserted.
   **/
   function createButtonElement(toolbar, options) {
-    var button = Element('a', {
+    var button = new Element('a', {
       'class': 'button', 'href': '#'
     });
     button.update('<span>' + options.get('label') + '</span>');
@@ -140,13 +141,10 @@ WysiHat.Toolbar = Class.create((function() {
    *  Bind handler to elements onclick event.
   **/
   function observeButtonClick(element, handler) {
-    var toolbar = this;
-    element.observe('click', function(event) {
-      handler(toolbar.editor);
-      toolbar.editor.fire("wysihat:change");
-      toolbar.editor.fire("wysihat:cursormove");
-      Event.stop(event);
-    });
+    element.on('click', function(event) {
+      handler(this.editor);
+      event.stop();
+    }.bind(this));
   }
 
   /**
@@ -178,15 +176,14 @@ WysiHat.Toolbar = Class.create((function() {
    *  calls updateButtonState.
   **/
   function observeStateChanges(element, name, handler) {
-    var toolbar = this;
-    var previousState = false;
-    toolbar.editor.observe("wysihat:cursormove", function(event) {
-      var state = handler(toolbar.editor);
+    var previousState;
+    this.editor.on("selection:change", function(event) {
+      var state = handler(this.editor);
       if (state != previousState) {
         previousState = state;
-        toolbar.updateButtonState(element, name, state);
+        this.updateButtonState(element, name, state);
       }
-    });
+    }.bind(this));
   }
 
   /**
@@ -222,4 +219,24 @@ WysiHat.Toolbar = Class.create((function() {
   };
 })());
 
-//= require "toolbar/button_sets"
+/**
+ * WysiHat.Toolbar.ButtonSets
+ *
+ *  A namespace for various sets of Toolbar buttons. These sets should be
+ *  compatible with WysiHat.Toolbar, and can be added to the toolbar with:
+ *  toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+**/
+WysiHat.Toolbar.ButtonSets = {};
+
+/**
+ * WysiHat.Toolbar.ButtonSets.Basic
+ *
+ *  A basic set of buttons: bold, underline, and italic. This set is
+ *  compatible with WysiHat.Toolbar, and can be added to the toolbar with:
+ *  toolbar.addButtonSet(WysiHat.Toolbar.ButtonSets.Basic);
+**/
+WysiHat.Toolbar.ButtonSets.Basic = $A([
+  { label: "Bold" },
+  { label: "Underline" },
+  { label: "Italic" }
+]);

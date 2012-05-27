@@ -1,31 +1,32 @@
 new Test.Unit.Runner({
-  testAttachAndCreateIframe: function() {
-    var runner = this;
-
-    var editor = WysiHat.Editor.attach('content');
-    editor.whenReady(function() {
-      runner.assertNotVisible($('content'));
-      runner.assert($('content_editor'));
-      runner.assert($('content_editor').ready);
-      runner.assert($('content_editor').getDocument());
-      runner.assert($('content_editor').getWindow());
-      runner.assertEqual('on', $('content_editor').getDocument().designMode);
-    });
-
-    runner.wait(1000, function() {});
+  setup: function() {
+    this.textarea = $('content');
+    this.editor = WysiHat.Editor.attach(this.textarea);
+    this.editor.focus();
   },
 
-  testIncludedModules: function() { with(this) {
-    var module = { xyz123: function() {} }
-    var editor1 = WysiHat.Editor.attach('content');
+  teardown: function() {
+    this.editor.innerHTML = "";
+    this.textarea.value = "";
+  },
 
-    WysiHat.Editor.include(module);
-    var editor2 = WysiHat.Editor.attach('content');
+  testInsertHTML: function() {
+    var runner = this;
 
-    // The extension should not be retrospective.
-    assert(!Object.isFunction(editor1.xyz123));
+    this.editor.insertHTML("<p>Hello.</p>");
+    runner.assertEqual("<p>Hello.</p>", this.editor.innerHTML);
+  },
 
-    // The extension should work on subsequent editors though.
-    assert(Object.isFunction(editor2.xyz123));
-  }}
+  testBoldSelection: function() {
+    var runner = this;
+
+    // this.editor.insertHTML("<p>Hello.</p>");
+    this.editor.innerHTML = '<p id="hello">Hello.</p>'.formatHTMLInput();
+
+    window.getSelection().selectNode(this.editor.down('#hello'));
+    this.editor.boldSelection();
+
+    runner.assert(this.editor.boldSelected());
+    runner.assertEqual('<p id="hello"><strong>Hello.</strong></p>', this.editor.innerHTML);
+  }
 });
