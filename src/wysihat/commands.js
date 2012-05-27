@@ -386,7 +386,9 @@ WysiHat.Commands = (function(window) {
       } catch(e) { return null; }
     }
 
-    document.activeElement.fire("field:change");
+    if (document.activeElement.fire) {
+      document.activeElement.fire("field:change");
+    }
   }
 
   /**

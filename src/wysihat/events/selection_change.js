@@ -12,7 +12,7 @@ document.on("dom:loaded", function() {
 
     var selectionChangeHandler = function() {
       var element        = document.activeElement;
-      var elementTagName = element.tagName.toLowerCase();
+      var elementTagName = element.tagName ? element.tagName.toLowerCase() : null;
 
       if (elementTagName == "textarea" || elementTagName == "input") {
         previousRange = null;
