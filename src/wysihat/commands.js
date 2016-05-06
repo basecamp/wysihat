@@ -18,6 +18,199 @@
 **/
 WysiHat.Commands = (function(window) {
   /**
+   *  WysiHat.Commands#h1Selection() -> undefined
+   *
+   *  Wraps the current selection in a h1 tag.
+  **/
+  function h1Selection() {
+    headingSelection(this, 'h1');
+  }	
+
+  /**
+   *  WysiHat.Commands#h2Selection() -> undefined
+   *
+   *  Wraps the current selection in a h2 tag.
+  **/
+  function h2Selection() {
+    headingSelection(this, 'h2');
+  }	
+
+  /**
+   *  WysiHat.Commands#h3Selection() -> undefined
+   *
+   *  Wraps the current selection in a h3 tag.
+  **/
+  function h3Selection() {
+    headingSelection(this, 'h3');
+  }	
+
+  /**
+   *  WysiHat.Commands#h4Selection() -> undefined
+   *
+   *  Wraps the current selection in a h4 tag.
+  **/
+  function h4Selection() {
+    headingSelection(this, 'h4');
+  }	
+
+  /**
+   *  WysiHat.Commands#h5Selection() -> undefined
+   *
+   *  Wraps the current selection in a h5 tag.
+  **/
+  function h5Selection() {
+    headingSelection(this, 'h5');
+  }	
+
+  /**
+   *  WysiHat.Commands#h6Selection() -> undefined
+   *
+   *  Wraps the current selection in a h6 tag.
+  **/
+  function h6Selection() {
+    headingSelection(this, 'h6');
+  }	
+  
+  /**
+   *  WysiHat.Commands#headingSelection() -> undefined
+   *
+   *  Wraps the current selection in the provided header tag unless it is already wrapped then it will remove the header tags.
+  **/
+  function headingSelection(_this, heading) {
+    var node = get_node_or_parent_if(function(element) { return element == '[object HTMLHeadingElement]' && element.tagName.toLowerCase() == heading; });
+    if (node !== undefined) {
+      remove_outer_node(_this, node);
+      return;
+    }
+    
+    _this.execCommand('formatblock', false, '<'+ heading +'>');
+  }
+  
+  /**
+   *  WysiHat.Commands#pSelection() -> undefined
+   *
+   *  Wraps the current selection in a p tag unless it is already wrapped then it will remove the p tag.
+  **/
+  function pSelection() {
+    var node = get_node_or_parent_if(function(element) { return element == '[object HTMLParagraphElement]'; });
+    if (node !== undefined) {
+      remove_outer_node(this, node);
+      return;
+    }
+    
+    this.execCommand('formatblock', false, '<p>');
+  }	
+
+  /**
+   *  WysiHat.Commands#get_node_or_parent_if() -> node || undefined
+   *
+   *  Returns the selected node or its parent if it or its parent match the provided filter
+  **/
+  function get_node_or_parent_if(selector) {
+	  var element = window.getSelection().getNode();
+
+    if (selector(element)) {
+      return element;
+    }
+    
+    if (selector(element.parentNode)) {
+      return element.parentNode;
+    }
+  }
+
+  /**
+   *  WysiHat.Commands#remove_outer_node() -> undefined
+   *
+   *  Will remove the outer nodes from the selected range
+  **/
+  function remove_outer_node(_this, selectedNode) {
+    var selection, range, node, parent;
+
+    selection  = window.getSelection();
+    node       = selection.getNode();
+    parent     = selectedNode.parentNode;
+    range      = selection.getRangeAt(0);
+    
+    capture_cursor(range);
+    
+    range.selectNodeContents(selectedNode);
+    content    = range.cloneContents();
+    
+    if (Prototype.Browser.Gecko) {
+      content.appendChild(document.createElement("br"));
+      parent.replaceChild(content, selectedNode);
+    } else {
+      div = document.createElement("div");
+      div.appendChild(content);  
+      parent.replaceChild(div, selectedNode);
+    }
+
+    _this.focus();
+    restore_cursor(selection);
+  }
+  
+  /**
+   *  WysiHat.Commands#capture_cursor() -> undefined
+   *
+   *  Inserts a temporarly node where the current selection is
+   *  Adapted from: http://stackoverflow.com/questions/1181700/set-cursor-position-on-contenteditable-div
+  **/
+  function capture_cursor(range) {
+    var cursorStart = document.createElement('span');
+    var collapsed = !!range.collapsed;
+
+    cursorStart.id = 'cursorStart';
+    cursorStart.appendChild(document.createTextNode('—'));
+    range.insertNode(cursorStart);
+
+    if(!collapsed) {
+      var cursorEnd = document.createElement('span');
+      cursorEnd.id = 'cursorEnd';
+      range.collapse(true);
+      range.insertNode(cursorEnd);
+    }
+  }
+  
+  /**
+   *  WysiHat.Commands#restore_cursor() -> undefined
+   *
+   *  Finds the nodes inserted by capture_cursor and creates the current selection from it and then removes them
+   *  Adapted from: http://stackoverflow.com/questions/1181700/set-cursor-position-on-contenteditable-div
+  **/
+  function restore_cursor(selection) {
+    setTimeout(function() {
+      var cursorStart = document.getElementById('cursorStart');
+      var cursorEnd = document.getElementById('cursorEnd');
+
+      if(cursorStart) {
+        var range = document.createRange();
+
+        if(cursorEnd) {
+          range.setStartAfter(cursorStart);
+          range.setEndBefore(cursorEnd);
+
+          // Delete cursor markers
+          cursorStart.parentNode.removeChild(cursorStart);
+          cursorEnd.parentNode.removeChild(cursorEnd);
+
+          // Select range
+          selection.removeAllRanges();
+          selection.addRange(range);
+        } else {
+          range.selectNode(cursorStart);
+
+          // Select range
+          selection.removeAllRanges();
+          selection.addRange(range);
+
+          // Delete cursor marker
+          document.execCommand('delete', false, null);
+        }
+      }
+    }, 10);
+  }
+
+  /**
    *  WysiHat.Commands#boldSelection() -> undefined
    *
    *  Bolds the current selection.
@@ -387,6 +580,10 @@ WysiHat.Commands = (function(window) {
     }
 
     document.activeElement.fire("field:change");
+
+    if (Prototype.Browser.Gecko) {
+      this.focus();
+    }
   }
 
   /**
@@ -429,6 +626,13 @@ WysiHat.Commands = (function(window) {
   }
 
   return {
+     pSelection:               pSelection,
+     h1Selection:              h1Selection,
+     h2Selection:              h2Selection,
+     h3Selection:              h3Selection,
+     h4Selection:              h4Selection,
+     h5Selection:              h5Selection,
+     h6Selection:              h6Selection,
      boldSelection:            boldSelection,
      boldSelected:             boldSelected,
      underlineSelection:       underlineSelection,
